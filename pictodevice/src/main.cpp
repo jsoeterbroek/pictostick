@@ -12,11 +12,7 @@ struct tm timeinfo;
 ESP32Time rtc(0);
 
 //scroling message on bottom right side
-String Wmsg = "";
-
-// Json
-// FIXME: StaticJsonDocument is deprecated
-StaticJsonDocument<1024> doc;
+//String Wmsg = "";
 
 float pData[4];
 
@@ -35,8 +31,14 @@ void configModeCallback (WiFiManager *myWiFiManager) {
     STATUS_WIFI_MGR_CONFIG_MODE_OK = true;
 }
 
-void getConfigData () {
+void getConfigDataSPIFF () {
 
+    STATUS_GET_CONFIG_DATA_SPIFF_OK = false;
+}
+
+void getConfigDataHTTP () {
+
+    STATUS_GET_CONFIG_DATA_HTTP_OK = false;
     HTTPClient http;
     String serverPath = serverName;
     String payloadStr = "";
@@ -48,25 +50,24 @@ void getConfigData () {
         Serial.print("HTTP Response code: ");
         Serial.println(httpResponseCode);
         payloadStr = http.getString();
-        //Serial.println(payload);
-
-        // Parsiranje JSON odgovora
+        JsonDocument doc;
         DeserializationError error = deserializeJson(doc, payloadStr);
 
-        // JSON.typeof(jsonVar) can be used to get the type of the var
         if (!error) {
             STATUS_CONFIG_DATA_OK = true;
             pData[0] = doc["periods"]["morning"];
             pData[1] = doc["periods"]["afternoon"];
             pData[2] = doc["periods"]["evening"];
-            pData[3] = doc["periods"]["night"];
+            STATUS_GET_CONFIG_DATA_HTTP_OK = true;
         } else {
             Serial.print("ERROR JSON-a: ");
             Serial.println(error.c_str());
+            STATUS_GET_CONFIG_DATA_HTTP_OK = false;
         }
     } else {
         Serial.print("Error code: ");
         Serial.println(httpResponseCode);
+        STATUS_GET_CONFIG_DATA_HTTP_OK = false;
     }
     // Free resources
     http.end();
@@ -101,7 +102,11 @@ void setup() {
     setTime();
 
     // get config data
-    getConfigData();
+    if(GET_CONFIG_DATA_SPIFF) {
+        getConfigDataSPIFF();
+    } else {
+        getConfigDataHTTP();
+    }
 
     Serial.println(" initialisation complete");
     delay(8000);
