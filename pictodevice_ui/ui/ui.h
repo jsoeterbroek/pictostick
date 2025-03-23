@@ -25,18 +25,38 @@ extern "C" {
 #include "ui_helpers.h"
 #include "ui_events.h"
 
-// SCREEN: ui_ScreenMAIN240x135
-void ui_ScreenMAIN240x135_screen_init(void);
-extern lv_obj_t * ui_ScreenMAIN240x135;
-// CUSTOM VARIABLES
-
 // SCREEN: ui_ScreenMAIN240x320
 void ui_ScreenMAIN240x320_screen_init(void);
 extern lv_obj_t * ui_ScreenMAIN240x320;
+extern lv_obj_t * ui_btimeslotMorningLBL;
+extern lv_obj_t * ui_btimeslotAfternoonLBL;
+extern lv_obj_t * ui_btimeslotEveningLBL;
+extern lv_obj_t * ui_nowPNL;
+extern lv_obj_t * ui_prevPNL;
+extern lv_obj_t * ui_nextPNL;
+extern lv_obj_t * ui_nowIMG;
+extern lv_obj_t * ui_nextIMG;
+extern lv_obj_t * ui_prevIMG;
+// CUSTOM VARIABLES
+
+// SCREEN: ui_ScreenMAIN240x135
+void ui_ScreenMAIN240x135_screen_init(void);
+extern lv_obj_t * ui_ScreenMAIN240x135;
+extern lv_obj_t * ui_tijdvakMorningLBL;
+extern lv_obj_t * ui_Label2;
+extern lv_obj_t * ui_Label3;
 // CUSTOM VARIABLES
 
 // EVENTS
 extern lv_obj_t * ui____initial_actions0;
+
+// IMAGES AND IMAGE SETS
+LV_IMG_DECLARE(
+    ui_img_shopping_cart_24dp_1f1f1f_fill0_wght400_grad0_opsz24_png);    // assets/shopping_cart_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png
+LV_IMG_DECLARE(
+    ui_img_sledding_24dp_1f1f1f_fill0_wght400_grad0_opsz24_png);    // assets/sledding_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png
+LV_IMG_DECLARE(
+    ui_img_hotel_24dp_1f1f1f_fill0_wght400_grad0_opsz24_png);    // assets/hotel_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png
 
 // UI INIT
 void ui_init(void);

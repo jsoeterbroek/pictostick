@@ -3,6 +3,11 @@
     "name": "Default",
     "properties": []
   },
-  "themes": [],
-  "selected_theme": "Default"
+  "themes": [
+    {
+      "name": "pictodevice",
+      "properties": []
+    }
+  ],
+  "selected_theme": "pictodevice"
 }
