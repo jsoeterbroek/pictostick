@@ -7,6 +7,8 @@
 #include <ArduinoJson.h>
 #include <HTTPClient.h>
 #include <ESP32Time.h>
+#include <lvgl.h>
+#include <ui.h>
 
 struct tm timeinfo;
 ESP32Time rtc(0);
