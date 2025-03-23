@@ -2,3 +2,4 @@
 .vscode/
 pictodevice_ui/cache/
 pictodevice_ui/backup/
+pictodevice_ui/backup/*.zip
