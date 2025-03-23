@@ -1,9 +1,7 @@
-SET(SOURCES ui_Screen1.c
+SET(SOURCES ui_ScreenMAIN240x135.c
+    ui_ScreenMAIN240x320.c
     ui.c
     ui_comp_hook.c
-    ui_helpers.c
-    ui_img_aankleden_png.c
-    ui_img_douchen_png.c
-    ui_img_avondmaal_png.c)
+    ui_helpers.c)
 
 add_library(ui ${SOURCES})
