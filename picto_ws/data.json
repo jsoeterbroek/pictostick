@@ -51,6 +51,11 @@
                     },                    
                     "activity02":
                     {
+                        "picto": "0012_winkelwagentje_boodschappen_indoen.png",
+                        "name_nl": "boodschappen"
+                    },
+                    "activity03":
+                    {
                         "picto": "0013_zagen.png",
                         "name_nl": "zagen"
                     }
@@ -78,23 +83,13 @@
                     {
                         "picto": "0010_tv_kijken.png",
                         "name_nl": "tv"
-                    }
-                }
-            },
-            "night":
-            {
-                "periodname_pp": "night",
-                "periodname_nl": "nacht",
-                "time_from": "22:00",
-                "time_to": "07:00",
-                "activities": 
-                {
-                    "activity01":
+                    },
+                    "activity04":
                     {
                         "picto": "0008_tanden_poetsen_zelf.png",
                         "name_nl": "tanden poetsen"
                     },          
-                    "activity02":
+                    "activity05":
                     {
                         "picto": "0000_slapen.png",
                         "name_nl": "slapen"
