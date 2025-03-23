@@ -120,6 +120,7 @@ void draw() {
     if (STATUS_CONFIG_DATA_OK) {
         Serial.println(pData[0]);
     }
+    //ui_init();
 /*     struct tm _time;
     char chTime[9];
     char chDate[20];
@@ -139,6 +140,7 @@ void draw() {
 }
 
 void loop() {
+    Serial.println("loop");
     draw();
     delay(5000);
 }
