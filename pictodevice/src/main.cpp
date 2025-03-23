@@ -212,11 +212,14 @@ void setup() {
     setTime();
 
     // get config data
+    // FIXME: logica invoegen om te checken of config data van fs moet komen of (nieuwere) data van HTTP (checksum vergelijking?) 
     if(GET_CONFIG_DATA_SPIFF) {
         getConfigDataSPIFF();
     } else {
         getConfigDataHTTP();
     }
+
+    // FIXME
     pData[0] = cdoc["periods"]["morning"];
     pData[1] = cdoc["periods"]["afternoon"];
     pData[2] = cdoc["periods"]["evening"];
