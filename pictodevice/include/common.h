@@ -44,3 +44,5 @@ const char* wifi_mngr_password = "password";
 
 // 192.168.178.148
 String serverName = "http://192.168.178.148:8001";
+
+#define FORMAT_SPIFFS_IF_FAILED true
