@@ -5,79 +5,103 @@
     "device_ip": "128.8.2.123",
     "morning":
     {
-        "periodname_pp": "morning",
+        "periodname_en": "morning",
         "periodname_nl": "morgen",
         "time_from": "07:00",
         "time_to": "12:00",
         "activities": [
         {
+            "order": "001",
             "picto": "0000_slapen.png",
+            "name_en": "waking",
             "name_nl": "opstaan"
         },
         {
+            "order": "002",
             "picto": "0003_douchen.png",
+            "name_en": "shower",
             "name_nl": "douchen"
         },
         {
+            "order": "003",
             "picto": "0008_tanden_poetsen_zelf.png",
+            "name_en": "brushing teeth",
             "name_nl": "tanden poetsen"
         },
         {
+            "order": "004",
             "picto": "0006_ontbijt.png",
+            "name_en": "breakfast",
             "name_nl": "ontbijt"
         }
         ]
     },
     "afternoon":
     {
-        "periodname_pp": "afternoon",
+        "periodname_en": "afternoon",
         "periodname_nl": "middag",
         "time_from": "12:00",
         "time_to": "17:00",
         "activities": [
         {
-            "picto": "0005_middagmaal.png",
+            "order": "001",
+            "picto": "0005_morderdagmaal.png",
+            "name_en": "lunch",
             "name_nl": "lunch"
         },                    
         {
+            "order": "002",
             "picto": "0012_winkelwagentje_boodschappen_indoen.png",
+            "name_en": "shopping",
             "name_nl": "boodschappen"
         },
         {
+            "order": "003",
             "picto": "0013_zagen.png",
+            "name_en": "sawing",
             "name_nl": "zagen"
         }
         ]
     },
     "evening":
     {
-        "periodname_pp": "evening",
+        "periodname_en": "evening",
         "periodname_nl": "avond",
         "time_from": "17:00",
         "time_to": "22:00",
         "activities": [
         {
+            "order": "001",
             "picto": "0002_avondmaal.png",
+            "name_en": "dinner",
             "name_nl": "avondmaal"
         },
         {
+            "order": "002",
             "picto": "0011_wandeling_avond.png",
+            "name_en": "evening walk",
             "name_nl": "avondwandeling"
         },
         {
+            "order": "003",
             "picto": "0010_tv_kijken.png",
-            "name_nl": "tv"
+            "name_en": "watch tv",
+            "name_nl": "tv kijken"
         },
         {
+            "order": "004",
             "picto": "0008_tanden_poetsen_zelf.png",
+            "name_en": "brushing teeth",
             "name_nl": "tanden poetsen"
         },          
         {
+            "order": "005",
             "picto": "0000_slapen.png",
+            "name_en": "sleeping",
             "name_nl": "slapen"
         }
         ]
     },
-    "date_created": "22-03-2025",
-    "date_valid": "22-03-2025"
+    "date_created": "24-03-2025",
+    "date_valid": "23-03-2025"
 }
