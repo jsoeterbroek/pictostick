@@ -22,7 +22,7 @@ lv_obj_t * ui_nextPNL;
 // SCREEN: ui_ScreenSPLASH
 void ui_ScreenSPLASH_screen_init(void);
 lv_obj_t * ui_ScreenSPLASH;
-lv_obj_t * ui_Image5;
+lv_obj_t * ui_splashIMG;
 // CUSTOM VARIABLES
 
 // EVENTS

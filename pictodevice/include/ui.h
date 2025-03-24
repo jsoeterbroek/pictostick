@@ -34,21 +34,19 @@ extern lv_obj_t * ui_btimeslotEveningLBL;
 extern lv_obj_t * ui_nowPNL;
 extern lv_obj_t * ui_prevPNL;
 extern lv_obj_t * ui_nextPNL;
-extern lv_obj_t * ui_nowIMG;
-extern lv_obj_t * ui_nextIMG;
-extern lv_obj_t * ui_prevIMG;
+// CUSTOM VARIABLES
+
+// SCREEN: ui_ScreenSPLASH
+void ui_ScreenSPLASH_screen_init(void);
+extern lv_obj_t * ui_ScreenSPLASH;
+extern lv_obj_t * ui_splashIMG;
 // CUSTOM VARIABLES
 
 // EVENTS
 extern lv_obj_t * ui____initial_actions0;
 
 // IMAGES AND IMAGE SETS
-LV_IMG_DECLARE(
-    ui_img_shopping_cart_24dp_1f1f1f_fill0_wght400_grad0_opsz24_png);    // assets/shopping_cart_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png
-LV_IMG_DECLARE(
-    ui_img_sledding_24dp_1f1f1f_fill0_wght400_grad0_opsz24_png);    // assets/sledding_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png
-LV_IMG_DECLARE(
-    ui_img_hotel_24dp_1f1f1f_fill0_wght400_grad0_opsz24_png);    // assets/hotel_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png
+LV_IMG_DECLARE(ui_img_logo_cropped_png);    // assets/logo_cropped.png
 
 // UI INIT
 void ui_init(void);

@@ -10,12 +10,12 @@ void ui_ScreenSPLASH_screen_init(void)
     ui_ScreenSPLASH = lv_obj_create(NULL);
     lv_obj_clear_flag(ui_ScreenSPLASH, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
-    ui_Image5 = lv_img_create(ui_ScreenSPLASH);
-    lv_img_set_src(ui_Image5, &ui_img_logo_cropped_png);
-    lv_obj_set_width(ui_Image5, LV_SIZE_CONTENT);   /// 310
-    lv_obj_set_height(ui_Image5, LV_SIZE_CONTENT);    /// 310
-    lv_obj_set_align(ui_Image5, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_Image5, LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
-    lv_obj_clear_flag(ui_Image5, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    ui_splashIMG = lv_img_create(ui_ScreenSPLASH);
+    lv_img_set_src(ui_splashIMG, &ui_img_logo_cropped_png);
+    lv_obj_set_width(ui_splashIMG, LV_SIZE_CONTENT);   /// 310
+    lv_obj_set_height(ui_splashIMG, LV_SIZE_CONTENT);    /// 310
+    lv_obj_set_align(ui_splashIMG, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_splashIMG, LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
+    lv_obj_clear_flag(ui_splashIMG, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
 }

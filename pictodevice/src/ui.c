@@ -17,9 +17,12 @@ lv_obj_t * ui_btimeslotEveningLBL;
 lv_obj_t * ui_nowPNL;
 lv_obj_t * ui_prevPNL;
 lv_obj_t * ui_nextPNL;
-lv_obj_t * ui_nowIMG;
-lv_obj_t * ui_nextIMG;
-lv_obj_t * ui_prevIMG;
+// CUSTOM VARIABLES
+
+// SCREEN: ui_ScreenSPLASH
+void ui_ScreenSPLASH_screen_init(void);
+lv_obj_t * ui_ScreenSPLASH;
+lv_obj_t * ui_splashIMG;
 // CUSTOM VARIABLES
 
 // EVENTS
@@ -48,6 +51,7 @@ void ui_init(void)
                                                false, LV_FONT_DEFAULT);
     lv_disp_set_theme(dispp, theme);
     ui_ScreenMAIN_screen_init();
+    ui_ScreenSPLASH_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
     lv_disp_load_scr(ui_ScreenMAIN);
 }
