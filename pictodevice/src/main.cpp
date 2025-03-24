@@ -7,10 +7,13 @@
 #include <ArduinoJson.h>
 #include <HTTPClient.h>
 #include <ESP32Time.h>
-//#include <lvgl.h>
-//#include <ui.h>
+#include <TFT_eSPI.h>
 #include <FS.h>
 #include <SPIFFS.h>
+
+TFT_eSPI tft = TFT_eSPI();
+TFT_eSprite sprite = TFT_eSprite(&tft);
+TFT_eSprite errSprite = TFT_eSprite(&tft);
 
 struct tm timeinfo;
 ESP32Time rtc(0);
@@ -152,6 +155,11 @@ void setup() {
     delay(5000);
     Serial.begin(115200);
     Serial.println("start initialisation..");
+
+    tft.init();
+    tft.setRotation(1);
+    tft.fillScreen(TFT_WHITE);
+    //tft.drawString("hallo",30,50,4);
 
     // WiFi Manager
     WiFiManager wm;
