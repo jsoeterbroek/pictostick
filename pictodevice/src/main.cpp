@@ -7,8 +7,8 @@
 #include <ArduinoJson.h>
 #include <HTTPClient.h>
 #include <ESP32Time.h>
-#include <lvgl.h>
-#include <ui.h>
+//#include <lvgl.h>
+//#include <ui.h>
 #include "FS.h"
 #include "SPIFFS.h"
 
@@ -34,57 +34,6 @@ void configModeCallback (WiFiManager *myWiFiManager) {
     Serial.println(WiFi.softAPIP());
     Serial.println(myWiFiManager->getConfigPortalSSID());
     STATUS_WIFI_MGR_CONFIG_MODE_OK = true;
-}
-
-void testFileIO(fs::FS &fs, const char * path){
-    Serial.printf("Testing file I/O with %s\r\n", path);
-    static uint8_t buf[512];
-    size_t len = 0;
-    File file = fs.open(path, FILE_WRITE);
-    if(!file){
-        Serial.println("- failed to open file for writing");
-        return;
-    }
-    size_t i;
-    Serial.print("- writing" );
-    uint32_t start = millis();
-    for(i=0; i<2048; i++){
-        if ((i & 0x001F) == 0x001F){
-          Serial.print(".");
-        }
-        file.write(buf, 512);
-    }
-    Serial.println("");
-    uint32_t end = millis() - start;
-    Serial.printf(" - %u bytes written in %u ms\r\n", 2048 * 512, end);
-    file.close();
-    file = fs.open(path);
-    start = millis();
-    end = start;
-    i = 0;
-    if(file && !file.isDirectory()){
-        len = file.size();
-        size_t flen = len;
-        start = millis();
-        Serial.print("- reading" );
-        while(len){
-            size_t toRead = len;
-            if(toRead > 512){
-                toRead = 512;
-            }
-            file.read(buf, toRead);
-            if ((i++ & 0x001F) == 0x001F){
-              Serial.print(".");
-            }
-            len -= toRead;
-        }
-        Serial.println("");
-        end = millis() - start;
-        Serial.printf("- %u bytes read in %u ms\r\n", flen, end);
-        file.close();
-    } else {
-        Serial.println("- failed to open file for reading");
-    }
 }
 
 void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
@@ -123,17 +72,17 @@ void readConfigFile(fs::FS &fs, const char * path){
 
     static uint8_t buf[512];
     size_t len = 0;
-    Serial.printf("Reading file: %s\r\n", path);
+    Serial.printf("Reading config file: %s\r\n", path);
     File cfile = fs.open(path);
     if(!cfile || cfile.isDirectory()){
         Serial.println("ERROR: failed to open config file for reading");
     } else {
         DeserializationError error = deserializeJson(cdoc, cfile);
         if (!error) {
-            Serial.println("deserializeJson() OK");
+            Serial.println("deserializeJson OK");
             STATUS_GET_CONFIG_DATA_SPIFF_OK = true;
         } else {
-            Serial.print("ERROR: deserializeJson() returned ");
+            Serial.print("ERROR: deserializeJson returned ");
             Serial.println(error.c_str());
         }
     }
@@ -224,9 +173,13 @@ void setup() {
 
     // extract values from config JSON object
     config_version = cdoc["version"];
-    json_config_period_morning_activities = cdoc["morning"].as<JsonVariant>();
-    json_config_period_afternoon_activities = cdoc["afternoon"].as<JsonVariant>();
-    json_config_period_evening_activities = cdoc["evening"].as<JsonVariant>();
+    json_config_period_morning_activities = cdoc["morning"]["activities"].as<JsonVariant>();
+    json_config_period_afternoon_activities = cdoc["afternoon"]["activities"].as<JsonVariant>();
+    json_config_period_evening_activities = cdoc["evening"]["activities"].as<JsonVariant>();
+    morning_activities_size = json_config_period_morning_activities.size();
+    afternoon_activities_size = json_config_period_afternoon_activities.size();
+    evening_activities_size = json_config_period_evening_activities.size();
+
     config_date_created = cdoc["date_created"];
     config_date_valid = cdoc["date_valid"];
 
@@ -247,9 +200,15 @@ void draw() {
     Serial.println("draw");
     if (STATUS_CONFIG_DATA_OK) {
         //Serial.println(config_date_created);
-        char buffer[1000];
-        serializeJsonPretty(json_config_period_evening_activities, buffer);
-        Serial.println(buffer);
+        //char buffer[800];
+        //serializeJsonPretty(json_config_period_afternoon_activities, buffer);
+        //Serial.println(buffer);
+        Serial.print("morning_activities_size: ");
+        Serial.println(morning_activities_size);
+        Serial.print("afternoon_activities_size: ");
+        Serial.println(afternoon_activities_size);
+        Serial.print("evening_activities_size: ");
+        Serial.println(evening_activities_size);
     }
     //ui_init();
 /*     struct tm _time;
