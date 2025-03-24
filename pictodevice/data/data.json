@@ -1,103 +1,83 @@
-[
+{
+    "comment":  "",
+    "version": "1.0.1",
+    "name": "Peter",
+    "device_ip": "128.8.2.123",
+    "morning":
     {
-        "comment":  "",
-        "version": "1.0.1",
-        "name": "Peter",
-        "device_ip": "128.8.2.123",
-        "periods":
+        "periodname_pp": "morning",
+        "periodname_nl": "morgen",
+        "time_from": "07:00",
+        "time_to": "12:00",
+        "activities": [
         {
-            "morning":
-            {
-                "periodname_pp": "morning",
-                "periodname_nl": "morgen",
-                "time_from": "07:00",
-                "time_to": "12:00",
-                "activities": 
-                {
-                    "activity01":
-                    {
-                        "picto": "0000_slapen.png",
-                        "name_nl": "opstaan"
-                    },
-                    "activity02":
-                    {
-                        "picto": "0003_douchen.png",
-                        "name_nl": "douchen"
-                    },
-                    "activity03":
-                    {
-                        "picto": "0008_tanden_poetsen_zelf.png",
-                        "name_nl": "tanden poetsen"
-                    },
-                    "activity04":
-                    {
-                        "picto": "0006_ontbijt.png",
-                        "name_nl": "ontbijt"
-                    }
-                }
-            },
-            "afternoon":
-            {
-                "periodname_pp": "afternoon",
-                "periodname_nl": "middag",
-                "time_from": "12:00",
-                "time_to": "17:00",
-                "activities": 
-                {
-                    "activity01":
-                    {
-                        "picto": "0005_middagmaal.png",
-                        "name_nl": "lunch"
-                    },                    
-                    "activity02":
-                    {
-                        "picto": "0012_winkelwagentje_boodschappen_indoen.png",
-                        "name_nl": "boodschappen"
-                    },
-                    "activity03":
-                    {
-                        "picto": "0013_zagen.png",
-                        "name_nl": "zagen"
-                    }
-                }
-            },
-            "evening":
-            {
-                "periodname_pp": "evening",
-                "periodname_nl": "avond",
-                "time_from": "17:00",
-                "time_to": "22:00",
-                "activities":
-                {
-                    "activity01":
-                    {
-                        "picto": "0002_avondmaal.png",
-                        "name_nl": "avondmaal"
-                    },
-                    "activity02":
-                    {
-                        "picto": "0011_wandeling_avond.png",
-                        "name_nl": "avondwandeling"
-                    },
-                    "activity03":
-                    {
-                        "picto": "0010_tv_kijken.png",
-                        "name_nl": "tv"
-                    },
-                    "activity04":
-                    {
-                        "picto": "0008_tanden_poetsen_zelf.png",
-                        "name_nl": "tanden poetsen"
-                    },          
-                    "activity05":
-                    {
-                        "picto": "0000_slapen.png",
-                        "name_nl": "slapen"
-                    }
-                }
-            }
+            "picto": "0000_slapen.png",
+            "name_nl": "opstaan"
         },
-        "date_created": "22-03-2025",
-        "date_valid": "22-03-2025"
-    }
-]
+        {
+            "picto": "0003_douchen.png",
+            "name_nl": "douchen"
+        },
+        {
+            "picto": "0008_tanden_poetsen_zelf.png",
+            "name_nl": "tanden poetsen"
+        },
+        {
+            "picto": "0006_ontbijt.png",
+            "name_nl": "ontbijt"
+        }
+        ]
+    },
+    "afternoon":
+    {
+        "periodname_pp": "afternoon",
+        "periodname_nl": "middag",
+        "time_from": "12:00",
+        "time_to": "17:00",
+        "activities": [
+        {
+            "picto": "0005_middagmaal.png",
+            "name_nl": "lunch"
+        },                    
+        {
+            "picto": "0012_winkelwagentje_boodschappen_indoen.png",
+            "name_nl": "boodschappen"
+        },
+        {
+            "picto": "0013_zagen.png",
+            "name_nl": "zagen"
+        }
+        ]
+    },
+    "evening":
+    {
+        "periodname_pp": "evening",
+        "periodname_nl": "avond",
+        "time_from": "17:00",
+        "time_to": "22:00",
+        "activities": [
+        {
+            "picto": "0002_avondmaal.png",
+            "name_nl": "avondmaal"
+        },
+        {
+            "picto": "0011_wandeling_avond.png",
+            "name_nl": "avondwandeling"
+        },
+        {
+            "picto": "0010_tv_kijken.png",
+            "name_nl": "tv"
+        },
+        {
+            "picto": "0008_tanden_poetsen_zelf.png",
+            "name_nl": "tanden poetsen"
+        },          
+        {
+            "picto": "0000_slapen.png",
+            "name_nl": "slapen"
+        }
+        ]
+    },
+    "date_created": "22-03-2025",
+    "date_valid": "22-03-2025"
+}
