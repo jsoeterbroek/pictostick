@@ -149,6 +149,10 @@ void getConfigDataHTTP () {
 
 void setup() {
 
+    // https://community.m5stack.com/topic/5943/m5stickc-plus2-and-tft_espi-problem/3
+    //pinMode(4, OUTPUT);
+    //digitalWrite(4, HIGH);
+
     // FIXME: crash
     //ui_ScreenSPLASH_screen_init();
 
@@ -157,9 +161,16 @@ void setup() {
     Serial.println("start initialisation..");
 
     tft.init();
-    tft.setRotation(1);
+    tft.setRotation(3);
     tft.fillScreen(TFT_WHITE);
-    //tft.drawString("hallo",30,50,4);
+    tft.println("");
+    tft.setTextColor(TFT_BLACK, TFT_WHITE);
+    tft.println("start initialisation..");
+
+    delay(3000);
+    String software = "Pictodevice ";
+    software += String("V") + pd_version_major() + "." + pd_version_minor() + "." + pd_version_patch();
+    tft.println(software);
 
     // WiFi Manager
     WiFiManager wm;
@@ -179,7 +190,8 @@ void setup() {
         ESP.restart();
     } else {
         STATUS_WIFI_MGR_OK = true;
-        Serial.println("Connected.");
+        tft.println("WiFi connected.");
+        Serial.println("WiFi connected.");
     }
     setTime();
 
@@ -243,13 +255,17 @@ void setup() {
 
     if (STATUS_GET_CONFIG_DATA_SPIFF_OK) {
        STATUS_CONFIG_DATA_OK = true;
+       tft.println("config successfully read from fs");
        Serial.println("config successfully read from fs");
     } else {
+       tft.println("ERROR: error reading config from fs");
        Serial.println("ERROR: error reading config from fs");
     }
     delay(4000);
+    tft.println("initialisation complete");
     Serial.println("initialisation complete");
     delay(4000);
+    tft.fillScreen(TFT_WHITE);
 }
 
 void draw() {
