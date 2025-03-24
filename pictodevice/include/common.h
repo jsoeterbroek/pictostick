@@ -1,3 +1,4 @@
+#include <ArduinoJson.h>
 
 //#################### EDIT THIS  ###################
 //time zone  
@@ -13,6 +14,13 @@ float maxT;
 float minT;
 unsigned long timePased = 0;
 int counter=0;
+
+const char* config_version;
+const char* config_date_created;
+const char* config_date_valid;
+JsonVariant json_config_period_morning_activities;
+JsonVariant json_config_period_afternoon_activities;
+JsonVariant json_config_period_evening_activities;
 
 // status flags
 boolean STATUS_WIFI_OK = false;

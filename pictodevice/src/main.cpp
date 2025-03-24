@@ -19,7 +19,7 @@ ESP32Time rtc(0);
 //String Wmsg = "";
 
 JsonDocument cdoc;
-float pData[4];
+//float pData[4];
 
 void setTime() {
     configTime(3600 * zone, 0, ntpServer);
@@ -185,6 +185,9 @@ void getConfigDataHTTP () {
 
 void setup() {
 
+    // FIXME: crash
+    //ui_ScreenSPLASH_screen_init();
+
     delay(5000);
     Serial.begin(115200);
     Serial.println("start initialisation..");
@@ -219,12 +222,17 @@ void setup() {
         getConfigDataHTTP();
     }
 
-    // FIXME
-    pData[0] = cdoc["periods"]["morning"];
-    pData[1] = cdoc["periods"]["afternoon"];
-    pData[2] = cdoc["periods"]["evening"];
+    // extract values from config JSON object
+    config_version = cdoc["version"];
+    json_config_period_morning_activities = cdoc["morning"].as<JsonVariant>();
+    json_config_period_afternoon_activities = cdoc["afternoon"].as<JsonVariant>();
+    json_config_period_evening_activities = cdoc["evening"].as<JsonVariant>();
+    config_date_created = cdoc["date_created"];
+    config_date_valid = cdoc["date_valid"];
+
 
     if (STATUS_GET_CONFIG_DATA_SPIFF_OK) {
+       STATUS_CONFIG_DATA_OK = true;
        Serial.println("config successfully read from fs");
     } else {
        Serial.println("ERROR: error reading config from fs");
@@ -238,7 +246,10 @@ void draw() {
 
     Serial.println("draw");
     if (STATUS_CONFIG_DATA_OK) {
-        Serial.println(pData[0]);
+        //Serial.println(config_date_created);
+        char buffer[1000];
+        serializeJsonPretty(json_config_period_evening_activities, buffer);
+        Serial.println(buffer);
     }
     //ui_init();
 /*     struct tm _time;
@@ -260,7 +271,6 @@ void draw() {
 }
 
 void loop() {
-    Serial.println("loop");
     draw();
     delay(5000);
 }
