@@ -9,8 +9,8 @@
 #include <ESP32Time.h>
 //#include <lvgl.h>
 //#include <ui.h>
-#include "FS.h"
-#include "SPIFFS.h"
+#include <FS.h>
+#include <SPIFFS.h>
 
 struct tm timeinfo;
 ESP32Time rtc(0);
@@ -22,10 +22,23 @@ JsonDocument cdoc;
 //float pData[4];
 
 void setTime() {
-    configTime(3600 * zone, 0, ntpServer);
-    struct tm timeinfo;
-    if (getLocalTime(&timeinfo)) {
-        rtc.setTimeStruct(timeinfo);
+    Serial.println(" ");
+    Serial.print("connecting to time server ");
+    Serial.println(ntpServer);
+    Serial.println(" ");
+    // Init and get the time
+    configTime(0, 0, ntpServer);
+    delay(500);
+    setenv("TZ", "CET-1CEST,M3.5.0,M10.5.0/3", 1);
+    tzset();
+    delay(100);
+    if(!getLocalTime(&timeinfo)){
+        Serial.println("ERROR: failed to obtain time");
+        delay(10000);
+    } else {
+        Serial.println("OK: obtained time");
+        Serial.println(&timeinfo, " %A, %B %d %Y %H:%M:%S");
+        STATUS_TIME_OK = true;
     }
 }
 
@@ -64,7 +77,6 @@ void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
         file = root.openNextFile();
     }
 }
-
 
 void readConfigFile(fs::FS &fs, const char * path){
 
@@ -171,71 +183,54 @@ void setup() {
         getConfigDataHTTP();
     }
 
-//     // extract values from config JSON object
+    // // extract values from config JSON object
 
-// const char* comment = doc["comment"]; // nullptr
-// const char* version = doc["version"]; // "1.0.1"
-// const char* name = doc["name"]; // "Peter"
-// const char* device_ip = doc["device_ip"]; // "128.8.2.123"
+    const char* comment = cdoc["comment"]; // nullptr
+    const char* version = cdoc["version"]; // "1.0.1"
+    const char* name = cdoc["name"]; // "Peter"
+    const char* device_ip = cdoc["device_ip"]; // "128.8.2.123"
 
-// JsonObject morning = doc["morning"];
-// const char* morning_periodname_en = morning["periodname_en"]; // "morning"
-// const char* morning_periodname_nl = morning["periodname_nl"]; // "morgen"
-// const char* morning_time_from = morning["time_from"]; // "07:00"
-// const char* morning_time_to = morning["time_to"]; // "12:00"
+    JsonObject morning = cdoc["morning"];
+    const char* morning_periodname_en = morning["periodname_en"]; // "morning"
+    const char* morning_periodname_nl = morning["periodname_nl"]; // "morgen"
+    const char* morning_time_from = morning["time_from"]; // "07:00"
+    const char* morning_time_to = morning["time_to"]; // "12:00"
 
-// for (JsonObject morning_activity : morning["activities"].as<JsonArray>()) {
+    // for (JsonObject morning_activity : morning["activities"].as<JsonArray>()) {
+    //   const char* morning_activity_order = morning_activity["order"]; // "001", "002", "003", "004"
+    //   const char* morning_activity_picto = morning_activity["picto"]; // "0000_slapen.png", ...
+    //   const char* morning_activity_name_en = morning_activity["name_en"]; // "waking", "shower", "brushing ...
+    //   const char* morning_activity_name_nl = morning_activity["name_nl"]; // "opstaan", "douchen", "tanden ...
+    // }
 
-//   const char* morning_activity_order = morning_activity["order"]; // "001", "002", "003", "004"
-//   const char* morning_activity_picto = morning_activity["picto"]; // "0000_slapen.png", ...
-//   const char* morning_activity_name_en = morning_activity["name_en"]; // "waking", "shower", "brushing ...
-//   const char* morning_activity_name_nl = morning_activity["name_nl"]; // "opstaan", "douchen", "tanden ...
+    JsonObject afternoon = cdoc["afternoon"];
+    const char* afternoon_periodname_en = afternoon["periodname_en"]; // "afternoon"
+    const char* afternoon_periodname_nl = afternoon["periodname_nl"]; // "middag"
+    const char* afternoon_time_from = afternoon["time_from"]; // "12:00"
+    const char* afternoon_time_to = afternoon["time_to"]; // "17:00"
 
-// }
+    // for (JsonObject afternoon_activity : afternoon["activities"].as<JsonArray>()) {
+    //   const char* afternoon_activity_order = afternoon_activity["order"]; // "001", "002", "003"
+    //   const char* afternoon_activity_picto = afternoon_activity["picto"]; // "0005_morderdagmaal.png", ...
+    //   const char* afternoon_activity_name_en = afternoon_activity["name_en"]; // "lunch", "shopping", "sawing"
+    //   const char* afternoon_activity_name_nl = afternoon_activity["name_nl"]; // "lunch", "boodschappen", ...
+    // }
 
-// JsonObject afternoon = doc["afternoon"];
-// const char* afternoon_periodname_en = afternoon["periodname_en"]; // "afternoon"
-// const char* afternoon_periodname_nl = afternoon["periodname_nl"]; // "middag"
-// const char* afternoon_time_from = afternoon["time_from"]; // "12:00"
-// const char* afternoon_time_to = afternoon["time_to"]; // "17:00"
+    JsonObject evening = cdoc["evening"];
+    const char* evening_periodname_en = evening["periodname_en"]; // "evening"
+    const char* evening_periodname_nl = evening["periodname_nl"]; // "avond"
+    const char* evening_time_from = evening["time_from"]; // "17:00"
+    const char* evening_time_to = evening["time_to"]; // "22:00"
 
-// for (JsonObject afternoon_activity : afternoon["activities"].as<JsonArray>()) {
+    // for (JsonObject evening_activity : evening["activities"].as<JsonArray>()) {
+    //   const char* evening_activity_order = evening_activity["order"]; // "001", "002", "003", "004", "005"
+    //   const char* evening_activity_picto = evening_activity["picto"]; // "0002_avondmaal.png", ...
+    //   const char* evening_activity_name_en = evening_activity["name_en"]; // "dinner", "evening walk", "watch ...
+    //   const char* evening_activity_name_nl = evening_activity["name_nl"]; // "avondmaal", "avondwandeling", ...
+    // }
 
-//   const char* afternoon_activity_order = afternoon_activity["order"]; // "001", "002", "003"
-//   const char* afternoon_activity_picto = afternoon_activity["picto"]; // "0005_morderdagmaal.png", ...
-//   const char* afternoon_activity_name_en = afternoon_activity["name_en"]; // "lunch", "shopping", "sawing"
-//   const char* afternoon_activity_name_nl = afternoon_activity["name_nl"]; // "lunch", "boodschappen", ...
-
-// }
-
-// JsonObject evening = doc["evening"];
-// const char* evening_periodname_en = evening["periodname_en"]; // "evening"
-// const char* evening_periodname_nl = evening["periodname_nl"]; // "avond"
-// const char* evening_time_from = evening["time_from"]; // "17:00"
-// const char* evening_time_to = evening["time_to"]; // "22:00"
-
-// for (JsonObject evening_activity : evening["activities"].as<JsonArray>()) {
-
-//   const char* evening_activity_order = evening_activity["order"]; // "001", "002", "003", "004", "005"
-//   const char* evening_activity_picto = evening_activity["picto"]; // "0002_avondmaal.png", ...
-//   const char* evening_activity_name_en = evening_activity["name_en"]; // "dinner", "evening walk", "watch ...
-//   const char* evening_activity_name_nl = evening_activity["name_nl"]; // "avondmaal", "avondwandeling", ...
-
-// }
-
-// const char* date_created = doc["date_created"]; // "24-03-2025"
-// const char* date_valid = doc["date_valid"]; // "23-03-2025"
-
-    config_version = cdoc["version"];
-    json_config_period_morning_activities = cdoc["morning"]["activities"].as<JsonVariant>();
-    json_config_period_afternoon_activities = cdoc["afternoon"]["activities"].as<JsonVariant>();
-    json_config_period_evening_activities = cdoc["evening"]["activities"].as<JsonVariant>();
-    morning_activities_size = json_config_period_morning_activities.size();
-    afternoon_activities_size = json_config_period_afternoon_activities.size();
-    evening_activities_size = json_config_period_evening_activities.size();
-
-    config_date_created = cdoc["date_created"];
-    config_date_valid = cdoc["date_valid"];
+    const char* date_created = cdoc["date_created"]; // "24-03-2025"
+    const char* date_valid = cdoc["date_valid"]; // "23-03-2025"
 
 
     if (STATUS_GET_CONFIG_DATA_SPIFF_OK) {
@@ -252,38 +247,52 @@ void setup() {
 void draw() {
 
     Serial.println("draw");
-    if (STATUS_CONFIG_DATA_OK) {
-        //Serial.println(config_date_created);
-        //char buffer[800];
-        //serializeJsonPretty(json_config_period_afternoon_activities, buffer);
-        //Serial.println(buffer);
-        Serial.print("morning_activities_size: ");
-        Serial.println(morning_activities_size);
-        Serial.print("afternoon_activities_size: ");
-        Serial.println(afternoon_activities_size);
-        Serial.print("evening_activities_size: ");
-        Serial.println(evening_activities_size);
-    }
+    Serial.print("currently the period is ");
+    Serial.println(dayPeriodNow);
+    //if (STATUS_CONFIG_DATA_OK) {
+    //}
     //ui_init();
-/*     struct tm _time;
-    char chTime[9];
-    char chDate[20];
-    char chDay[10];
-    if (STATUS_TIME_OK) {
-        if(getLocalTime(&_time)){
-            strftime(chTime, 9, "%H : %M", &_time);
-            strftime(chDate, 20, "%d %B %Y", &_time);
-            strftime(chDay, 10, "%A", &_time);
-        }
-    }
-    String stTime = chTime;
-    String stDate = chDate;
-    String stDay = chDay;
-    draw_clock(8,18,304,120, stTime);
-    draw_date(8,146,304,80, stDate, stDay); */
 }
 
 void loop() {
+    struct tm _time;
+    char chrHour[3];
+    char chrMinute[3];
+    char chrTime[9];
+    char chrDate[20];
+    char chrDay[10];
+    if (STATUS_TIME_OK) {
+        if(getLocalTime(&_time)){
+            strftime(chrHour, 3, "%H", &_time);
+            strftime(chrMinute, 3, "%M", &_time);
+            strftime(chrTime, 9, "%H:%M", &_time);
+            strftime(chrDate, 20, "%d %B %Y", &_time);
+            strftime(chrDay, 10, "%A", &_time);
+        }
+    }
+    int intHour = atoi(chrHour);
+    int intMinute = atoi(chrMinute);
+    String strDay = chrDay;
+    String strDate = chrDate;
+    String strTime = chrTime;
+  
+    //Serial.print(strDay);
+    //Serial.print(strDate);
+    //Serial.println(strTime);
+
+    // FIXME: the hours should be configurable and/or taken from config
+    // uncomment below to test
+    // TEST: intHour = 9;
+    if (intHour > 4 && intHour < 12) {
+        dayPeriodNow = "morning";
+    } else if (intHour >= 12 && intHour < 17) {
+        dayPeriodNow = "afternoon";
+    } else if (intHour >= 17 && intHour <= 23) {
+        dayPeriodNow = "evening";
+    } else { 
+        dayPeriodNow = "night";
+    }
+
     draw();
     delay(5000);
 }
