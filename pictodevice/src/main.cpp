@@ -344,7 +344,6 @@ void setup() {
     const char* date_created = cdoc["date_created"]; // "24-03-2025"
     const char* date_valid = cdoc["date_valid"]; // "23-03-2025"
 
-
     if (STATUS_GET_CONFIG_DATA_SPIFF_OK) {
        STATUS_CONFIG_DATA_OK = true;
        tft.println("config successfully read from fs");
@@ -364,7 +363,7 @@ void setup() {
 
 void loop() {
 
-    static constexpr const char* const wd[7] = {"Zon", "Maa", "Din", "Woe", "Don", "Vri", "Zat"};
+    static constexpr const char* const wd[7] = {"Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"};
 
     delay(500);
 
@@ -383,6 +382,7 @@ void loop() {
         tm->tm_mday, wd[tm->tm_wday], tm->tm_hour, tm->tm_min,
         tm->tm_sec);
 
+    // FIXME
     // uncomment below to test
     // TEST:
     int intHour = 21;
