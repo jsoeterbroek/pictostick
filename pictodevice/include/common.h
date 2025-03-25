@@ -23,6 +23,7 @@ boolean STATUS_WIFI_OK = false;
 boolean STATUS_WIFI_MGR_OK = false;
 boolean STATUS_WIFI_MGR_CONFIG_MODE_OK = false;
 boolean STATUS_TIME_OK = false;
+boolean STATUS_NTP_OK = false;
 boolean STATUS_CONFIG_DATA_OK = false;
 boolean STATUS_BLE_OK = false;
 boolean STATUS_GET_CONFIG_DATA_SPIFF_OK = false;
@@ -32,6 +33,7 @@ boolean GET_CONFIG_DATA_HTTP = false;
 boolean GET_CONFIG_DATA_SPIFF = true;
 
 const char* ntpServer = "europe.pool.ntp.org";
+#define NTP_TIMEZONE  "UTC+1"
 
 // WiFi
 const char* wifi_mngr_networkname = "espconf";

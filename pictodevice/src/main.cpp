@@ -57,7 +57,7 @@ void setTime() {
         tft.println("OK: obtained time");
         Serial.println(&timeinfo, " %A, %B %d %Y %H:%M:%S");
         tft.println(&timeinfo, " %A, %B %d %Y %H:%M:%S");
-        STATUS_TIME_OK = true;
+        STATUS_NTP_OK = true;
     }
 }
 
@@ -272,6 +272,21 @@ void setup() {
 
     setTime();
 
+    // set NTP time to rtc clock
+    struct tm timeInfo;
+    if (STATUS_NTP_OK) {
+        tft.println("set rtc clock from NTP");
+        while (!getLocalTime(&timeInfo, 1000)) {
+            Serial.print('.');
+        };
+        time_t t = time(nullptr) + 1;  // Advance one second.
+        while (t > time(nullptr))
+            ;  /// Synchronization in seconds
+        StickCP2.Rtc.setDateTime(gmtime(&t));
+    } else {
+        tft.println("ERROR: rtc clock not set");
+    }
+
     // get config data
     // FIXME: logica invoegen om te checken of config data van fs moet komen of (nieuwere) data van HTTP (checksum vergelijking?) 
     if(GET_CONFIG_DATA_SPIFF) {
@@ -348,34 +363,29 @@ void setup() {
 }
 
 void loop() {
-    struct tm _time;
-    char chrHour[3];
-    char chrMinute[3];
-    char chrTime[9];
-    char chrDate[20];
-    char chrDay[10];
-    if (STATUS_TIME_OK) {
-        if(getLocalTime(&_time)){
-            strftime(chrHour, 3, "%H", &_time);
-            strftime(chrMinute, 3, "%M", &_time);
-            strftime(chrTime, 9, "%H:%M", &_time);
-            strftime(chrDate, 20, "%d %B %Y", &_time);
-            strftime(chrDay, 10, "%A", &_time);
-        }
-    }
-    int intHour = atoi(chrHour);
-    int intMinute = atoi(chrMinute);
-    String strDay = chrDay;
-    String strDate = chrDate;
-    String strTime = chrTime;
-  
-    //Serial.print(strDay);
-    //Serial.print(strDate);
-    //Serial.println(strTime);
 
-    // FIXME: the hours should be configurable and/or taken from config
+    static constexpr const char* const wd[7] = {"Zon", "Maa", "Din", "Woe", "Don", "Vri", "Zat"};
+
+    delay(500);
+
+    auto dt = StickCP2.Rtc.getDateTime();
+    Serial.printf("RTC   UTC    :%04d/%02d/%02d (%s)  %02d:%02d:%02d\r\n",
+        dt.date.year, dt.date.month, dt.date.date,
+        wd[dt.date.weekDay], dt.time.hours, dt.time.minutes,
+        dt.time.seconds);
+
+    delay(500);
+    /// ESP32 internal timer
+    auto t = time(nullptr);
+    auto tm = localtime(&t);  // for local timezone.
+    Serial.printf("ESP32 %s  :%04d/%02d/%02d (%s)  %02d:%02d:%02d\r\n",
+        NTP_TIMEZONE, tm->tm_year + 1900, tm->tm_mon + 1,
+        tm->tm_mday, wd[tm->tm_wday], tm->tm_hour, tm->tm_min,
+        tm->tm_sec);
+
     // uncomment below to test
-    // TEST: intHour = 9;
+    // TEST:
+    int intHour = 21;
     if (intHour > 4 && intHour < 12) {
         dayPeriodNow = "morning";
     } else if (intHour >= 12 && intHour < 17) {
@@ -387,5 +397,4 @@ void loop() {
     }
 
     draw();
-    delay(5000);
 }
