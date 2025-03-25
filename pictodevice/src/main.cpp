@@ -161,14 +161,33 @@ void draw_splash() {
 
 void draw_bg() {
 
-    sprite.createSprite(LCD_HEIGHT, LCD_WIDTH);
-
-    tft.fillScreen(TFT_ORANGE);
-    tft.println("draw_bg");
-
+    tft.fillScreen(BG_COLOR);
+    sprite.createSprite(MY_WIDTH, MY_HEIGHT);
     sprite.fillSprite(TFT_TRANSPARENT);
-    sprite.drawLine(138, 10, 138, 164, grays[6]);
-    sprite.drawLine(100, 108, 134, 108, grays[6]);
+    
+    // top
+    // clock, batt, wifi,
+    sprite.fillRect(0, 0, MY_WIDTH, MY_HEIGHT / 10 + 4, TOP_RECT_BG_COLOR);
+
+#ifdef TFT_SCREEN_WAVESHARE_ESP32_S3
+    // middle
+    // middle prev
+    sprite.fillSmoothRoundRect(-75, MY_HEIGHT / 5, middle_box_width, middle_box_height, 2, FG_COLOR, BG_COLOR);
+    // middle now
+    sprite.fillSmoothRoundRect(MY_WIDTH / 2 - 75, MY_HEIGHT / 5, middle_box_width, middle_box_height, 2, FG_COLOR, BG_COLOR);
+    // middle next
+    sprite.fillSmoothRoundRect(245, MY_HEIGHT / 5, middle_box_width, middle_box_height, 2, FG_COLOR, BG_COLOR);
+
+    // bottom
+    // DayPeriod 1 "morning"
+    sprite.fillSmoothRoundRect(10, 216, 98, 16, 2, DAYPERIOD1_BG_COLOR, BG_COLOR);
+    // DayPeriod 2 "afternoon"
+    sprite.fillSmoothRoundRect(110, 216, 98, 16, 2, DAYPERIOD2_BG_COLOR, BG_COLOR);
+    // DayPeriod 3 "evening"
+    sprite.fillSmoothRoundRect(210, 216, 98, 16, 2, DAYPERIOD3_BG_COLOR, BG_COLOR);
+
+#endif
+
     sprite.setTextDatum(0);
 
     sprite.pushSprite(0, 0, TFT_TRANSPARENT);
@@ -177,10 +196,10 @@ void draw_bg() {
 void draw() {
 
     //tft.println("draw");
-    if(STATUS_TIME_OK) {
-        tft.print("currently the period is ");
-        tft.println(dayPeriodNow);
-    }
+    //if(STATUS_TIME_OK) {
+    //    tft.print("currently the period is ");
+    //    tft.println(dayPeriodNow);
+    //}
 }
 
 void setup() {
@@ -308,12 +327,12 @@ void setup() {
        tft.println("ERROR: error reading config from fs");
        Serial.println("ERROR: error reading config from fs");
     }
-    delay(4000);
+    delay(2000);
     tft.println("initialisation complete");
     Serial.println("initialisation complete");
-    delay(4000);
+    delay(2000);
     draw_splash();
-    delay(4000);
+    delay(2000);
     draw_bg();
 }
 
