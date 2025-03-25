@@ -190,19 +190,19 @@ void draw_bg() {
     
     // main
     // middle prev
-    sprite.fillSmoothRoundRect(-46, 6, middle_box_width, middle_box_height, 2, FG_COLOR, BG_COLOR);
+    sprite.fillSmoothRoundRect(-38, 6, middle_box_width, middle_box_height, 5, FG_COLOR, BG_COLOR);
     // middle now
-    sprite.fillSmoothRoundRect(MY_WIDTH / 2 - 50, 6 , middle_box_width, middle_box_height, 2, FG_COLOR, BG_COLOR);
+    sprite.fillSmoothRoundRect(MY_WIDTH / 2 - 50, 6 , middle_box_width, middle_box_height, 5, FG_COLOR, BG_COLOR);
     // middle next
-    sprite.fillSmoothRoundRect(178, 6, middle_box_width, middle_box_height, 2, FG_COLOR, BG_COLOR);
+    sprite.fillSmoothRoundRect(178, 6, middle_box_width, middle_box_height, 5, FG_COLOR, BG_COLOR);
 
     // bottom
     // DayPeriod 1 "morning"
-    sprite.fillSmoothRoundRect(10, 118, 40, 10, 2, DAYPERIOD1_BG_COLOR, BG_COLOR);
+    sprite.fillRect(7, 117, 74, 10, DAYPERIOD1_BG_COLOR);
     // DayPeriod 2 "afternoon"
-    sprite.fillSmoothRoundRect(54, 118, 40, 10, 2, DAYPERIOD2_BG_COLOR, BG_COLOR);
+    sprite.fillRect(83, 117, 74, 10, DAYPERIOD2_BG_COLOR);
     // DayPeriod 3 "evening"
-    sprite.fillSmoothRoundRect(110, 118, 40, 10, 2, DAYPERIOD3_BG_COLOR, BG_COLOR);
+    sprite.fillRect(159, 117, 74, 10, DAYPERIOD3_BG_COLOR);
 
 
     sprite.setTextDatum(0);
@@ -238,7 +238,6 @@ void setup() {
 
     tft.init();
     tft.setRotation(3);
-    tft.invertDisplay(1);
     tft.fillScreen(TFT_WHITE);
     tft.println("");
     tft.setTextColor(TFT_BLACK, TFT_WHITE);
