@@ -365,15 +365,12 @@ void loop() {
 
     static constexpr const char* const wd[7] = {"Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"};
 
-    delay(500);
-
     auto dt = StickCP2.Rtc.getDateTime();
-    Serial.printf("RTC   UTC    :%04d/%02d/%02d (%s)  %02d:%02d:%02d\r\n",
-        dt.date.year, dt.date.month, dt.date.date,
-        wd[dt.date.weekDay], dt.time.hours, dt.time.minutes,
-        dt.time.seconds);
+    //Serial.printf("RTC   UTC    :%04d/%02d/%02d (%s)  %02d:%02d:%02d\r\n",
+    //    dt.date.year, dt.date.month, dt.date.date,
+    //    wd[dt.date.weekDay], dt.time.hours, dt.time.minutes,
+    //    dt.time.seconds);
 
-    delay(500);
     /// ESP32 internal timer
     auto t = time(nullptr);
     auto tm = localtime(&t);  // for local timezone.
@@ -397,4 +394,5 @@ void loop() {
     }
 
     draw();
+    delay(1000);
 }
