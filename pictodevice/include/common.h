@@ -1,13 +1,6 @@
 #include <ArduinoJson.h>
+//#include <pins_arduino.h>
 #include <colors.h>
-
-//#define TFT_SCREEN_M5STACK
-#define TFT_SCREEN_WAVESHARE_ESP32_S3
-
-// waveshare ST7789 240x320
-#ifdef TFT_SCREEN_WAVESHARE_ESP32_S3
-    #include "waveshare.h"
-#endif
 
 #define PD_VERSION_MAJOR 1
 #define PD_VERSION_MINOR 1
@@ -38,8 +31,6 @@ boolean STATUS_GET_CONFIG_DATA_HTTP_OK = false;
 boolean GET_CONFIG_DATA_HTTP = false;
 boolean GET_CONFIG_DATA_SPIFF = true;
 
-unsigned short grays[13];
-
 const char* ntpServer = "europe.pool.ntp.org";
 
 // WiFi
@@ -53,3 +44,13 @@ String serverName = "http://192.168.178.148:8001";
 
 // 
 String dayPeriodNow = "unknown";
+
+// 135 x 240 pixels wordt aangestuurd door de ST7789V2.
+// NOTE: LCD_HEIGHT and LCD_WIDTH are switched around
+// in this case m5stcik: LCD_HEIGHT=240 and LCD_WIDTH=135
+// because the screen is rotated!
+#define MY_WIDTH  TFT_HEIGHT
+#define MY_HEIGHT TFT_WIDTH
+
+int16_t middle_box_width = 100;
+int16_t middle_box_height = 100;

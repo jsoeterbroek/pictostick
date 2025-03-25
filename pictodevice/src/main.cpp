@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <M5StickCPlus2.h>
 #include <common.h>
 #include <WiFiManager.h>
 #include <SPI.h>
@@ -17,6 +18,16 @@ TFT_eSprite errSprite = TFT_eSprite(&tft);
 
 struct tm timeinfo;
 ESP32Time rtc(0);
+#define EEPROM_SIZE 4
+
+//brightness and battery
+int brightnes[6]={16,32,48,64,96,180};
+int b=2;
+int vol;
+int volE;
+
+#define BUTTON_PRESSED LOW 
+#define BUTTON_RELEASED HIGH
 
 //scroling message on bottom right side
 //String Wmsg = "";
@@ -51,9 +62,21 @@ void setTime() {
 }
 
 void configModeCallback (WiFiManager *myWiFiManager) {
+
     Serial.println("Entered config mode");
     Serial.println(WiFi.softAPIP());
     Serial.println(myWiFiManager->getConfigPortalSSID());
+
+    tft.println(" ");
+    tft.println(" ******************");
+    tft.println(" Entered config mode:");
+    tft.print(" Webportal started at:");
+    tft.println(WiFi.softAPIP());
+    tft.print(" please connect to WiFi SSID: ");
+    tft.println(myWiFiManager->getConfigPortalSSID());
+    tft.println(" to configure WiFI for this device");
+    tft.println(" ******************");
+
     STATUS_WIFI_MGR_CONFIG_MODE_OK = true;
 }
 
@@ -165,28 +188,22 @@ void draw_bg() {
     sprite.createSprite(MY_WIDTH, MY_HEIGHT);
     sprite.fillSprite(TFT_TRANSPARENT);
     
-    // top
-    // clock, batt, wifi,
-    sprite.fillRect(0, 0, MY_WIDTH, MY_HEIGHT / 10 + 4, TOP_RECT_BG_COLOR);
-
-#ifdef TFT_SCREEN_WAVESHARE_ESP32_S3
-    // middle
+    // main
     // middle prev
-    sprite.fillSmoothRoundRect(-75, MY_HEIGHT / 5, middle_box_width, middle_box_height, 2, FG_COLOR, BG_COLOR);
+    sprite.fillSmoothRoundRect(-46, 6, middle_box_width, middle_box_height, 2, FG_COLOR, BG_COLOR);
     // middle now
-    sprite.fillSmoothRoundRect(MY_WIDTH / 2 - 75, MY_HEIGHT / 5, middle_box_width, middle_box_height, 2, FG_COLOR, BG_COLOR);
+    sprite.fillSmoothRoundRect(MY_WIDTH / 2 - 50, 6 , middle_box_width, middle_box_height, 2, FG_COLOR, BG_COLOR);
     // middle next
-    sprite.fillSmoothRoundRect(245, MY_HEIGHT / 5, middle_box_width, middle_box_height, 2, FG_COLOR, BG_COLOR);
+    sprite.fillSmoothRoundRect(178, 6, middle_box_width, middle_box_height, 2, FG_COLOR, BG_COLOR);
 
     // bottom
     // DayPeriod 1 "morning"
-    sprite.fillSmoothRoundRect(10, 216, 98, 16, 2, DAYPERIOD1_BG_COLOR, BG_COLOR);
+    sprite.fillSmoothRoundRect(10, 118, 40, 10, 2, DAYPERIOD1_BG_COLOR, BG_COLOR);
     // DayPeriod 2 "afternoon"
-    sprite.fillSmoothRoundRect(110, 216, 98, 16, 2, DAYPERIOD2_BG_COLOR, BG_COLOR);
+    sprite.fillSmoothRoundRect(54, 118, 40, 10, 2, DAYPERIOD2_BG_COLOR, BG_COLOR);
     // DayPeriod 3 "evening"
-    sprite.fillSmoothRoundRect(210, 216, 98, 16, 2, DAYPERIOD3_BG_COLOR, BG_COLOR);
+    sprite.fillSmoothRoundRect(110, 118, 40, 10, 2, DAYPERIOD3_BG_COLOR, BG_COLOR);
 
-#endif
 
     sprite.setTextDatum(0);
 
@@ -205,24 +222,19 @@ void draw() {
 void setup() {
 
     // https://community.m5stack.com/topic/5943/m5stickc-plus2-and-tft_espi-problem/3
-    //pinMode(4, OUTPUT);
-    //digitalWrite(4, HIGH);
-
-    // FIXME: crash
-    //ui_ScreenSPLASH_screen_init();
-
-    // generate 13 levels of gray
-    int co = 210;
-    for (int i = 0; i < 13; i++) {
-        grays[i] = tft.color565(co, co, co);
-        co = co - 20;
-    }
+    pinMode(35,INPUT_PULLUP);
+    pinMode(4, OUTPUT);
+    digitalWrite(4, HIGH);
+    auto cfg = M5.config();
+    StickCP2.begin(cfg);
+    //StickCP2.Rtc.setDateTime( { { 2024, 2, 17 }, { 8, 20, 0 } } );
+    StickCP2.Display.setBrightness(brightnes[b]);
 
     delay(5000);
     Serial.begin(115200);
     Serial.println("start initialisation..");
 
-    Backlight_Init();
+    //Backlight_Init();
 
     tft.init();
     tft.setRotation(3);
