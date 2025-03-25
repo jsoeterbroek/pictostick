@@ -27,7 +27,9 @@ JsonDocument cdoc;
 void setTime() {
     Serial.println(" ");
     Serial.print("connecting to time server ");
+    tft.print("connecting to time server ");
     Serial.println(ntpServer);
+    tft.println(ntpServer);
     Serial.println(" ");
     // Init and get the time
     configTime(0, 0, ntpServer);
@@ -36,11 +38,14 @@ void setTime() {
     tzset();
     delay(100);
     if(!getLocalTime(&timeinfo)){
+        tft.println("ERROR: failed to obtain time");
         Serial.println("ERROR: failed to obtain time");
         delay(10000);
     } else {
         Serial.println("OK: obtained time");
+        tft.println("OK: obtained time");
         Serial.println(&timeinfo, " %A, %B %d %Y %H:%M:%S");
+        tft.println(&timeinfo, " %A, %B %d %Y %H:%M:%S");
         STATUS_TIME_OK = true;
     }
 }
@@ -147,6 +152,37 @@ void getConfigDataHTTP () {
     http.end();
 }
 
+void draw_splash() {
+
+    tft.fillScreen(TFT_WHITE);
+    tft.println("draw_splash screen");
+    tft.println("FIXME: logo here");
+}
+
+void draw_bg() {
+
+    sprite.createSprite(LCD_HEIGHT, LCD_WIDTH);
+
+    tft.fillScreen(TFT_ORANGE);
+    tft.println("draw_bg");
+
+    sprite.fillSprite(TFT_TRANSPARENT);
+    sprite.drawLine(138, 10, 138, 164, grays[6]);
+    sprite.drawLine(100, 108, 134, 108, grays[6]);
+    sprite.setTextDatum(0);
+
+    sprite.pushSprite(0, 0, TFT_TRANSPARENT);
+}
+
+void draw() {
+
+    //tft.println("draw");
+    if(STATUS_TIME_OK) {
+        tft.print("currently the period is ");
+        tft.println(dayPeriodNow);
+    }
+}
+
 void setup() {
 
     // https://community.m5stack.com/topic/5943/m5stickc-plus2-and-tft_espi-problem/3
@@ -156,12 +192,22 @@ void setup() {
     // FIXME: crash
     //ui_ScreenSPLASH_screen_init();
 
+    // generate 13 levels of gray
+    int co = 210;
+    for (int i = 0; i < 13; i++) {
+        grays[i] = tft.color565(co, co, co);
+        co = co - 20;
+    }
+
     delay(5000);
     Serial.begin(115200);
     Serial.println("start initialisation..");
 
+    Backlight_Init();
+
     tft.init();
     tft.setRotation(3);
+    tft.invertDisplay(1);
     tft.fillScreen(TFT_WHITE);
     tft.println("");
     tft.setTextColor(TFT_BLACK, TFT_WHITE);
@@ -193,6 +239,7 @@ void setup() {
         tft.println("WiFi connected.");
         Serial.println("WiFi connected.");
     }
+
     setTime();
 
     // get config data
@@ -265,17 +312,9 @@ void setup() {
     tft.println("initialisation complete");
     Serial.println("initialisation complete");
     delay(4000);
-    tft.fillScreen(TFT_WHITE);
-}
-
-void draw() {
-
-    Serial.println("draw");
-    Serial.print("currently the period is ");
-    Serial.println(dayPeriodNow);
-    //if (STATUS_CONFIG_DATA_OK) {
-    //}
-    //ui_init();
+    draw_splash();
+    delay(4000);
+    draw_bg();
 }
 
 void loop() {
