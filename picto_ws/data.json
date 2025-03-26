@@ -3,111 +3,86 @@
     "version": "1.0.1",
     "name": "Peter",
     "device_ip": "128.8.2.123",
-    "morning":
+    "activities": [
     {
-        "periodname_en": "morning",
-        "periodname_nl": "morgen",
-        "time_from": "07:00",
-        "time_to": "12:00",
-        "activities": [
-        {
-            "order": "001",
-            "picto": "alarm.png",
-            "name_en": "waking",
-            "name_nl": "opstaan"
-        },
-        {
-            "order": "002",
-            "picto": "shower.png",
-            "name_en": "shower",
-            "name_nl": "douchen"
-        },
-        {
-            "order": "003",
-            "picto": "self_care.png",
-            "name_en": "brushing teeth",
-            "name_nl": "tanden poetsen"
-        },
-        {
-            "order": "004",
-            "picto": "breakfast_dining.png",
-            "name_en": "breakfast",
-            "name_nl": "ontbijt"
-        },
-        {
-            "order": "005",
-            "picto": "book.png",
-            "name_en": "reading",
-            "name_nl": "lezen"
-        }
-        ]
+        "order": "001",
+        "picto": "alarm.png",
+        "name_en": "waking",
+        "name_nl": "opstaan"
     },
-    "afternoon":
     {
-        "periodname_en": "afternoon",
-        "periodname_nl": "middag",
-        "time_from": "12:00",
-        "time_to": "17:00",
-        "activities": [
-        {
-            "order": "001",
-            "picto": "lunch_dining.png",
-            "name_en": "lunch",
-            "name_nl": "lunch"
-        },                    
-        {
-            "order": "002",
-            "picto": "shopping_cart.png",
-            "name_en": "shopping",
-            "name_nl": "boodschappen"
-        },
-        {
-            "order": "003",
-            "picto": "sports_tennis.png",
-            "name_en": "tennis",
-            "name_nl": "tennis"
-        }
-        ]
+        "order": "002",
+        "picto": "shower.png",
+        "name_en": "shower",
+        "name_nl": "douchen"
     },
-    "evening":
     {
-        "periodname_en": "evening",
-        "periodname_nl": "avond",
-        "time_from": "17:00",
-        "time_to": "22:00",
-        "activities": [
-        {
-            "order": "001",
-            "picto": "dinner_dining.png",
-            "name_en": "dinner",
-            "name_nl": "avondmaal"
-        },
-        {
-            "order": "002",
-            "picto": "toys_and_games.png",
-            "name_en": "toys and games",
-            "name_nl": "spelletjes"
-        },
-        {
-            "order": "003",
-            "picto": "tv.png",
-            "name_en": "watch tv",
-            "name_nl": "tv kijken"
-        },
-        {
-            "order": "004",
-            "picto": "self_care.png",
-            "name_en": "brushing teeth",
-            "name_nl": "tanden poetsen"
-        },          
-        {
-            "order": "005",
-            "picto": "bedtime.png",
-            "name_en": "sleeping",
-            "name_nl": "slapen"
-        }
-        ]
+        "order": "003",
+        "picto": "self_care.png",
+        "name_en": "brushing teeth",
+        "name_nl": "tanden poetsen"
     },
+    {
+        "order": "004",
+        "picto": "breakfast_dining.png",
+        "name_en": "breakfast",
+        "name_nl": "ontbijt"
+    },
+    {
+        "order": "005",
+        "picto": "book.png",
+        "name_en": "reading",
+        "name_nl": "lezen"
+    },
+    {
+        "order": "006",
+        "picto": "lunch_dining.png",
+        "name_en": "lunch",
+        "name_nl": "lunch"
+    },                    
+    {
+        "order": "007",
+        "picto": "shopping_cart.png",
+        "name_en": "shopping",
+        "name_nl": "boodschappen"
+    },
+    {
+        "order": "008",
+        "picto": "sports_tennis.png",
+        "name_en": "tennis",
+        "name_nl": "tennis"
+    },
+    {
+        "order": "009",
+        "picto": "dinner_dining.png",
+        "name_en": "dinner",
+        "name_nl": "avondmaal"
+    },
+    {
+        "order": "010",
+        "picto": "toys_and_games.png",
+        "name_en": "toys and games",
+        "name_nl": "spelletjes"
+    },
+    {
+        "order": "011",
+        "picto": "tv.png",
+        "name_en": "watch tv",
+        "name_nl": "tv kijken"
+    },
+    {
+        "order": "012",
+        "picto": "self_care.png",
+        "name_en": "brushing teeth",
+        "name_nl": "tanden poetsen"
+    },          
+    {
+        "order": "013",
+        "picto": "bedtime.png",
+        "name_en": "sleeping",
+        "name_nl": "slapen"
+    }
+    ],
     "date_created": "24-03-2025",
     "date_valid": "23-03-2025"
 }
