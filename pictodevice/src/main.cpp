@@ -54,15 +54,11 @@ bool slp = false;
 #define BUTTON_PRESSED LOW 
 #define BUTTON_RELEASED HIGH
 
-//scroling message on bottom right side
-//String Wmsg = "";
-
 uint16_t ontime, offtime;
 uint8_t i,num_codes;
 uint8_t region;
 
 JsonDocument cdoc;
-//float pData[4];
 
 void setTime() {
     Serial.println(" ");
@@ -91,52 +87,23 @@ void setTime() {
     }
 }
 
-void configModeCallback (WiFiManager *myWiFiManager) {
+void configModeCallback(WiFiManager *myWiFiManager) {
 
     Serial.println("Entered config mode");
     Serial.println(WiFi.softAPIP());
     Serial.println(myWiFiManager->getConfigPortalSSID());
 
     tft.println(" ");
-    tft.println(" ******************");
+    tft.println(" ********************");
     tft.println(" Entered config mode:");
     tft.print(" Webportal started at:");
     tft.println(WiFi.softAPIP());
     tft.print(" please connect to WiFi SSID: ");
     tft.println(myWiFiManager->getConfigPortalSSID());
     tft.println(" to configure WiFI for this device");
-    tft.println(" ******************");
+    tft.println(" ********************");
 
     STATUS_WIFI_MGR_CONFIG_MODE_OK = true;
-}
-
-void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
-    Serial.printf("Listing directory: %s\r\n", dirname);
-    File root = fs.open(dirname);
-    if(!root){
-        Serial.println("- failed to open directory");
-        return;
-    }
-    if(!root.isDirectory()){
-        Serial.println(" - not a directory");
-        return;
-    }
-    File file = root.openNextFile();
-    while(file){
-        if(file.isDirectory()){
-            Serial.print("  DIR : ");
-            Serial.println(file.name());
-            if(levels){
-                listDir(fs, file.name(), levels -1);
-            }
-        } else {
-            Serial.print("  FILE: ");
-            Serial.print(file.name());
-            Serial.print("\tSIZE: ");
-            Serial.println(file.size());
-        }
-        file = root.openNextFile();
-    }
 }
 
 void readConfigFile(fs::FS &fs, const char * path){
@@ -168,7 +135,6 @@ void getConfigDataSPIFF () {
         Serial.println("SPIFFS Mount Failed");
         return;
     }
-    //listDir(SPIFFS, "/", 0);
     readConfigFile(SPIFFS, "/data.json");
 }
 
@@ -201,15 +167,27 @@ void getConfigDataHTTP () {
         Serial.println(httpResponseCode);
         STATUS_GET_CONFIG_DATA_HTTP_OK = false;
     }
-    // Free resources
-    http.end();
+    http.end(); // Free resources
 }
 
 void drawSplash() {
 
     tft.fillScreen(TFT_WHITE);
-    tft.println("draw_splash screen");
-    tft.println("FIXME: logo here");
+    tft.loadFont(Noto);
+    sprite.setTextColor(TFT_DARKGRAY,TFT_WHITE);
+    String software = " Pictostick ";
+    software += String("v") + pd_version_major() + "." + pd_version_minor() + "." + pd_version_patch();
+    tft.drawString(software,4,24);
+
+    String manufacturer = " Joost Soeterbroek";
+    tft.drawString(manufacturer,4,54);
+
+    tft.unloadFont();
+    tft.loadFont(smallFont);
+    String code = " github.com/jsoeterbroek/pictostick";
+    tft.drawString(code,4,84);
+
+    delay(6000);
 }
 
 void drawBg() {
@@ -231,7 +209,7 @@ void drawBg() {
 
     // bottom
     // each activity gets its own circle 
-    // we should maximize the number of activities to screen length (max 14?)
+    // we should maximize the number of activities to screen length
 
     // TEST, uncomment below
     // maximum activities_size = 18;
@@ -306,10 +284,6 @@ void drawMain() {
     auto t = time(nullptr);
     auto tm = localtime(&t);  // for local timezone.
     char buffer[40];
-    //snprintf(buffer, sizeof(buffer), "ESP32 %s  :%04d/%02d/%02d (%s)  %02d:%02d:%02d\r\n",
-    //    NTP_TIMEZONE, tm->tm_year + 1900, tm->tm_mon + 1,
-    //    tm->tm_mday, wd[tm->tm_wday], tm->tm_hour, tm->tm_min,
-    //    tm->tm_sec);
     snprintf(buffer, sizeof(buffer), "%s %02d:%02d:%02d",
         wd_nl[tm->tm_wday], 
         tm->tm_hour, 
@@ -318,9 +292,7 @@ void drawMain() {
     sprite.drawString(buffer,2,3);
 
     // user name
-    sprite.setTextColor(RGB565_CORAL, TOP_RECT_BG_COLOR);
     sprite.drawString(config_name, 150, 3);
-    sprite.setTextColor(TFT_WHITE, TOP_RECT_BG_COLOR);
 
     // battery
     //sprite.drawString(String(vol/1000.00),180,3);
@@ -328,31 +300,22 @@ void drawMain() {
         sprite.fillRect(232-(i*5),1,3,10,TFT_GREEN);
     }
     
-    //tft.println("draw");
-    //if(STATUS_TIME_OK) {
-    //    tft.print("currently the period is ");
-    //    tft.println(dayPeriodNow);
-    //}
     sprite.pushSprite(0,0,TFT_TRANSPARENT);
     sprite.unloadFont();
 }
 
 void setup() {
 
-    // https://community.m5stack.com/topic/5943/m5stickc-plus2-and-tft_espi-problem/3
     pinMode(35,INPUT_PULLUP);
     pinMode(4, OUTPUT);
     digitalWrite(4, HIGH);
     auto cfg = M5.config();
     StickCP2.begin(cfg);
-    //StickCP2.Rtc.setDateTime( { { 2024, 2, 17 }, { 8, 20, 0 } } );
     StickCP2.Display.setBrightness(brightnes[b]);
 
     delay(5000);
     Serial.begin(115200);
     Serial.println("start initialisation..");
-
-    //Backlight_Init();
 
     tft.init();
     tft.setRotation(3);
@@ -361,11 +324,6 @@ void setup() {
     tft.println("");
     tft.setTextColor(TFT_BLACK, TFT_WHITE);
     tft.println("start initialisation..");
-
-    delay(3000);
-    String software = "Pictodevice ";
-    software += String("V") + pd_version_major() + "." + pd_version_minor() + "." + pd_version_patch();
-    tft.println(software);
 
     // WiFi Manager
     WiFiManager wm;
@@ -461,15 +419,9 @@ void loop() {
 
     StickCP2.update();
 
-
     vol = StickCP2.Power.getBatteryVoltage();
     volE=map(vol,3000,4180,0,5);
 
-    //setData[0]=tm->tm_hour;
-    //setData[1]=tm->tm_min;
-    //setData[2]=tm->tm_sec;
-
-    
     drawMain();
     delay(1000);
 }
