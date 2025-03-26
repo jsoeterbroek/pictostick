@@ -11,6 +11,8 @@
 #include <TFT_eSPI.h>
 #include <FS.h>
 #include <SPIFFS.h>
+#include "Noto.h"
+#include "smallFont.h"
 
 TFT_eSPI tft = TFT_eSPI();
 TFT_eSprite sprite = TFT_eSprite(&tft);
@@ -216,13 +218,16 @@ void drawBg() {
     sprite.createSprite(MY_WIDTH, MY_HEIGHT);
     sprite.fillSprite(TFT_TRANSPARENT);
     
+    // top
+    sprite.fillRect(0, 0, 240, 12, TOP_RECT_BG_COLOR);
+    
     // main
     // middle prev
-    sprite.fillSmoothRoundRect(-38, 6, middle_box_width, middle_box_height, 5, FG_COLOR, BG_COLOR);
+    sprite.fillSmoothRoundRect(-38,15,middle_box_width,middle_box_height,5,FG_COLOR, BG_COLOR);
     // middle now
-    sprite.fillSmoothRoundRect(MY_WIDTH / 2 - 50, 6 , middle_box_width, middle_box_height, 5, FG_COLOR, BG_COLOR);
+    sprite.fillSmoothRoundRect(MY_WIDTH / 2 - 50,15,middle_box_width,middle_box_height,5,FG_COLOR,BG_COLOR);
     // middle next
-    sprite.fillSmoothRoundRect(178, 6, middle_box_width, middle_box_height, 5, FG_COLOR, BG_COLOR);
+    sprite.fillSmoothRoundRect(178,15,middle_box_width,middle_box_height,5,FG_COLOR,BG_COLOR);
 
     // bottom
     // each activity gets its own circle 
@@ -230,11 +235,11 @@ void drawBg() {
 
     // TEST, uncomment below
     // maximum activities_size = 18;
-    //activities_size = 18;
+    // config_activities_size = 5;
 
     int _circle_x; int _dist_between; int _size_circle;
     int activities_size_max = 19;
-    switch (activities_size) {
+    switch (config_activities_size) {
     case 1:
         _circle_x = 120; _dist_between = 46; _size_circle = 6; break;
     case 2:
@@ -275,30 +280,52 @@ void drawBg() {
         _circle_x = 14; _dist_between = 16; _size_circle = 6; break;
     }
 
-    if (activities_size < activities_size_max) {
-        for(int i = 0; i < activities_size; i++){
-            sprite.fillSmoothCircle(_circle_x, 122, _size_circle, DAYPERIOD_CIRCLE_BG_COLOR, BG_COLOR);
+    if (config_activities_size < activities_size_max) {
+        for(int i = 0; i < config_activities_size; i++){
+            sprite.fillSmoothCircle(_circle_x,124,_size_circle,DAYPERIOD_CIRCLE_BG_COLOR,BG_COLOR);
             _circle_x = _circle_x + _dist_between;
         }
     }
 
     //sprite.setTextDatum(0);
-
-    sprite.pushSprite(0, 0, TFT_TRANSPARENT);
+    sprite.unloadFont();
+    sprite.pushSprite(0,0,TFT_TRANSPARENT);
 }
 
 void drawMain() {
 
     sprite.createSprite(MY_WIDTH, MY_HEIGHT);
     sprite.fillSprite(TFT_TRANSPARENT);
-    // battery
     sprite.unloadFont();
-    sprite.setTextColor(grays[5],TFT_BLACK);
-    sprite.drawString(String(vol/1000.00),121,52);
-    sprite.drawRect(114,12,14,28,grays[2]);
-    sprite.fillRect(118,9,6,3,grays[2]);
+    sprite.setTextColor(TFT_WHITE, TOP_RECT_BG_COLOR);
+
+    // time
+    static constexpr const char* const wd_nl[7] = {"Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"};
+    auto dt = StickCP2.Rtc.getDateTime();
+    /// ESP32 internal timer
+    auto t = time(nullptr);
+    auto tm = localtime(&t);  // for local timezone.
+    char buffer[40];
+    //snprintf(buffer, sizeof(buffer), "ESP32 %s  :%04d/%02d/%02d (%s)  %02d:%02d:%02d\r\n",
+    //    NTP_TIMEZONE, tm->tm_year + 1900, tm->tm_mon + 1,
+    //    tm->tm_mday, wd[tm->tm_wday], tm->tm_hour, tm->tm_min,
+    //    tm->tm_sec);
+    snprintf(buffer, sizeof(buffer), "%s %02d:%02d:%02d",
+        wd_nl[tm->tm_wday], 
+        tm->tm_hour, 
+        tm->tm_min,
+        tm->tm_sec);
+    sprite.drawString(buffer,2,3);
+
+    // user name
+    sprite.setTextColor(RGB565_CORAL, TOP_RECT_BG_COLOR);
+    sprite.drawString(config_name, 150, 3);
+    sprite.setTextColor(TFT_WHITE, TOP_RECT_BG_COLOR);
+
+    // battery
+    //sprite.drawString(String(vol/1000.00),180,3);
     for(int i=0;i<volE;i++) {
-        sprite.fillRect(116,35-(i*5),10,3,TFT_GREEN);
+        sprite.fillRect(232-(i*5),1,3,10,TFT_GREEN);
     }
     
     //tft.println("draw");
@@ -306,7 +333,8 @@ void drawMain() {
     //    tft.print("currently the period is ");
     //    tft.println(dayPeriodNow);
     //}
-    sprite.pushSprite(0, 0, TFT_TRANSPARENT);
+    sprite.pushSprite(0,0,TFT_TRANSPARENT);
+    sprite.unloadFont();
 }
 
 void setup() {
@@ -393,12 +421,11 @@ void setup() {
         co=co-20;
     }
     
-    // // extract values from config JSON object
-
-    const char* comment = cdoc["comment"]; // nullptr
-    const char* version = cdoc["version"]; // "1.0.1"
-    const char* name = cdoc["name"]; // "Peter"
-    const char* device_ip = cdoc["device_ip"]; // "128.8.2.123"
+    // extract values from config JSON object
+    config_comment = cdoc["comment"]; // nullptr
+    config_version = cdoc["version"]; // "1.0.1"
+    config_name = cdoc["name"]; // "Peter"
+    config_device_ip = cdoc["device_ip"]; // "128.8.2.123"
 
     // for (JsonObject activity : cdoc["activities"].as<JsonArray>()) {
 
@@ -409,9 +436,9 @@ void setup() {
       
     // }
 
-    const char* date_created = cdoc["date_created"]; // "24-03-2025"
-    const char* date_valid = cdoc["date_valid"]; // "23-03-2025"
-    activities_size = cdoc["activities"].size();
+    config_date_created = cdoc["date_created"];
+    config_date_valid = cdoc["date_valid"];
+    config_activities_size = cdoc["activities"].size();
 
     if (STATUS_GET_CONFIG_DATA_SPIFF_OK) {
        STATUS_CONFIG_DATA_OK = true;
@@ -435,39 +462,14 @@ void loop() {
     StickCP2.update();
 
 
-    static constexpr const char* const wd[7] = {"Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"};
-
     vol = StickCP2.Power.getBatteryVoltage();
     volE=map(vol,3000,4180,0,5);
 
-    auto dt = StickCP2.Rtc.getDateTime();
+    //setData[0]=tm->tm_hour;
+    //setData[1]=tm->tm_min;
+    //setData[2]=tm->tm_sec;
+
     
-    if(digitalRead(35)==0) {setTimeDate=!setTimeDate;
-     setData[0]=dt.time.hours;
-     setData[1]=dt.time.minutes;
-     setData[2]=dt.time.seconds;
-     setData[3]=dt.date.date;
-     setData[4]=dt.date.month;
-     setData[5]=dt.date.year-2000;
-     setData[7]=buzzer;
-  
-    if(buzzer)
-      StickCP2.Speaker.tone(6000, 100);
-     delay(200);} 
-
-    //Serial.printf("RTC   UTC    :%04d/%02d/%02d (%s)  %02d:%02d:%02d\r\n",
-    //    dt.date.year, dt.date.month, dt.date.date,
-    //    wd[dt.date.weekDay], dt.time.hours, dt.time.minutes,
-    //    dt.time.seconds);
-
-    /// ESP32 internal timer
-    auto t = time(nullptr);
-    auto tm = localtime(&t);  // for local timezone.
-    Serial.printf("ESP32 %s  :%04d/%02d/%02d (%s)  %02d:%02d:%02d\r\n",
-        NTP_TIMEZONE, tm->tm_year + 1900, tm->tm_mon + 1,
-        tm->tm_mday, wd[tm->tm_wday], tm->tm_hour, tm->tm_min,
-        tm->tm_sec);
-
     drawMain();
     delay(1000);
 }
