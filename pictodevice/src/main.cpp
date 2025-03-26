@@ -197,15 +197,64 @@ void draw_bg() {
     sprite.fillSmoothRoundRect(178, 6, middle_box_width, middle_box_height, 5, FG_COLOR, BG_COLOR);
 
     // bottom
-    // DayPeriod 1 "morning"
-    sprite.fillRect(7, 117, 74, 10, DAYPERIOD1_BG_COLOR);
-    // DayPeriod 2 "afternoon"
-    sprite.fillRect(83, 117, 74, 10, DAYPERIOD2_BG_COLOR);
-    // DayPeriod 3 "evening"
-    sprite.fillRect(159, 117, 74, 10, DAYPERIOD3_BG_COLOR);
+    // each activity gets its own circle 
+    // we should maximize the number of activities to screen length (max 14?)
 
+    // TEST, uncomment below
+    // maximum activities_size = 18;
+    //activities_size = 18;
 
-    sprite.setTextDatum(0);
+    int _circle_x; int _dist_between; int _size_circle;
+    int activities_size_max = 19;
+    switch (activities_size) {
+    case 1:
+        _circle_x = 120; _dist_between = 46; _size_circle = 6; break;
+    case 2:
+        _circle_x = 104; _dist_between = 43; _size_circle = 6; break;
+    case 3:
+        _circle_x = 82; _dist_between = 40; _size_circle = 6; break;
+    case 4:
+        _circle_x = 68; _dist_between = 37; _size_circle = 6; break;
+    case 5:
+        _circle_x = 56; _dist_between = 34; _size_circle = 6; break;
+    case 6:
+        _circle_x = 45; _dist_between = 31; _size_circle = 6; break;
+    case 7:
+        _circle_x = 37; _dist_between = 28; _size_circle = 5; break;
+    case 8:
+        _circle_x = 30; _dist_between = 26; _size_circle = 5; break;
+    case 9:
+        _circle_x = 25; _dist_between = 24; _size_circle = 5; break;
+    case 10:
+        _circle_x = 23; _dist_between = 22; _size_circle = 5; break;
+    case 11:
+        _circle_x = 20; _dist_between = 20; _size_circle = 5; break;
+    case 12:
+        _circle_x = 18; _dist_between = 18; _size_circle = 4; break;
+    case 13:
+        _circle_x = 17; _dist_between = 17; _size_circle = 4; break;
+    case 14:
+        _circle_x = 16; _dist_between = 16; _size_circle = 4; break;
+    case 15:
+        _circle_x = 15; _dist_between = 15; _size_circle = 4; break;
+    case 16:
+        _circle_x = 14; _dist_between = 14; _size_circle = 4; break;
+    case 17:
+        _circle_x = 13; _dist_between = 13; _size_circle = 3; break;
+    case 18:
+        _circle_x = 13; _dist_between = 12; _size_circle = 3; break;
+    default:
+        _circle_x = 14; _dist_between = 16; _size_circle = 6; break;
+    }
+
+    if (activities_size < activities_size_max) {
+        for(int i = 0; i < activities_size; i++){
+            sprite.fillSmoothCircle(_circle_x, 122, _size_circle, DAYPERIOD_CIRCLE_BG_COLOR, BG_COLOR);
+            _circle_x = _circle_x + _dist_between;
+        }
+    }
+
+    //sprite.setTextDatum(0);
 
     sprite.pushSprite(0, 0, TFT_TRANSPARENT);
 }
@@ -302,47 +351,18 @@ void setup() {
     const char* name = cdoc["name"]; // "Peter"
     const char* device_ip = cdoc["device_ip"]; // "128.8.2.123"
 
-    JsonObject morning = cdoc["morning"];
-    const char* morning_periodname_en = morning["periodname_en"]; // "morning"
-    const char* morning_periodname_nl = morning["periodname_nl"]; // "morgen"
-    const char* morning_time_from = morning["time_from"]; // "07:00"
-    const char* morning_time_to = morning["time_to"]; // "12:00"
+    // for (JsonObject activity : cdoc["activities"].as<JsonArray>()) {
 
-    // for (JsonObject morning_activity : morning["activities"].as<JsonArray>()) {
-    //   const char* morning_activity_order = morning_activity["order"]; // "001", "002", "003", "004"
-    //   const char* morning_activity_picto = morning_activity["picto"]; // "0000_slapen.png", ...
-    //   const char* morning_activity_name_en = morning_activity["name_en"]; // "waking", "shower", "brushing ...
-    //   const char* morning_activity_name_nl = morning_activity["name_nl"]; // "opstaan", "douchen", "tanden ...
-    // }
-
-    JsonObject afternoon = cdoc["afternoon"];
-    const char* afternoon_periodname_en = afternoon["periodname_en"]; // "afternoon"
-    const char* afternoon_periodname_nl = afternoon["periodname_nl"]; // "middag"
-    const char* afternoon_time_from = afternoon["time_from"]; // "12:00"
-    const char* afternoon_time_to = afternoon["time_to"]; // "17:00"
-
-    // for (JsonObject afternoon_activity : afternoon["activities"].as<JsonArray>()) {
-    //   const char* afternoon_activity_order = afternoon_activity["order"]; // "001", "002", "003"
-    //   const char* afternoon_activity_picto = afternoon_activity["picto"]; // "0005_morderdagmaal.png", ...
-    //   const char* afternoon_activity_name_en = afternoon_activity["name_en"]; // "lunch", "shopping", "sawing"
-    //   const char* afternoon_activity_name_nl = afternoon_activity["name_nl"]; // "lunch", "boodschappen", ...
-    // }
-
-    JsonObject evening = cdoc["evening"];
-    const char* evening_periodname_en = evening["periodname_en"]; // "evening"
-    const char* evening_periodname_nl = evening["periodname_nl"]; // "avond"
-    const char* evening_time_from = evening["time_from"]; // "17:00"
-    const char* evening_time_to = evening["time_to"]; // "22:00"
-
-    // for (JsonObject evening_activity : evening["activities"].as<JsonArray>()) {
-    //   const char* evening_activity_order = evening_activity["order"]; // "001", "002", "003", "004", "005"
-    //   const char* evening_activity_picto = evening_activity["picto"]; // "0002_avondmaal.png", ...
-    //   const char* evening_activity_name_en = evening_activity["name_en"]; // "dinner", "evening walk", "watch ...
-    //   const char* evening_activity_name_nl = evening_activity["name_nl"]; // "avondmaal", "avondwandeling", ...
+    //     const char* activity_order = activity["order"]; // "001", "002", "003", "004", "005", "006", "007", ...
+    //     const char* activity_picto = activity["picto"]; // "alarm.png", "shower.png", "self_care.png", ...
+    //     const char* activity_name_en = activity["name_en"]; // "waking", "shower", "brushing teeth", ...
+    //     const char* activity_name_nl = activity["name_nl"]; // "opstaan", "douchen", "tanden poetsen", ...
+      
     // }
 
     const char* date_created = cdoc["date_created"]; // "24-03-2025"
     const char* date_valid = cdoc["date_valid"]; // "23-03-2025"
+    activities_size = cdoc["activities"].size();
 
     if (STATUS_GET_CONFIG_DATA_SPIFF_OK) {
        STATUS_CONFIG_DATA_OK = true;
@@ -379,20 +399,9 @@ void loop() {
         tm->tm_mday, wd[tm->tm_wday], tm->tm_hour, tm->tm_min,
         tm->tm_sec);
 
-    // FIXME
-    // uncomment below to test
-    // TEST:
-    int intHour = 21;
-    if (intHour > 4 && intHour < 12) {
-        dayPeriodNow = "morning";
-    } else if (intHour >= 12 && intHour < 17) {
-        dayPeriodNow = "afternoon";
-    } else if (intHour >= 17 && intHour <= 23) {
-        dayPeriodNow = "evening";
-    } else { 
-        dayPeriodNow = "night";
-    }
-
+    //drawTime(); // FIXME time screen
+    //drawBattery(); // FIXME battery screen
+    //drawWifi(); // FIXME wifi screen
     draw();
     delay(1000);
 }

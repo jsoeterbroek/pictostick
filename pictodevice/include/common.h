@@ -44,8 +44,8 @@ String serverName = "http://192.168.178.148:8001";
 
 #define FORMAT_SPIFFS_IF_FAILED true
 
-// 
-String dayPeriodNow = "unknown";
+// json
+int8_t activities_size = 0;
 
 // 135 x 240 pixels wordt aangestuurd door de ST7789V2.
 // NOTE: LCD_HEIGHT and LCD_WIDTH are switched around
