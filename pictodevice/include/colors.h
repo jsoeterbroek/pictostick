@@ -31,5 +31,7 @@
 #define WARN_NOK             TFT_ORANGE
 #define WARN_OK              TFT_GREEN
 
+unsigned short grays[12];
+
 #define DAYPERIOD_CIRCLE_BG_COLOR  RGB565_GRAY_BATTLESHIP
 #define DAYPERIOD_CIRCLE_FG_COLOR  RGB565_BLUE_LIGHT

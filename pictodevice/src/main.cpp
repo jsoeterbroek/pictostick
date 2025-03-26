@@ -20,11 +20,34 @@ struct tm timeinfo;
 ESP32Time rtc(0);
 #define EEPROM_SIZE 4
 
+//time variables
+String h,m,s;
+int day,month;
+String months[12] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
+
+//settime variables
+bool setTimeDate = false;
+int setData[8];  //setHour,setMin,setSec,setDate,setMonth,setYear; SET REGION , SET BEEPER;
+String setDataLbl[8]={"HOUR","MIN","SEC","DATE","MON","YEAR","REGION","SOUND"};
+int setMin[8]={0,0,0,1,1,24,0,0};
+int setMax[8]={24,60,60,32,13,36,2,2};
+int setPosX[8]={10,50,91,10,50,91,8,8};
+int setPosY[8]={54,54,54,124,124,124,172,192};
+int chosen=0;
 //brightness and battery
 int brightnes[6]={16,32,48,64,96,180};
 int b=2;
 int vol;
 int volE;
+
+//rbuzzer
+int Myregion=0;
+int buzzer=0;
+
+//sleep variables
+int sleepTime = 10;
+int ts,tts = 0;
+bool slp = false;
 
 #define BUTTON_PRESSED LOW 
 #define BUTTON_RELEASED HIGH
@@ -32,13 +55,18 @@ int volE;
 //scroling message on bottom right side
 //String Wmsg = "";
 
+uint16_t ontime, offtime;
+uint8_t i,num_codes;
+uint8_t region;
+
 JsonDocument cdoc;
 //float pData[4];
 
 void setTime() {
     Serial.println(" ");
     Serial.print("connecting to time server ");
-    tft.print("connecting to time server ");
+    tft.println("connecting to internet ");
+    tft.print("time server ");
     Serial.println(ntpServer);
     tft.println(ntpServer);
     Serial.println(" ");
@@ -175,14 +203,14 @@ void getConfigDataHTTP () {
     http.end();
 }
 
-void draw_splash() {
+void drawSplash() {
 
     tft.fillScreen(TFT_WHITE);
     tft.println("draw_splash screen");
     tft.println("FIXME: logo here");
 }
 
-void draw_bg() {
+void drawBg() {
 
     tft.fillScreen(BG_COLOR);
     sprite.createSprite(MY_WIDTH, MY_HEIGHT);
@@ -259,13 +287,26 @@ void draw_bg() {
     sprite.pushSprite(0, 0, TFT_TRANSPARENT);
 }
 
-void draw() {
+void drawMain() {
 
+    sprite.createSprite(MY_WIDTH, MY_HEIGHT);
+    sprite.fillSprite(TFT_TRANSPARENT);
+    // battery
+    sprite.unloadFont();
+    sprite.setTextColor(grays[5],TFT_BLACK);
+    sprite.drawString(String(vol/1000.00),121,52);
+    sprite.drawRect(114,12,14,28,grays[2]);
+    sprite.fillRect(118,9,6,3,grays[2]);
+    for(int i=0;i<volE;i++) {
+        sprite.fillRect(116,35-(i*5),10,3,TFT_GREEN);
+    }
+    
     //tft.println("draw");
     //if(STATUS_TIME_OK) {
     //    tft.print("currently the period is ");
     //    tft.println(dayPeriodNow);
     //}
+    sprite.pushSprite(0, 0, TFT_TRANSPARENT);
 }
 
 void setup() {
@@ -288,6 +329,7 @@ void setup() {
     tft.init();
     tft.setRotation(3);
     tft.fillScreen(TFT_WHITE);
+    tft.setTextSize(1);
     tft.println("");
     tft.setTextColor(TFT_BLACK, TFT_WHITE);
     tft.println("start initialisation..");
@@ -344,6 +386,13 @@ void setup() {
         getConfigDataHTTP();
     }
 
+    // generate grey colors
+    int co=216;
+    for(int i=0;i<12;i++) { 
+        grays[i]=tft.color565(co, co, co);
+        co=co-20;
+    }
+    
     // // extract values from config JSON object
 
     const char* comment = cdoc["comment"]; // nullptr
@@ -376,16 +425,36 @@ void setup() {
     tft.println("initialisation complete");
     Serial.println("initialisation complete");
     delay(2000);
-    draw_splash();
+    drawSplash();
     delay(2000);
-    draw_bg();
+    drawBg();
 }
 
 void loop() {
 
+    StickCP2.update();
+
+
     static constexpr const char* const wd[7] = {"Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"};
 
+    vol = StickCP2.Power.getBatteryVoltage();
+    volE=map(vol,3000,4180,0,5);
+
     auto dt = StickCP2.Rtc.getDateTime();
+    
+    if(digitalRead(35)==0) {setTimeDate=!setTimeDate;
+     setData[0]=dt.time.hours;
+     setData[1]=dt.time.minutes;
+     setData[2]=dt.time.seconds;
+     setData[3]=dt.date.date;
+     setData[4]=dt.date.month;
+     setData[5]=dt.date.year-2000;
+     setData[7]=buzzer;
+  
+    if(buzzer)
+      StickCP2.Speaker.tone(6000, 100);
+     delay(200);} 
+
     //Serial.printf("RTC   UTC    :%04d/%02d/%02d (%s)  %02d:%02d:%02d\r\n",
     //    dt.date.year, dt.date.month, dt.date.date,
     //    wd[dt.date.weekDay], dt.time.hours, dt.time.minutes,
@@ -399,9 +468,6 @@ void loop() {
         tm->tm_mday, wd[tm->tm_wday], tm->tm_hour, tm->tm_min,
         tm->tm_sec);
 
-    //drawTime(); // FIXME time screen
-    //drawBattery(); // FIXME battery screen
-    //drawWifi(); // FIXME wifi screen
-    draw();
+    drawMain();
     delay(1000);
 }
