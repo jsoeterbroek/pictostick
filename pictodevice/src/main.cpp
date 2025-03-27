@@ -375,13 +375,6 @@ void setup() {
         getConfigDataHTTP();
     }
 
-    // generate grey colors
-    int co=216;
-    for(int i=0;i<12;i++) { 
-        grays[i]=tft.color565(co, co, co);
-        co=co-20;
-    }
-    
     // extract values from config JSON object
     config_activities_size = cdoc["activities"].size();
     config_comment = cdoc["comment"]; // nullptr
@@ -391,16 +384,37 @@ void setup() {
     config_date_created = cdoc["date_created"];
     config_date_valid = cdoc["date_valid"];
 
-    //int _index_int = 0;
-    //for (JsonObject activity : cdoc["activities"].as<JsonArray>()) {
-    //    config_activities_order[_index_int] = activity["order"]; // "001", "002", "003", "004", "005", "006", "007", ...
-        //config_activities_picto = activity["picto"]; // "alarm.png", "shower.png", "self_care.png", ...
-        //config_activities_name_en = activity["name_en"]; // "waking", "shower", "brushing teeth", ...
-        //config_activities_name_nl = activity["name_nl"]; // "opstaan", "douchen", "tanden poetsen", ...
-    //    _index_int = _index_int + 1;
-    //}
-    //Serial.println(config_activities_order[2]);
+    int _i = 1;  // count from 1 not 0
+    // TODO: probably use a fance multidimensional array with structs for this, but just use 'lists' for now
+    String config_activities_order[config_activities_size];
+    String config_activities_picto[config_activities_size];
+    String config_activities_name_nl[config_activities_size];
+    String _array_order[config_activities_size];
+    String _array_picto[config_activities_size];
+    String _array_name_nl[config_activities_size];
+    for (JsonObject activity : cdoc["activities"].as<JsonArray>()) {
+        _array_order[_i] = String(activity["order"]);
+        _array_picto[_i] = String(activity["picto"]);
+        _array_name_nl[_i] = String(activity["name_nl"]);
+        _i = _i + 1;
+    }
 
+    for (int i = 1; i < config_activities_size; i++ ) {
+        config_activities_order[i] = _array_order[i];
+        config_activities_picto[i] = _array_picto[i];
+        config_activities_name_nl[i] = _array_name_nl[i];
+    }
+
+    // debug:
+    Serial.println("***************");
+    Serial.println(config_activities_size);
+    Serial.println(config_activities_size_max);
+    Serial.println(config_activities_order[4]);  // must be '004'
+    Serial.println(config_activities_picto[4]);
+    Serial.println(config_activities_name_nl[4]);
+    Serial.println("***************");
+
+    // FIXME: make check for md5sum checksum of config file
     if (STATUS_GET_CONFIG_DATA_SPIFF_OK) {
        STATUS_CONFIG_DATA_OK = true;
        tft.println("config successfully read from fs");

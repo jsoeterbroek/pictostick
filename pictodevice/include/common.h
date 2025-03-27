@@ -53,9 +53,9 @@ const char* config_date_created; // "24-03-2025"
 const char* config_date_valid; // "23-03-2025"
 int8_t config_activities_size = 0;
 //int config_activities[0];
-String config_activities_name_nl[0];   //   "name_nl": "douchen"
-int config_activities_order[0];        //   "order": "002",
-String config_activities_picto[0];     //   "picto": "shower.png",
+//String config_activities_name_nl[];   //   "name_nl": "douchen"
+//int config_activities_order[];        //   "order": "002",
+//String config_activities_picto[];     //   "picto": "shower.png",
 int config_activities_size_max = 19;   // hardcoded maximum of activities still able to show mini menu
 
 // box for picto 100 x 100 pixels 
