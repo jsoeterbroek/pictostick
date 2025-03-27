@@ -176,18 +176,20 @@ void drawSplash() {
     tft.loadFont(Noto);
     sprite.setTextColor(TFT_DARKGRAY,TFT_WHITE);
     String software = " Pictostick ";
-    software += String("v") + pd_version_major() + "." + pd_version_minor() + "." + pd_version_patch();
+    //software += String("v") + pd_version_major() + "." + pd_version_minor() + "." + pd_version_patch();
+    software += String("v") + pd_version_major() + "." + pd_version_minor() + " PROTOTYPE";
+    String maker = " Joost Soeterbroek";
+    String maker_email = " <joost.soeterbroek@gmail.com>";
+    String code = " github.com/jsoeterbroek/pictostick";
+
     tft.drawString(software,4,24);
-
-    String manufacturer = " Joost Soeterbroek";
-    tft.drawString(manufacturer,4,54);
-
     tft.unloadFont();
     tft.loadFont(smallFont);
-    String code = " github.com/jsoeterbroek/pictostick";
-    tft.drawString(code,4,84);
+    tft.drawString(maker,4,52);
+    tft.drawString(maker_email,4,72);
+    tft.drawString(code,4,92);
 
-    delay(6000);
+    delay(10000);
 }
 
 void drawBg() {
@@ -201,11 +203,11 @@ void drawBg() {
     
     // main
     // middle prev
-    sprite.fillSmoothRoundRect(-38,15,middle_box_width,middle_box_height,5,FG_COLOR, BG_COLOR);
+    sprite.fillSmoothRoundRect(-38, 15, picto_box_width, picto_box_height, 5, FG_COLOR, BG_COLOR);
     // middle now
-    sprite.fillSmoothRoundRect(MY_WIDTH / 2 - 50,15,middle_box_width,middle_box_height,5,FG_COLOR,BG_COLOR);
+    sprite.fillSmoothRoundRect(MY_WIDTH / 2 - 50, 15, picto_box_width, picto_box_height, 5, FG_COLOR,BG_COLOR);
     // middle next
-    sprite.fillSmoothRoundRect(178,15,middle_box_width,middle_box_height,5,FG_COLOR,BG_COLOR);
+    sprite.fillSmoothRoundRect(178, 15, picto_box_width, picto_box_height, 5, FG_COLOR, BG_COLOR);
 
     // bottom
     // each activity gets its own circle 
@@ -216,7 +218,7 @@ void drawBg() {
     // config_activities_size = 5;
 
     int _circle_x; int _dist_between; int _size_circle;
-    int activities_size_max = 19;
+    int config_activities_size_max = 19;
     switch (config_activities_size) {
     case 1:
         _circle_x = 120; _dist_between = 46; _size_circle = 6; break;
@@ -258,7 +260,7 @@ void drawBg() {
         _circle_x = 14; _dist_between = 16; _size_circle = 6; break;
     }
 
-    if (config_activities_size < activities_size_max) {
+    if (config_activities_size < config_activities_size_max) {
         for(int i = 0; i < config_activities_size; i++){
             sprite.fillSmoothCircle(_circle_x,124,_size_circle,DAYPERIOD_CIRCLE_BG_COLOR,BG_COLOR);
             _circle_x = _circle_x + _dist_between;
@@ -295,6 +297,7 @@ void drawMain() {
     sprite.drawString(config_name, 150, 3);
 
     // battery
+    // FIXME: animate battery charging (icon)
     //sprite.drawString(String(vol/1000.00),180,3);
     for(int i=0;i<volE;i++) {
         sprite.fillRect(232-(i*5),1,3,10,TFT_GREEN);
@@ -365,7 +368,7 @@ void setup() {
     }
 
     // get config data
-    // FIXME: logica invoegen om te checken of config data van fs moet komen of (nieuwere) data van HTTP (checksum vergelijking?) 
+    // FIXME: add logic to compare config file on fs with possible new update from HTTP 
     if(GET_CONFIG_DATA_SPIFF) {
         getConfigDataSPIFF();
     } else {
@@ -380,23 +383,23 @@ void setup() {
     }
     
     // extract values from config JSON object
+    config_activities_size = cdoc["activities"].size();
     config_comment = cdoc["comment"]; // nullptr
     config_version = cdoc["version"]; // "1.0.1"
     config_name = cdoc["name"]; // "Peter"
     config_device_ip = cdoc["device_ip"]; // "128.8.2.123"
-
-    // for (JsonObject activity : cdoc["activities"].as<JsonArray>()) {
-
-    //     const char* activity_order = activity["order"]; // "001", "002", "003", "004", "005", "006", "007", ...
-    //     const char* activity_picto = activity["picto"]; // "alarm.png", "shower.png", "self_care.png", ...
-    //     const char* activity_name_en = activity["name_en"]; // "waking", "shower", "brushing teeth", ...
-    //     const char* activity_name_nl = activity["name_nl"]; // "opstaan", "douchen", "tanden poetsen", ...
-      
-    // }
-
     config_date_created = cdoc["date_created"];
     config_date_valid = cdoc["date_valid"];
-    config_activities_size = cdoc["activities"].size();
+
+    //int _index_int = 0;
+    //for (JsonObject activity : cdoc["activities"].as<JsonArray>()) {
+    //    config_activities_order[_index_int] = activity["order"]; // "001", "002", "003", "004", "005", "006", "007", ...
+        //config_activities_picto = activity["picto"]; // "alarm.png", "shower.png", "self_care.png", ...
+        //config_activities_name_en = activity["name_en"]; // "waking", "shower", "brushing teeth", ...
+        //config_activities_name_nl = activity["name_nl"]; // "opstaan", "douchen", "tanden poetsen", ...
+    //    _index_int = _index_int + 1;
+    //}
+    //Serial.println(config_activities_order[2]);
 
     if (STATUS_GET_CONFIG_DATA_SPIFF_OK) {
        STATUS_CONFIG_DATA_OK = true;

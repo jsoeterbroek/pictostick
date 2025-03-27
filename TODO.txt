@@ -1,1 +1,2 @@
-pictodevice/src/main.cpp:368: warning: FIXME: add logic to compare config file on fs with possible new update from HTTP 
+pictodevice/src/main.cpp:299: warning: FIXME: animate battery charging (icon)
+pictodevice/src/main.cpp:370: warning: FIXME: add logic to compare config file on fs with possible new update from HTTP 
