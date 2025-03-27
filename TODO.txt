@@ -1,2 +1,4 @@
-pictodevice/src/main.cpp:299: warning: FIXME: animate battery charging (icon)
-pictodevice/src/main.cpp:370: warning: FIXME: add logic to compare config file on fs with possible new update from HTTP 
+pictodevice/src/main.cpp:300: warning: FIXME: animate battery charging (icon)
+pictodevice/src/main.cpp:371: warning: FIXME: add logic to compare config file on fs with possible new update from HTTP 
+pictodevice/src/main.cpp:388: warning: TODO: probably use a fance multidimensional array with structs for this, but just use 'lists' for now
+pictodevice/src/main.cpp:417: warning: FIXME: make check for md5sum checksum of config file

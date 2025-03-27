@@ -406,13 +406,13 @@ void setup() {
     }
 
     // debug:
-    Serial.println("***************");
-    Serial.println(config_activities_size);
-    Serial.println(config_activities_size_max);
-    Serial.println(config_activities_order[4]);  // must be '004'
-    Serial.println(config_activities_picto[4]);
-    Serial.println(config_activities_name_nl[4]);
-    Serial.println("***************");
+    //Serial.println("***************");
+    //Serial.println(config_activities_size);
+    //Serial.println(config_activities_size_max);
+    //Serial.println(config_activities_order[4]);  // must be '004'
+    //Serial.println(config_activities_picto[4]);
+    //Serial.println(config_activities_name_nl[4]);
+    //Serial.println("***************");
 
     // FIXME: make check for md5sum checksum of config file
     if (STATUS_GET_CONFIG_DATA_SPIFF_OK) {
