@@ -3,15 +3,19 @@ The pictostick
 
 ## Hardware
 
-* M5 StickC Plus2
-* M5 StickC Plus2 M5-Watch wristband (optional)
+* M5 StickC Plus2 (https://shop.m5stack.com/products/m5stickc-plus2-esp32-mini-iot-development-kit), 
+  a low-cost, small form factor ESP32 Mini IoT Development Kit.
+  The device supports WiFI, Bluetooth, infrared, RTC, 
+  microphone, LED, IMU, buttons, buzzer, and more. It has a 1.14-inch TFT screen with a resolution of 
+  135x240 with a battery capacity of 200mAh.
+* M5-Watch wristband for M5 StickC Plus2 (optional)
 
 Future possibly bigger device/screen.
 
 ## Software
 The code for the pictostick is Free/Open Source software made available under the 
 Creative Commons Zero v1.0 Universal License at 
-https://github.com/jsoeterbroek/pictostick/ Github repository.
+https://github.com/jsoeterbroek/pictostick Github repository.
 
 ## Configuration
 
@@ -40,9 +44,10 @@ specifically the picto sequences stored on the device for the specific user.
 The WiFi secure
 credentials of the care-giver or parent of the user are not initially stored on the 
 device or in the software code. On first startup of the Pictostick device these 
-secure credentials configuration data can be programmed into the device via and Web
-browser and a temporary WiFI network between he device and the user. See the Documentation
-for specific details of this procedure.
+secure credentials configuration data can be programmed into the device via a Web
+browser and a temporary WiFI network between he device and the user. 
+
+See the Documentation for specific details of this procedure.
 
 Documentation Link: procedure_wifi.md  TODO
 
