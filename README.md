@@ -5,9 +5,7 @@ The pictostick
 
 * M5 StickC Plus2 (https://shop.m5stack.com/products/m5stickc-plus2-esp32-mini-iot-development-kit), 
   a low-cost, small form factor ESP32 Mini IoT Development Kit.
-  The device supports WiFI, Bluetooth, infrared, RTC, 
-  microphone, LED, IMU, buttons, buzzer, and more. It has a 1.14-inch TFT screen with a resolution of 
-  135x240 with a battery capacity of 200mAh.
+  It has a 1.14-inch TFT screen with a resolution of 135x240 pixels and a battery capacity of 200mAh.
 * M5-Watch wristband for M5 StickC Plus2 (optional)
 
 Future possibly bigger device/screen.
