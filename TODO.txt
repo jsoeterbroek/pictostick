@@ -1,0 +1,1 @@
+pictodevice/src/main.cpp:368: warning: FIXME: add logic to compare config file on fs with possible new update from HTTP 
