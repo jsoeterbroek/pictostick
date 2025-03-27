@@ -213,6 +213,82 @@ void drawBg() {
     // each activity gets its own circle 
     // we should maximize the number of activities to screen length
 
+ 
+    //sprite.setTextDatum(0);
+    sprite.unloadFont();
+    sprite.pushSprite(0,0,TFT_TRANSPARENT);
+}
+
+void drawMain() {
+
+    // extract values from config JSON object
+    config_activities_size = cdoc["activities"].size();
+    config_comment = cdoc["comment"]; // nullptr
+    config_version = cdoc["version"]; // "1.0.1"
+    config_name = cdoc["name"]; // "Peter"
+    config_device_ip = cdoc["device_ip"]; // "128.8.2.123"
+    config_date_created = cdoc["date_created"];
+    config_date_valid = cdoc["date_valid"];
+
+    int _i = 1;  // count from 1 not 0
+    // TODO: probably use a fance multidimensional array with structs for this, but just use 'lists' for now
+    String config_activities_order[config_activities_size];
+    String config_activities_picto[config_activities_size];
+    String config_activities_name_nl[config_activities_size];
+    String _array_order[config_activities_size];
+    String _array_picto[config_activities_size];
+    String _array_name_nl[config_activities_size];
+    for (JsonObject activity : cdoc["activities"].as<JsonArray>()) {
+        _array_order[_i] = String(activity["order"]);
+        _array_picto[_i] = String(activity["picto"]);
+        _array_name_nl[_i] = String(activity["name_nl"]);
+        _i = _i + 1;
+    }
+
+    for (int i = 1; i < config_activities_size; i++ ) {
+        config_activities_order[i] = _array_order[i];
+        config_activities_picto[i] = _array_picto[i];
+        config_activities_name_nl[i] = _array_name_nl[i];
+    }
+
+    // debug:
+    Serial.println("***************");
+    //Serial.println(config_activities_size);
+    //Serial.println(config_activities_size_max);
+    Serial.println(config_activities_order[4]);  // must be '004'
+    Serial.println(config_activities_picto[4]);
+    Serial.println(config_activities_name_nl[4]);
+    Serial.println("***************");
+
+    sprite.createSprite(MY_WIDTH, MY_HEIGHT);
+    sprite.fillSprite(TFT_TRANSPARENT);
+    sprite.unloadFont();
+    sprite.setTextColor(TFT_WHITE, TOP_RECT_BG_COLOR);
+
+    // time
+    static constexpr const char* const wd_nl[7] = {"Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"};
+    auto dt = StickCP2.Rtc.getDateTime();
+    /// ESP32 internal timer
+    auto t = time(nullptr);
+    auto tm = localtime(&t);  // for local timezone.
+    char buffer[40];
+    snprintf(buffer, sizeof(buffer), "%s %02d:%02d:%02d",
+        wd_nl[tm->tm_wday], 
+        tm->tm_hour, 
+        tm->tm_min,
+        tm->tm_sec);
+    sprite.drawString(buffer,2,3);
+
+    // user name
+    sprite.drawString(config_name, 150, 3);
+
+    // battery
+    // FIXME: animate battery charging (icon)
+    //sprite.drawString(String(vol/1000.00),180,3);
+    for(int i=0;i<volE;i++) {
+        sprite.fillRect(232-(i*5),1,3,10,TFT_GREEN);
+    }
+
     // TEST, uncomment below
     // maximum activities_size = 18;
     // config_activities_size = 5;
@@ -267,42 +343,6 @@ void drawBg() {
         }
     }
 
-    //sprite.setTextDatum(0);
-    sprite.unloadFont();
-    sprite.pushSprite(0,0,TFT_TRANSPARENT);
-}
-
-void drawMain() {
-
-    sprite.createSprite(MY_WIDTH, MY_HEIGHT);
-    sprite.fillSprite(TFT_TRANSPARENT);
-    sprite.unloadFont();
-    sprite.setTextColor(TFT_WHITE, TOP_RECT_BG_COLOR);
-
-    // time
-    static constexpr const char* const wd_nl[7] = {"Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"};
-    auto dt = StickCP2.Rtc.getDateTime();
-    /// ESP32 internal timer
-    auto t = time(nullptr);
-    auto tm = localtime(&t);  // for local timezone.
-    char buffer[40];
-    snprintf(buffer, sizeof(buffer), "%s %02d:%02d:%02d",
-        wd_nl[tm->tm_wday], 
-        tm->tm_hour, 
-        tm->tm_min,
-        tm->tm_sec);
-    sprite.drawString(buffer,2,3);
-
-    // user name
-    sprite.drawString(config_name, 150, 3);
-
-    // battery
-    // FIXME: animate battery charging (icon)
-    //sprite.drawString(String(vol/1000.00),180,3);
-    for(int i=0;i<volE;i++) {
-        sprite.fillRect(232-(i*5),1,3,10,TFT_GREEN);
-    }
-    
     sprite.pushSprite(0,0,TFT_TRANSPARENT);
     sprite.unloadFont();
 }
@@ -374,45 +414,6 @@ void setup() {
     } else {
         getConfigDataHTTP();
     }
-
-    // extract values from config JSON object
-    config_activities_size = cdoc["activities"].size();
-    config_comment = cdoc["comment"]; // nullptr
-    config_version = cdoc["version"]; // "1.0.1"
-    config_name = cdoc["name"]; // "Peter"
-    config_device_ip = cdoc["device_ip"]; // "128.8.2.123"
-    config_date_created = cdoc["date_created"];
-    config_date_valid = cdoc["date_valid"];
-
-    int _i = 1;  // count from 1 not 0
-    // TODO: probably use a fance multidimensional array with structs for this, but just use 'lists' for now
-    String config_activities_order[config_activities_size];
-    String config_activities_picto[config_activities_size];
-    String config_activities_name_nl[config_activities_size];
-    String _array_order[config_activities_size];
-    String _array_picto[config_activities_size];
-    String _array_name_nl[config_activities_size];
-    for (JsonObject activity : cdoc["activities"].as<JsonArray>()) {
-        _array_order[_i] = String(activity["order"]);
-        _array_picto[_i] = String(activity["picto"]);
-        _array_name_nl[_i] = String(activity["name_nl"]);
-        _i = _i + 1;
-    }
-
-    for (int i = 1; i < config_activities_size; i++ ) {
-        config_activities_order[i] = _array_order[i];
-        config_activities_picto[i] = _array_picto[i];
-        config_activities_name_nl[i] = _array_name_nl[i];
-    }
-
-    // debug:
-    //Serial.println("***************");
-    //Serial.println(config_activities_size);
-    //Serial.println(config_activities_size_max);
-    //Serial.println(config_activities_order[4]);  // must be '004'
-    //Serial.println(config_activities_picto[4]);
-    //Serial.println(config_activities_name_nl[4]);
-    //Serial.println("***************");
 
     // FIXME: make check for md5sum checksum of config file
     if (STATUS_GET_CONFIG_DATA_SPIFF_OK) {
