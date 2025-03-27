@@ -1,4 +1,6 @@
-# pictostick
+# Pictostick
+
+## Introduction
 Care givers, parents and health care professionals of people with a mental disability and/or 
 an Autism spectrum disorder (ASD), or simply autism, often make use of pictograms to give
 people a clearer understanding of the world around them. 
@@ -9,13 +11,12 @@ provides calm and understanding and prevents stress and miscommunication.
 
 ![a typical picto board](https://github.com/jsoeterbroek/pictostick/blob/main/assets/1911376602_cropped.jpg?raw=true)
 
-Often the pictos are presented on a board on the wall or a plank on which the pictos can be
-added (or removed during the day) showing the activities and the order in which these take place.
-While this low tech way often works fine in practice it is not portable and often only used in
-the users' household or the (work) places during the day.
+Often the pictos are presented on a board on the wall (as in picture above) or on a simple wooden plank 
+on which the pictos are added (or even removed during the day) showing the activities and the order in 
+which these take place. While this low tech way often works fine in practice it is not portable and 
+often only used in the users' household or the (work) places during the day.
 
-
-
+## Pictostick
 The pictostick offers a method to present a sequence of pictos for the user in a portable way,
 either as a small device that can be carried around or a watch-like option with a wrist band.
 The pictostick can be refered to by the user as to the daily activities and even to check off the
