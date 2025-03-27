@@ -272,22 +272,15 @@ void drawMain() {
         sprite.fillRect(232-(i*5),1,3,10,TFT_GREEN);
     }
 
-    String strname = "bathtub.png";
+    String strname = "sledding.png";
     strname = "/" + strname;
-    xpos = 68; ypos = 16;
+    xpos = 73; ypos = 16;
     int16_t rc = png.open(strname.c_str(), pngOpen, pngClose, pngRead, pngSeek, pngDraw);
     if (rc == PNG_SUCCESS) {
-        Serial.printf("DEBUG: image specs: (%d x %d), %d bpp, pixel type: %d\n", png.getWidth(), png.getHeight(), png.getBpp(), png.getPixelType());
         sprite.startWrite();
         rc = png.decode(NULL, 0);
-        if (rc != 0) {
-            Serial.println("DEBUG: error file writing to screen");
-            Serial.println(rc);
-        } 
         png.close();
         sprite.endWrite();
-    } else {
-        Serial.println("DEBUG: error file open");
     }
 
     // TEST, uncomment below
