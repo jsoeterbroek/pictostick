@@ -68,3 +68,39 @@ int16_t picto_box_height = 100;
 // because the screen is rotated!
 #define MY_WIDTH  TFT_HEIGHT
 #define MY_HEIGHT TFT_WIDTH
+
+//time variables
+String h,m,s;
+int day,month;
+String months[12] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
+
+//settime variables
+bool setTimeDate = false;
+int setData[8];  //setHour,setMin,setSec,setDate,setMonth,setYear; SET REGION , SET BEEPER;
+String setDataLbl[8]={"HOUR","MIN","SEC","DATE","MON","YEAR","REGION","SOUND"};
+int setMin[8]={0,0,0,1,1,24,0,0};
+int setMax[8]={24,60,60,32,13,36,2,2};
+int setPosX[8]={10,50,91,10,50,91,8,8};
+int setPosY[8]={54,54,54,124,124,124,172,192};
+int chosen=0;
+//brightness and battery
+int brightnes[6]={16,32,48,64,96,180};
+int b=2;
+int vol;
+int volE;
+
+//rbuzzer
+int Myregion=0;
+int buzzer=0;
+
+//sleep variables
+int sleepTime = 10;
+int ts,tts = 0;
+bool slp = false;
+
+#define BUTTON_PRESSED LOW 
+#define BUTTON_RELEASED HIGH
+
+uint16_t ontime, offtime;
+uint8_t i,num_codes;
+uint8_t region;

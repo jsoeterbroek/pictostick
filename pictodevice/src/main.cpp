@@ -13,50 +13,22 @@
 #include <SPIFFS.h>
 #include "Noto.h"
 #include "smallFont.h"
+#include <PNGdec.h>
+#include <PNG_SPIFFS_Support.h>
 
 TFT_eSPI tft = TFT_eSPI();
 TFT_eSprite sprite = TFT_eSprite(&tft);
 TFT_eSprite errSprite = TFT_eSprite(&tft);
 
+PNG png;
+#define MAX_IMAGE_WIDTH 100 // Adjust for your images
+int16_t xpos = 0;
+int16_t ypos = 0;
+
 struct tm timeinfo;
 ESP32Time rtc(0);
 #define EEPROM_SIZE 4
 
-//time variables
-String h,m,s;
-int day,month;
-String months[12] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
-
-//settime variables
-bool setTimeDate = false;
-int setData[8];  //setHour,setMin,setSec,setDate,setMonth,setYear; SET REGION , SET BEEPER;
-String setDataLbl[8]={"HOUR","MIN","SEC","DATE","MON","YEAR","REGION","SOUND"};
-int setMin[8]={0,0,0,1,1,24,0,0};
-int setMax[8]={24,60,60,32,13,36,2,2};
-int setPosX[8]={10,50,91,10,50,91,8,8};
-int setPosY[8]={54,54,54,124,124,124,172,192};
-int chosen=0;
-//brightness and battery
-int brightnes[6]={16,32,48,64,96,180};
-int b=2;
-int vol;
-int volE;
-
-//rbuzzer
-int Myregion=0;
-int buzzer=0;
-
-//sleep variables
-int sleepTime = 10;
-int ts,tts = 0;
-bool slp = false;
-
-#define BUTTON_PRESSED LOW 
-#define BUTTON_RELEASED HIGH
-
-uint16_t ontime, offtime;
-uint8_t i,num_codes;
-uint8_t region;
 
 JsonDocument cdoc;
 
@@ -87,6 +59,20 @@ void setTime() {
     }
 }
 
+//=========================================v==========================================
+//                                      pngDraw
+//====================================================================================
+// This next function will be called during decoding of the png file to
+// render each image line to the TFT.  If you use a different TFT library
+// you will need to adapt this function to suit.
+// Callback function to draw pixels to the display
+void pngDraw(PNGDRAW *pDraw) {
+    uint16_t lineBuffer[MAX_IMAGE_WIDTH];
+    png.getLineAsRGB565(pDraw, lineBuffer, PNG_RGB565_BIG_ENDIAN, 0xffffffff);
+    tft.pushImage(xpos, ypos + pDraw->y, pDraw->iWidth, 1, lineBuffer);
+}
+
+// TODO: when started outside of wifi range device goes into config mode, even though allready configured.
 void configModeCallback(WiFiManager *myWiFiManager) {
 
     Serial.println("Entered config mode");
@@ -232,6 +218,7 @@ void drawMain() {
 
     int _i = 1;  // count from 1 not 0
     // TODO: probably use a fance multidimensional array with structs for this, but just use 'lists' for now
+    int config_activities_current[config_activities_size]; 
     String config_activities_order[config_activities_size];
     String config_activities_picto[config_activities_size];
     String config_activities_name_nl[config_activities_size];
@@ -246,6 +233,7 @@ void drawMain() {
     }
 
     for (int i = 1; i < config_activities_size; i++ ) {
+        config_activities_current[i] = 0;
         config_activities_order[i] = _array_order[i];
         config_activities_picto[i] = _array_picto[i];
         config_activities_name_nl[i] = _array_name_nl[i];
@@ -287,6 +275,16 @@ void drawMain() {
     //sprite.drawString(String(vol/1000.00),180,3);
     for(int i=0;i<volE;i++) {
         sprite.fillRect(232-(i*5),1,3,10,TFT_GREEN);
+    }
+
+    // middle draw picto's    
+    String strname = "bakery.png";
+    strname = "/" + strname;
+    int16_t rc = png.open(strname.c_str(), pngOpen, pngClose, pngRead, pngSeek, pngDraw);
+    if (rc == PNG_SUCCESS) {
+        Serial.println("DEBUG: succes file open");
+    } else {
+        Serial.println("DEBUG: error file open");
     }
 
     // TEST, uncomment below
