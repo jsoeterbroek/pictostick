@@ -18,13 +18,13 @@
     },
     {
         "order": "003",
-        "picto": "self_care.png",
+        "picto": "selfcare.png",
         "name_en": "brushing teeth",
         "name_nl": "tanden poetsen"
     },
     {
         "order": "004",
-        "picto": "breakfast_dining.png",
+        "picto": "breakfast.png",
         "name_en": "breakfast",
         "name_nl": "ontbijt"
     },
@@ -36,32 +36,32 @@
     },
     {
         "order": "006",
-        "picto": "lunch_dining.png",
+        "picto": "lunch.png",
         "name_en": "lunch",
         "name_nl": "lunch"
     },                    
     {
         "order": "007",
-        "picto": "shopping_cart.png",
+        "picto": "shoppingcart.png",
         "name_en": "shopping",
         "name_nl": "boodschappen"
     },
     {
         "order": "008",
-        "picto": "sports_tennis.png",
+        "picto": "tennis.png",
         "name_en": "tennis",
         "name_nl": "tennis"
     },
     {
         "order": "009",
-        "picto": "dinner_dining.png",
+        "picto": "dinner.png",
         "name_en": "dinner",
         "name_nl": "avondmaal"
     },
     {
         "order": "010",
-        "picto": "toys_and_games.png",
-        "name_en": "toys and games",
+        "picto": "games.png",
+        "name_en": "games",
         "name_nl": "spelletjes"
     },
     {
@@ -72,7 +72,7 @@
     },
     {
         "order": "012",
-        "picto": "self_care.png",
+        "picto": "selfcare.png",
         "name_en": "brushing teeth",
         "name_nl": "tanden poetsen"
     },          

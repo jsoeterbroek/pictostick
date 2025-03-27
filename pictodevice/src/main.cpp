@@ -59,18 +59,13 @@ void setTime() {
     }
 }
 
-//=========================================v==========================================
-//                                      pngDraw
-//====================================================================================
-// This next function will be called during decoding of the png file to
-// render each image line to the TFT.  If you use a different TFT library
-// you will need to adapt this function to suit.
 // Callback function to draw pixels to the display
 void pngDraw(PNGDRAW *pDraw) {
     uint16_t lineBuffer[MAX_IMAGE_WIDTH];
     png.getLineAsRGB565(pDraw, lineBuffer, PNG_RGB565_BIG_ENDIAN, 0xffffffff);
-    tft.pushImage(xpos, ypos + pDraw->y, pDraw->iWidth, 1, lineBuffer);
+    sprite.pushImage(xpos, ypos + pDraw->y, pDraw->iWidth, 1, lineBuffer);
 }
+
 
 // TODO: when started outside of wifi range device goes into config mode, even though allready configured.
 void configModeCallback(WiFiManager *myWiFiManager) {
@@ -277,12 +272,20 @@ void drawMain() {
         sprite.fillRect(232-(i*5),1,3,10,TFT_GREEN);
     }
 
-    // middle draw picto's    
-    String strname = "bakery.png";
+    String strname = "bathtub.png";
     strname = "/" + strname;
+    xpos = 68; ypos = 16;
     int16_t rc = png.open(strname.c_str(), pngOpen, pngClose, pngRead, pngSeek, pngDraw);
     if (rc == PNG_SUCCESS) {
-        Serial.println("DEBUG: succes file open");
+        Serial.printf("DEBUG: image specs: (%d x %d), %d bpp, pixel type: %d\n", png.getWidth(), png.getHeight(), png.getBpp(), png.getPixelType());
+        sprite.startWrite();
+        rc = png.decode(NULL, 0);
+        if (rc != 0) {
+            Serial.println("DEBUG: error file writing to screen");
+            Serial.println(rc);
+        } 
+        png.close();
+        sprite.endWrite();
     } else {
         Serial.println("DEBUG: error file open");
     }
