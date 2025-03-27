@@ -13,6 +13,39 @@ The code for the pictostick is Free/Open Source software made available under th
 Creative Commons Zero v1.0 Universal License at 
 https://github.com/jsoeterbroek/pictostick/ Github repository.
 
+## Configuration
+
+### Conceptual
+A caregiver or parent of the pictostick user configures the picto's on the device in 
+a correct time-based order and updates the device via a Web Browser interface over
+WiFi.
+
+### Technical
+The configuration of the Pictostick device is provided on a per device/user basis via a 
+JSON configuration file which is located on the device file system /data directory 
+called data.json.
+An update mechanism for providing the device with a new
+and/or updated configuration file via HTTP is in the repository picto_ws directory,
+together with a sample data.json file to be used as a starting point.
+
+## WiFi
+The pictostick device is connected to the outside world via WiFi. This is needed for
+periodical time synchronisation of the devices' internal clock with a public 
+Internet NTP clock server. Secondly, the WiFi connection is needed to allow for 
+caregivers and/or parents of the device user to remotely configure the device and
+specifically the picto sequences stored on the device for the specific user.
+
+
+### WiFi secure credentials 
+The WiFi secure
+credentials of the care-giver or parent of the user are not initially stored on the 
+device or in the software code. On first startup of the Pictostick device these 
+secure credentials configuration data can be programmed into the device via and Web
+browser and a temporary WiFI network between he device and the user. See the Documentation
+for specific details of this procedure.
+
+Documentation Link: procedure_wifi.md  TODO
+
 ## TODO
 * screen for config and/or time/date, battery info bigger that the top bar on main screen
 * configurable options for user (eg. color themes)
