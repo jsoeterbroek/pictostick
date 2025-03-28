@@ -8,79 +8,79 @@
         "order": "001",
         "picto": "alarm.png",
         "name_en": "waking",
-        "name_nl": "opstaan"
+        "name_nl": "Opstaan"
     },
     {
         "order": "002",
         "picto": "shower.png",
         "name_en": "shower",
-        "name_nl": "douchen"
+        "name_nl": "Douchen"
     },
     {
         "order": "003",
         "picto": "selfcare.png",
-        "name_en": "brushing teeth",
-        "name_nl": "tanden poetsen"
+        "name_en": "self care",
+        "name_nl": "Zelfzorg"
     },
     {
         "order": "004",
         "picto": "breakfast.png",
         "name_en": "breakfast",
-        "name_nl": "ontbijt"
+        "name_nl": "Ontbijt"
     },
     {
         "order": "005",
         "picto": "book.png",
         "name_en": "reading",
-        "name_nl": "lezen"
+        "name_nl": "Lezen"
     },
     {
         "order": "006",
         "picto": "lunch.png",
         "name_en": "lunch",
-        "name_nl": "lunch"
+        "name_nl": "Lunch"
     },                    
     {
         "order": "007",
         "picto": "shoppingcart.png",
         "name_en": "shopping",
-        "name_nl": "boodschappen"
+        "name_nl": "Boodschappen"
     },
     {
         "order": "008",
         "picto": "tennis.png",
         "name_en": "tennis",
-        "name_nl": "tennis"
+        "name_nl": "Tennis"
     },
     {
         "order": "009",
-        "picto": "dinner.png",
+        "picto": "pizza.png",
         "name_en": "dinner",
-        "name_nl": "avondmaal"
+        "name_nl": "Avondmaal"
     },
     {
         "order": "010",
         "picto": "games.png",
         "name_en": "games",
-        "name_nl": "spelletjes"
+        "name_nl": "Spelletjes"
     },
     {
         "order": "011",
         "picto": "tv.png",
         "name_en": "watch tv",
-        "name_nl": "tv kijken"
+        "name_nl": "Tv kijken"
     },
     {
         "order": "012",
-        "picto": "selfcare.png",
-        "name_en": "brushing teeth",
-        "name_nl": "tanden poetsen"
-    },          
+        "picto": "taxi.png",
+        "name_en": "Taxi",
+        "name_nl": "Taxi"
+    },
     {
         "order": "013",
         "picto": "bedtime.png",
         "name_en": "sleeping",
-        "name_nl": "slapen"
+        "name_nl": "Slapen"
     }
     ],
     "date_created": "24-03-2025",
