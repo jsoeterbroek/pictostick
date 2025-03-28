@@ -212,7 +212,7 @@ void drawName(String _strname) {
     sprite.loadFont(Noto);
     sprite.fillRect(116, 80, 120, 30, RGB565_CORAL);
     sprite.setTextColor(TOP_RECT_TEXT_COLOR, RGB565_CORAL);
-    sprite.drawString(_strname, 118, 88);
+    sprite.drawString(_strname, 120, 88);
     sprite.unloadFont();
 }
 
@@ -252,9 +252,9 @@ void drawMain() {
     Serial.println("***************");
     //Serial.println(config_activities_size);
     //Serial.println(config_activities_size_max);
-    Serial.println(config_activities_order[4]);  // must be '004'
-    Serial.println(config_activities_picto[4]);
-    Serial.println(config_activities_name_nl[4]);
+    Serial.println(config_activities_order[13]);  // must be '004'
+    Serial.println(config_activities_picto[13]);
+    Serial.println(config_activities_name_nl[13]);
     Serial.println("***************");
 
     sprite.createSprite(MY_WIDTH, MY_HEIGHT);
@@ -263,18 +263,29 @@ void drawMain() {
     sprite.setTextColor(TFT_WHITE, TOP_RECT_BG_COLOR);
 
     // time
-    // static constexpr const char* const wd_nl[7] = {"Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"};
-    // auto dt = StickCP2.Rtc.getDateTime();
-    // /// ESP32 internal timer
-    // auto t = time(nullptr);
-    // auto tm = localtime(&t);  // for local timezone.
-    // char buffer[40];
-    // snprintf(buffer, sizeof(buffer), "%s %02d:%02d:%02d",
-    //     wd_nl[tm->tm_wday], 
-    //     tm->tm_hour, 
-    //     tm->tm_min,
-    //     tm->tm_sec);
-    // sprite.drawString(buffer,2,3);
+    static constexpr const char* const wd_nl[7] = {"Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"};
+    auto dt = StickCP2.Rtc.getDateTime();
+    // ESP32 internal timer
+    auto t = time(nullptr);
+    auto tm = localtime(&t);  // for local timezone.
+    char timebuffer[30];
+    char daybuffer[30];
+    snprintf(timebuffer, sizeof(timebuffer), "%02d:%02d:%02d",
+        tm->tm_hour,
+        tm->tm_min,
+        tm->tm_sec);
+    snprintf(daybuffer, sizeof(daybuffer), "%s",
+        wd_nl[tm->tm_wday]);
+
+    sprite.loadFont(Noto);
+    sprite.fillRect(116, 40, 120, 20, RGB565_CORAL);
+    sprite.setTextColor(TOP_RECT_TEXT_COLOR, RGB565_CORAL);
+    sprite.drawString(daybuffer, 120, 42);
+
+    sprite.fillRect(116, 60, 120, 20, RGB565_RED_BRICK);
+    sprite.setTextColor(TOP_RECT_TEXT_COLOR, RGB565_RED_BRICK);
+    sprite.drawString(timebuffer, 120, 62);
+    sprite.unloadFont();
 
     // user name
     //sprite.drawString(config_name, 5, 3);
