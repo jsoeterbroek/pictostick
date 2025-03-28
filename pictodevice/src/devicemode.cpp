@@ -1,29 +1,33 @@
 #include "devicemode.h"
 
-uint8_t dmAddress = 0;
-uint8_t dm1flagAddress = 1;
-uint8_t dm2flagAddress = 2;
-uint8_t dm3flagAddress = 3;
-uint8_t devicemode = 0;
+Preferences dmPrefs; // preferences
+
+int devicemode = 0;
 bool devicemode_1_flag = false;
 bool devicemode_2_flag = false;
 bool devicemode_3_flag = false;
-uint8_t _rc;
+const char* NS = "DMPrefs";
 
 void set_devicemode(int _devicemode) {
-
-    EEPROM.put(dmAddress, _devicemode);
-    EEPROM.get(dmAddress, _devicemode);  //to confirm that it works
+    dmPrefs.end();
+    dmPrefs.begin(NS, RW_MODE);
+    dmPrefs.putInt("devicemode", _devicemode);
+    dmPrefs.end();                           
+    dmPrefs.begin(NS, RO_MODE);
 }
 
 uint8_t get_devicemode(void) {
-
-    EEPROM.get(dmAddress, _rc);
-    if(_rc == 0) {
-        Serial.println("DEBUG: attempting to set devicemode 1 "); // FIXME: debug, remove later
-        EEPROM.put(dmAddress, 1); // if devicemode = 0, then set to 1 for first use
-    }
+    int _rc = 0;
+    _rc = dmPrefs.getInt("devicemode");
     Serial.print("DEBUG: _rc is: "); // FIXME: debug, remove later
     Serial.println(_rc); // FIXME: debug, remove later
     return _rc;
+}
+
+void set_devicemode_1_flag(bool _devicemode_1_flag) {
+    dmPrefs.end();
+    dmPrefs.begin(NS, RW_MODE);
+    dmPrefs.putBool("devicemode_1_flag", _devicemode_1_flag);
+    dmPrefs.end();                           
+    dmPrefs.begin(NS, RO_MODE);
 }

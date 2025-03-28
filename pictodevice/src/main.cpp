@@ -21,6 +21,9 @@ TFT_eSPI tft = TFT_eSPI();
 TFT_eSprite sprite = TFT_eSprite(&tft);
 TFT_eSprite errSprite = TFT_eSprite(&tft);
 
+// WiFi Manager
+WiFiManager wm;
+
 PNG png;
 #define MAX_IMAGE_WIDTH 100 // Adjust for your images
 int16_t xpos = 0;
@@ -28,7 +31,6 @@ int16_t ypos = 0;
 
 struct tm timeinfo;
 ESP32Time rtc(0);
-
 
 JsonDocument cdoc;
 
@@ -170,7 +172,7 @@ void drawSplash() {
     tft.drawString(maker_email,4,72);
     tft.drawString(code,4,92);
     tft.unloadFont();
-
+  
 }
 
 void drawBg() {
@@ -359,88 +361,113 @@ void setup() {
     tft.setTextSize(1);
     tft.println("");
     tft.setTextColor(TFT_BLACK, TFT_WHITE);
-    tft.println("start initialisation..");
+
+    dmPrefs.begin(NS, RO_MODE);  // Open our namespace (or create it
+                                 //  if it doesn't exist) in RO mode.
+
+    bool dmInit = dmPrefs.isKey("devicemode"); // Test for the existence
+                                               // of the "already initialized" key.
+
+    if (dmInit == false) {
+        // If tpInit is 'false', the key "nvsInit" does not yet exist therefore this
+        //  must be our first-time run. We need to set up our Preferences namespace keys. So...
+        dmPrefs.end();                     // close the namespace in RO mode and...
+        dmPrefs.begin(NS, RW_MODE);        //  reopen it in RW mode.
+
+        // set devicemode to '1'
+        dmPrefs.putInt("devicemode", 1);
+        // The "factory defaults" are created and stored so...
+        dmPrefs.end();                  // Close the namespace in RW mode and...
+        dmPrefs.begin(NS, RO_MODE);     //  reopen it in RO mode
+    }
 
     uint8_t _mode = 0;
-    tft.print(" * Starting in mode:");
+    Serial.print(" * Starting in mode:");
+    tft.print(" * DEBUG: Starting in mode:");  // FIXME: remove later
     _mode = get_devicemode();
+    Serial.print(_mode);
+    tft.print(_mode);  // FIXME: remove later
+    delay(10000); // FIXME: remove later
 
     // FIXME: fix or remov3?? 
     switch(_mode) {
         case 0:
-        tft.println("mode 0");
-        tft.println("rebooting..");
-        delay(10000);
-        // trigger reboot of device
-        ESP.restart();
-        break;
-    }
+            tft.println("mode 0");
+            tft.println("rebooting..");
+            delay(10000);
+            ESP.restart(); // trigger reboot of device
+            break;
+        case 1:            // 1. network config mode
         
-    // FIXME: remove
+            // for testing
+            //wm.resetSettings();
 
-    // WiFi Manager
-    WiFiManager wm;
+            wm.setConfigPortalTimeout(5000);
+            wm.setAPCallback(configModeCallback);
+            bool res;
+            res = wm.autoConnect(wifi_mngr_networkname, wifi_mngr_password);
 
-    // for testing
-    //wm.resetSettings();
+            if (!res) {
+                Serial.println("Failed to connect and hit timeout");
+                delay(3000);
+                ESP.restart();
+            } else {
+                STATUS_WIFI_MGR_OK = true;
+                tft.println("WiFi connected.");
+                Serial.println("WiFi connected.");
+            }
+            
+            // set NTP time
+            setTime();
 
-    wm.setConfigPortalTimeout(5000);
-    wm.setAPCallback(configModeCallback);
+            // set NTP time to rtc clock
+            struct tm timeInfo;
+            if (STATUS_NTP_OK) {
+                tft.println("set rtc clock from NTP");
+                while (!getLocalTime(&timeInfo, 1000)) {
+                    Serial.print('.');
+                };
+                time_t t = time(nullptr) + 1;  // Advance one second.
+                while (t > time(nullptr))
+                    ;  /// Synchronization in seconds
+                StickCP2.Rtc.setDateTime(gmtime(&t));
+            } else {
+                tft.println("ERROR: rtc clock not set");
+            }
+            if (STATUS_NTP_OK) {
+                // set devicemode 3
+                set_devicemode(3);
+                // set devicemode_1_flag = true to mark this mode succesfull completed
+                set_devicemode_1_flag(true);
+            }
+            break;
+        case 2:  // 2. config mode
+            break;
+        case 3:  // 3. regular mode
 
-    bool res;
-    res = wm.autoConnect(wifi_mngr_networkname, wifi_mngr_password);
+            // get config data
+            // FIXME: add logic to compare config file on fs with possible new update from HTTP in device mode 2
+            if(GET_CONFIG_DATA_SPIFF) {
+                getConfigDataSPIFF();
+            } else {
+                getConfigDataHTTP();
+            }
 
-    if (!res) {
-        Serial.println("Failed to connect and hit timeout");
-        delay(3000);
-        ESP.restart();
-    } else {
-        STATUS_WIFI_MGR_OK = true;
-        tft.println("WiFi connected.");
-        Serial.println("WiFi connected.");
+            // FIXME: make check for md5sum checksum of config file
+            if (STATUS_GET_CONFIG_DATA_SPIFF_OK) {
+                STATUS_CONFIG_DATA_OK = true;
+                Serial.println("config successfully read from fs");
+            } else {
+                Serial.println("ERROR: error reading config from fs");
+            }
+            delay(2000);  // FIXME, remove later
+            Serial.println("initialisation complete");
+            delay(10000);
+            drawSplash();
+            delay(10000);
+            drawBg();
+            break;
     }
-
-    setTime();
-
-    // set NTP time to rtc clock
-    struct tm timeInfo;
-    if (STATUS_NTP_OK) {
-        tft.println("set rtc clock from NTP");
-        while (!getLocalTime(&timeInfo, 1000)) {
-            Serial.print('.');
-        };
-        time_t t = time(nullptr) + 1;  // Advance one second.
-        while (t > time(nullptr))
-            ;  /// Synchronization in seconds
-        StickCP2.Rtc.setDateTime(gmtime(&t));
-    } else {
-        tft.println("ERROR: rtc clock not set");
-    }
-
-    // get config data
-    // FIXME: add logic to compare config file on fs with possible new update from HTTP 
-    if(GET_CONFIG_DATA_SPIFF) {
-        getConfigDataSPIFF();
-    } else {
-        getConfigDataHTTP();
-    }
-
-    // FIXME: make check for md5sum checksum of config file
-    if (STATUS_GET_CONFIG_DATA_SPIFF_OK) {
-       STATUS_CONFIG_DATA_OK = true;
-       tft.println("config successfully read from fs");
-       Serial.println("config successfully read from fs");
-    } else {
-       tft.println("ERROR: error reading config from fs");
-       Serial.println("ERROR: error reading config from fs");
-    }
-    delay(2000);
-    tft.println("initialisation complete");
-    Serial.println("initialisation complete");
-    delay(2000);
-    drawSplash();
-    delay(2000);
-    drawBg();
 }
 
 void loop() {

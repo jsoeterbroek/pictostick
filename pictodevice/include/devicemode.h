@@ -1,11 +1,13 @@
 #pragma once
-#include <EEPROM.h>
+#include <Preferences.h>
 
-#define EEPROM_SIZE 4
-extern uint8_t dmAddress;
-extern uint8_t dm1flagAddress;
-extern uint8_t dm2flagAddress;
-extern uint8_t dm3flagAddress3;
+#define RW_MODE false
+#define RO_MODE true
+
+extern Preferences dmPrefs; // preferences
+
+// Namespace
+extern const char* NS;
 
 ////////////////////////////////////////////////////
 //
@@ -13,9 +15,9 @@ extern uint8_t dm3flagAddress3;
 //
 ////////////////////////////////////////////////////
 // _device_mode and flags are written to and read 
-// from EEPROM.
+// from Preferences permanent storage.
 //
-extern uint8_t devicemode;
+extern int devicemode;
 extern bool devicemode_1_flag;
 extern bool devicemode_2_flag;
 extern bool devicemode_3_flag;
@@ -68,7 +70,7 @@ extern bool devicemode_3_flag;
 // int devicemode = 3;
 // bool devicemode_3_flag = true
 //
-// functions to read and write to EEPROM
+// functions to read and write to Prefrences
 //
 uint8_t get_devicemode();
 // returns int with device mode 0,1,2 or 3.
@@ -83,6 +85,7 @@ void set_devicemode(int devicemode);
 // reboots device
 // 
 // bool set_devicemode_1_flag()
+void set_devicemode_1_flag(bool _devicemode_1_flag);
 // bool set_devicemode_2_flag()
 // bool set_devicemode_3_flag()
 // returns succes (options: 0, 1)
