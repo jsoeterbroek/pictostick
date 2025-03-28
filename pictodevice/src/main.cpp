@@ -11,6 +11,7 @@
 #include <TFT_eSPI.h>
 #include <FS.h>
 #include <SPIFFS.h>
+#include <devicemode.h>
 #include "Noto.h"
 #include "smallFont.h"
 #include <PNGdec.h>
@@ -27,7 +28,6 @@ int16_t ypos = 0;
 
 struct tm timeinfo;
 ESP32Time rtc(0);
-#define EEPROM_SIZE 4
 
 
 JsonDocument cdoc;
@@ -169,8 +169,8 @@ void drawSplash() {
     tft.drawString(maker,4,52);
     tft.drawString(maker_email,4,72);
     tft.drawString(code,4,92);
+    tft.unloadFont();
 
-    delay(10000);
 }
 
 void drawBg() {
@@ -249,21 +249,21 @@ void drawMain() {
     sprite.setTextColor(TFT_WHITE, TOP_RECT_BG_COLOR);
 
     // time
-    static constexpr const char* const wd_nl[7] = {"Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"};
-    auto dt = StickCP2.Rtc.getDateTime();
-    /// ESP32 internal timer
-    auto t = time(nullptr);
-    auto tm = localtime(&t);  // for local timezone.
-    char buffer[40];
-    snprintf(buffer, sizeof(buffer), "%s %02d:%02d:%02d",
-        wd_nl[tm->tm_wday], 
-        tm->tm_hour, 
-        tm->tm_min,
-        tm->tm_sec);
-    sprite.drawString(buffer,2,3);
+    // static constexpr const char* const wd_nl[7] = {"Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"};
+    // auto dt = StickCP2.Rtc.getDateTime();
+    // /// ESP32 internal timer
+    // auto t = time(nullptr);
+    // auto tm = localtime(&t);  // for local timezone.
+    // char buffer[40];
+    // snprintf(buffer, sizeof(buffer), "%s %02d:%02d:%02d",
+    //     wd_nl[tm->tm_wday], 
+    //     tm->tm_hour, 
+    //     tm->tm_min,
+    //     tm->tm_sec);
+    // sprite.drawString(buffer,2,3);
 
     // user name
-    sprite.drawString(config_name, 150, 3);
+    sprite.drawString(config_name, 5, 3);
 
     // battery
     // FIXME: animate battery charging (icon)
@@ -350,7 +350,6 @@ void setup() {
     StickCP2.begin(cfg);
     StickCP2.Display.setBrightness(brightnes[b]);
 
-    delay(5000);
     Serial.begin(115200);
     Serial.println("start initialisation..");
 
@@ -361,6 +360,23 @@ void setup() {
     tft.println("");
     tft.setTextColor(TFT_BLACK, TFT_WHITE);
     tft.println("start initialisation..");
+
+    uint8_t _mode = 0;
+    tft.print(" * Starting in mode:");
+    _mode = get_devicemode();
+
+    // FIXME: fix or remov3?? 
+    switch(_mode) {
+        case 0:
+        tft.println("mode 0");
+        tft.println("rebooting..");
+        delay(10000);
+        // trigger reboot of device
+        ESP.restart();
+        break;
+    }
+        
+    // FIXME: remove
 
     // WiFi Manager
     WiFiManager wm;
