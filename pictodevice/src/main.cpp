@@ -26,7 +26,6 @@ WiFiManager wm;
 
 PNG png;
 
-
 struct tm timeinfo;
 ESP32Time rtc(0);
 
@@ -58,9 +57,6 @@ void setTime() {
         STATUS_NTP_OK = true;
     }
 }
-
-
-
 
 // TODO: when started outside of wifi range device goes into config mode, even though allready configured.
 void configModeCallback(WiFiManager *myWiFiManager) {
@@ -165,7 +161,6 @@ void drawSplash() {
     tft.drawString(maker_email,4,72);
     tft.drawString(code,4,92);
     tft.unloadFont();
-  
 }
 
 void drawBg() {
@@ -175,15 +170,15 @@ void drawBg() {
     sprite.fillSprite(TFT_TRANSPARENT);
     
     // top
-    sprite.fillRect(0, 0, 240, 12, TOP_RECT_BG_COLOR);
+    //sprite.fillRect(0, 0, 240, 12, TOP_RECT_BG_COLOR);
     
     // main
     // middle prev
-    //sprite.fillSmoothRoundRect(-38, 15, picto_box_width, picto_box_height, 5, FG_COLOR, BG_COLOR);
+    //sprite.fillSmoothRoundRect(-38, 13, picto_box_width, picto_box_height, 5, FG_COLOR, BG_COLOR);
     // middle now
-    sprite.fillSmoothRoundRect(MY_WIDTH / 2 - 50, 15, picto_box_width, picto_box_height, 5, FG_COLOR,BG_COLOR);
+    sprite.fillSmoothRoundRect(10, 10, picto_box_width, picto_box_height, 5, FG_COLOR,BG_COLOR);
     // middle next
-    //sprite.fillSmoothRoundRect(178, 15, picto_box_width, picto_box_height, 5, FG_COLOR, BG_COLOR);
+    //sprite.fillSmoothRoundRect(178, 13, picto_box_width, picto_box_height, 5, FG_COLOR, BG_COLOR);
 
     // bottom
     // each activity gets its own circle 
@@ -214,10 +209,11 @@ void drawPicto(String _strname) {
 }
 
 void drawName(String _strname) {
-    //sprite.loadFont(smallFont);
-    //sprite.setTextDatum(MC_DATUM);
-    sprite.drawString(_strname, 90, 3);
-    //sprite.unloadFont();
+    sprite.loadFont(Noto);
+    sprite.fillRect(116, 80, 120, 30, RGB565_CORAL);
+    sprite.setTextColor(TOP_RECT_TEXT_COLOR, RGB565_CORAL);
+    sprite.drawString(_strname, 118, 88);
+    sprite.unloadFont();
 }
 
 void drawMain() {
@@ -233,7 +229,6 @@ void drawMain() {
 
     int _i = 1;  // count from 1 not 0
     // TODO: probably use a fance multidimensional array with structs for this, but just use 'lists' for now
-    int config_activities_current[config_activities_size]; 
     String config_activities_order[config_activities_size];
     String config_activities_picto[config_activities_size];
     String config_activities_name_nl[config_activities_size];
@@ -248,7 +243,6 @@ void drawMain() {
     }
 
     for (int i = 1; i < config_activities_size; i++ ) {
-        config_activities_current[i] = 0;
         config_activities_order[i] = _array_order[i];
         config_activities_picto[i] = _array_picto[i];
         config_activities_name_nl[i] = _array_name_nl[i];
@@ -283,17 +277,24 @@ void drawMain() {
     // sprite.drawString(buffer,2,3);
 
     // user name
-    sprite.drawString(config_name, 5, 3);
+    //sprite.drawString(config_name, 5, 3);
 
     // battery
     // FIXME: animate battery charging (icon)
-    //sprite.drawString(String(vol/1000.00),180,3);
+    sprite.unloadFont();
+    sprite.setTextColor(RGB565_GRAY_STONE, TFT_BLACK);
+    //sprite.drawRect(114, 12, 14, 28, RGB565_GRAY_STONE);
+    //sprite.fillRect(118, 9, 6, 3, RGB565_GRAY_STONE);
+    sprite.drawRect(174, 12, 14, 28, RGB565_GRAY_STONE);
+    sprite.fillRect(178, 9, 6, 3, RGB565_GRAY_STONE);
     for(int i=0;i<volE;i++) {
-        sprite.fillRect(232-(i*5),1,3,10,TFT_GREEN);
+        sprite.fillRect(176,35-(i*5), 10, 3, TFT_GREEN);
     }
 
     // by default, if there is no current activity, the first one will be current 
-    config_activities_current[1] = 1;
+    if (current_picto == 0) {
+        current_picto = 1;
+    }
     for (int i = 1; i < config_activities_size; i++ ) {
     
         // previous
@@ -303,7 +304,7 @@ void drawMain() {
         // }
 
         // current
-        if (config_activities_current[i] == 1) {
+        if (i == current_picto) {
             drawPicto(config_activities_picto[i]);
             drawName(config_activities_name_nl[i]);
         }
@@ -362,14 +363,40 @@ void drawMain() {
     }
 
     if (config_activities_size < config_activities_size_max) {
-        for(int i = 0; i < config_activities_size; i++){
-            sprite.fillSmoothCircle(_circle_x,124,_size_circle,DAYPERIOD_CIRCLE_BG_COLOR,BG_COLOR);
+        for(int i = 1; i <= config_activities_size; i++){
+
+            if (i == current_picto) {
+                sprite.fillSmoothCircle(_circle_x, 124, _size_circle, DAYPERIOD_CIRCLE_FG_COLOR, BG_COLOR);
+            } else {
+                sprite.fillSmoothCircle(_circle_x, 124, _size_circle, DAYPERIOD_CIRCLE_BG_COLOR, BG_COLOR);
+            }
+
             _circle_x = _circle_x + _dist_between;
         }
     }
 
     sprite.pushSprite(0,0,TFT_TRANSPARENT);
     sprite.unloadFont();
+
+    // button action
+    if (StickCP2.BtnPWR.wasPressed()) {
+        if (current_picto > 1) {
+            current_picto = current_picto - 1;
+        } else {
+            if(buzzer) {
+                StickCP2.Speaker.tone(6000, 100);
+            }
+        }
+    }
+    if (StickCP2.BtnB.wasPressed()) {
+        if (current_picto < config_activities_size) {
+            current_picto = current_picto + 1;
+        } else {
+            if(buzzer) {
+                StickCP2.Speaker.tone(6000, 100);
+            }
+        }
+    }
 }
 
 void setup() {
@@ -506,5 +533,5 @@ void loop() {
     volE=map(vol,3000,4180,0,5);
 
     drawMain();
-    delay(1000);
+    delay(100);
 }

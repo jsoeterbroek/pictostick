@@ -89,9 +89,8 @@ int b=2;
 int vol;
 int volE;
 
-//rbuzzer
-int Myregion=0;
-int buzzer=0;
+//buzzer
+int buzzer = 1;
 
 //sleep variables
 int sleepTime = 10;
@@ -106,6 +105,6 @@ uint8_t i,num_codes;
 uint8_t region;
 
 #define MAX_IMAGE_WIDTH 100 // Adjust for your images
-int16_t xpos = 73;
-int16_t ypos = 16;
+int16_t xpos = 12;
+int16_t ypos = 12;
 int16_t current_picto = 0;
