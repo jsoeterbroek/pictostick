@@ -25,9 +25,7 @@ TFT_eSprite errSprite = TFT_eSprite(&tft);
 WiFiManager wm;
 
 PNG png;
-#define MAX_IMAGE_WIDTH 100 // Adjust for your images
-int16_t xpos = 0;
-int16_t ypos = 0;
+
 
 struct tm timeinfo;
 ESP32Time rtc(0);
@@ -61,12 +59,7 @@ void setTime() {
     }
 }
 
-// Callback function to draw pixels to the display
-void pngDraw(PNGDRAW *pDraw) {
-    uint16_t lineBuffer[MAX_IMAGE_WIDTH];
-    png.getLineAsRGB565(pDraw, lineBuffer, PNG_RGB565_BIG_ENDIAN, 0xffffffff);
-    sprite.pushImage(xpos, ypos + pDraw->y, pDraw->iWidth, 1, lineBuffer);
-}
+
 
 
 // TODO: when started outside of wifi range device goes into config mode, even though allready configured.
@@ -186,11 +179,11 @@ void drawBg() {
     
     // main
     // middle prev
-    sprite.fillSmoothRoundRect(-38, 15, picto_box_width, picto_box_height, 5, FG_COLOR, BG_COLOR);
+    //sprite.fillSmoothRoundRect(-38, 15, picto_box_width, picto_box_height, 5, FG_COLOR, BG_COLOR);
     // middle now
     sprite.fillSmoothRoundRect(MY_WIDTH / 2 - 50, 15, picto_box_width, picto_box_height, 5, FG_COLOR,BG_COLOR);
     // middle next
-    sprite.fillSmoothRoundRect(178, 15, picto_box_width, picto_box_height, 5, FG_COLOR, BG_COLOR);
+    //sprite.fillSmoothRoundRect(178, 15, picto_box_width, picto_box_height, 5, FG_COLOR, BG_COLOR);
 
     // bottom
     // each activity gets its own circle 
@@ -200,6 +193,31 @@ void drawBg() {
     //sprite.setTextDatum(0);
     sprite.unloadFont();
     sprite.pushSprite(0,0,TFT_TRANSPARENT);
+}
+
+// Callback function to draw pixels to the display
+void pngDraw(PNGDRAW *pDraw) {
+    uint16_t lineBuffer[MAX_IMAGE_WIDTH];
+    png.getLineAsRGB565(pDraw, lineBuffer, PNG_RGB565_BIG_ENDIAN, 0xffffffff);
+    sprite.pushImage(xpos, ypos + pDraw->y, pDraw->iWidth, 1, lineBuffer);
+}
+
+void drawPicto(String _strname) {
+    _strname = "/" + _strname;
+    int16_t rc = png.open(_strname.c_str(), pngOpen, pngClose, pngRead, pngSeek, pngDraw);
+    if (rc == PNG_SUCCESS) {
+        sprite.startWrite();
+        rc = png.decode(NULL, 0);
+        png.close();
+        sprite.endWrite();
+    }
+}
+
+void drawName(String _strname) {
+    //sprite.loadFont(smallFont);
+    //sprite.setTextDatum(MC_DATUM);
+    sprite.drawString(_strname, 90, 3);
+    //sprite.unloadFont();
 }
 
 void drawMain() {
@@ -236,7 +254,7 @@ void drawMain() {
         config_activities_name_nl[i] = _array_name_nl[i];
     }
 
-    // debug:
+    // FIXME: remove later
     Serial.println("***************");
     //Serial.println(config_activities_size);
     //Serial.println(config_activities_size_max);
@@ -274,15 +292,27 @@ void drawMain() {
         sprite.fillRect(232-(i*5),1,3,10,TFT_GREEN);
     }
 
-    String strname = "sledding.png";
-    strname = "/" + strname;
-    xpos = 73; ypos = 16;
-    int16_t rc = png.open(strname.c_str(), pngOpen, pngClose, pngRead, pngSeek, pngDraw);
-    if (rc == PNG_SUCCESS) {
-        sprite.startWrite();
-        rc = png.decode(NULL, 0);
-        png.close();
-        sprite.endWrite();
+    // by default, if there is no current activity, the first one will be current 
+    config_activities_current[1] = 1;
+    for (int i = 1; i < config_activities_size; i++ ) {
+    
+        // previous
+        // xpos = -73; ypos = 16; // FIXME: this should be argument to drawPicto function, but how callback
+        // if (!current_picto == 1) {
+        //     drawPicto(config_activities_picto[current_picto-1]);
+        // }
+
+        // current
+        if (config_activities_current[i] == 1) {
+            drawPicto(config_activities_picto[i]);
+            drawName(config_activities_name_nl[i]);
+        }
+    
+        // next
+        //xpos = 120; ypos = 16; // FIXME: this should be argument to drawPicto function, but how callback
+        //if (!current_picto == config_activities_size) {
+        //    drawPicto(config_activities_picto[current_picto+1]);
+        //}
     }
 
     // TEST, uncomment below
@@ -290,7 +320,6 @@ void drawMain() {
     // config_activities_size = 5;
 
     int _circle_x; int _dist_between; int _size_circle;
-    int config_activities_size_max = 19;
     switch (config_activities_size) {
     case 1:
         _circle_x = 120; _dist_between = 46; _size_circle = 6; break;
@@ -387,7 +416,6 @@ void setup() {
     _mode = get_devicemode();
     Serial.print(_mode);
     tft.print(_mode);  // FIXME: remove later
-    delay(10000); // FIXME: remove later
 
     // FIXME: fix or remov3?? 
     switch(_mode) {

@@ -104,3 +104,8 @@ bool slp = false;
 uint16_t ontime, offtime;
 uint8_t i,num_codes;
 uint8_t region;
+
+#define MAX_IMAGE_WIDTH 100 // Adjust for your images
+int16_t xpos = 73;
+int16_t ypos = 16;
+int16_t current_picto = 0;
