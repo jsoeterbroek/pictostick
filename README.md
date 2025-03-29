@@ -85,17 +85,21 @@ browser and a temporary WiFI network between he device and the user.
 
 See the Documentation for specific details of this procedure.
 
-Documentation Link: procedure_wifi.md  TODO
+Documentation Link: procedure_wifi.md  TBA
 
 ## TODO
-* screen for config and/or time/date, battery info bigger that the top bar on main screen
+* configuration screen
 * configurable options for user (eg. color themes)
-* code formatting
+* show battery charging status when charging
+* make user changes (eg. activites done) persistent
+* user changes (eg. activites done) to be cleared overnight to signify new day
+* write more documentation for parents, care givers and health care professionals
+* battery display is too 'wobbly'; changes to frequently
 
 ### battery saving stuff
 * sleep mode after x seconds inactivity
 * ~~turn of WiFi when not needed~~
-* backlight dimming by user
+* backlight dimmable by user (and make persistent)
 
 ### Attribution
 Special thanks to VolosR (https://github.com/VolosR) for many, many code examples and ideas, 
