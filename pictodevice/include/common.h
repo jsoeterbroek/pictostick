@@ -70,9 +70,8 @@ int16_t picto_box_height = 100;
 #define MY_HEIGHT TFT_WIDTH
 
 //time variables
-String h,m,s;
-int day,month;
-String months[12] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
+String h, m, s;
+int day, month;
 
 //settime variables
 bool setTimeDate = false;
@@ -108,3 +107,5 @@ uint8_t region;
 int16_t xpos = 12;
 int16_t ypos = 12;
 int16_t current_picto = 0;
+
+String lang = "en"; // "en" for english, "nl" for dutch

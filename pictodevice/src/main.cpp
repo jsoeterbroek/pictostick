@@ -222,6 +222,7 @@ void drawUserName() {
 
 void drawTime() {
     // time
+    static constexpr const char* const wd_en[7] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
     static constexpr const char* const wd_nl[7] = {"Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"};
     auto dt = StickCP2.Rtc.getDateTime();
     // ESP32 internal timer
@@ -233,8 +234,13 @@ void drawTime() {
         tm->tm_hour,
         tm->tm_min,
         tm->tm_sec);
-    snprintf(daybuffer, sizeof(daybuffer), "%s",
-        wd_nl[tm->tm_wday]);
+    if (lang.equals("en")) {
+        snprintf(daybuffer, sizeof(daybuffer), "%s",
+            wd_en[tm->tm_wday]);
+    } else {
+        snprintf(daybuffer, sizeof(daybuffer), "%s",
+            wd_nl[tm->tm_wday]);
+    }
 
     sprite.loadFont(Noto);
     sprite.fillRect(116, 40, 120, 20, RIGHT_RECT_BG_COLOR_2);
@@ -270,21 +276,25 @@ void drawMain() {
     // TODO: probably use a fance multidimensional array with structs for this, but just use 'lists' for now
     String config_activities_order[config_activities_size];
     String config_activities_picto[config_activities_size];
-    String config_activities_name_nl[config_activities_size];
+    String config_activities_name[config_activities_size];
     String _array_order[config_activities_size];
     String _array_picto[config_activities_size];
-    String _array_name_nl[config_activities_size];
+    String _array_name[config_activities_size];
     for (JsonObject activity : cdoc["activities"].as<JsonArray>()) {
         _array_order[_i] = String(activity["order"]);
         _array_picto[_i] = String(activity["picto"]);
-        _array_name_nl[_i] = String(activity["name_nl"]);
+        if (lang.equals("en")) {
+            _array_name[_i] = String(activity["name_en"]);
+        } else {
+            _array_name[_i] = String(activity["name_nl"]);
+        }
         _i = _i + 1;
     }
 
     for (int i = 1; i < config_activities_size; i++ ) {
         config_activities_order[i] = _array_order[i];
         config_activities_picto[i] = _array_picto[i];
-        config_activities_name_nl[i] = _array_name_nl[i];
+        config_activities_name[i] = _array_name[i];
     }
 
     // FIXME: remove later
@@ -293,7 +303,7 @@ void drawMain() {
     //Serial.println(config_activities_size_max);
     Serial.println(config_activities_order[13]);  // must be '004'
     Serial.println(config_activities_picto[13]);
-    Serial.println(config_activities_name_nl[13]);
+    Serial.println(config_activities_name[13]);
     Serial.println("***************");
 
     sprite.createSprite(MY_WIDTH, MY_HEIGHT);
@@ -316,7 +326,7 @@ void drawMain() {
         // current
         if (i == current_picto) {
             drawPicto(config_activities_picto[i]);
-            drawName(config_activities_name_nl[i]);
+            drawName(config_activities_name[i]);
         }
     }
 

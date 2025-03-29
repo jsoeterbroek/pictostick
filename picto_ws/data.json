@@ -7,67 +7,67 @@
     {
         "order": "001",
         "picto": "alarm.png",
-        "name_en": "waking",
+        "name_en": "Wake up",
         "name_nl": "Opstaan"
     },
     {
         "order": "002",
         "picto": "shower.png",
-        "name_en": "shower",
+        "name_en": "Shower",
         "name_nl": "Douchen"
     },
     {
         "order": "003",
         "picto": "selfcare.png",
-        "name_en": "self care",
+        "name_en": "Self care",
         "name_nl": "Zelfzorg"
     },
     {
         "order": "004",
         "picto": "breakfast.png",
-        "name_en": "breakfast",
+        "name_en": "Breakfast",
         "name_nl": "Ontbijt"
     },
     {
         "order": "005",
         "picto": "book.png",
-        "name_en": "reading",
+        "name_en": "Reading",
         "name_nl": "Lezen"
     },
     {
         "order": "006",
         "picto": "lunch.png",
-        "name_en": "lunch",
+        "name_en": "Lunch",
         "name_nl": "Lunch"
     },                    
     {
         "order": "007",
         "picto": "shoppingcart.png",
-        "name_en": "shopping",
+        "name_en": "Shopping",
         "name_nl": "Boodschappen"
     },
     {
         "order": "008",
         "picto": "tennis.png",
-        "name_en": "tennis",
+        "name_en": "Tennis",
         "name_nl": "Tennis"
     },
     {
         "order": "009",
         "picto": "pizza.png",
-        "name_en": "dinner",
+        "name_en": "Dinner",
         "name_nl": "Avondmaal"
     },
     {
         "order": "010",
         "picto": "games.png",
-        "name_en": "games",
+        "name_en": "Games",
         "name_nl": "Spelletjes"
     },
     {
         "order": "011",
         "picto": "tv.png",
-        "name_en": "watch tv",
+        "name_en": "Watch tv",
         "name_nl": "Tv kijken"
     },
     {
@@ -79,10 +79,10 @@
     {
         "order": "013",
         "picto": "bedtime.png",
-        "name_en": "sleeping",
+        "name_en": "Bedtime",
         "name_nl": "Slapen"
     }
     ],
-    "date_created": "24-03-2025",
-    "date_valid": "23-03-2025"
+    "date_created": "29-03-2025",
+    "date_valid": "30-03-2025"
 }
