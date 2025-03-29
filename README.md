@@ -9,7 +9,7 @@ One of the biggest advantages of using pictograms (or pictos) is that in one
 easy to grasp visual form the activities and their sequence that are planned for the day 
 ahead are presented. This provides understanding and prevents stress and miscommunication.
 
-![a typical picto board](https://github.com/jsoeterbroek/pictostick/blob/main/assets/1911376602_cropped.jpg?raw=true)
+![a typical picto board](https://github.com/jsoeterbroek/pictostick/blob/main/assets/1911376602_cropped.jpg)
 
 Often the pictos are presented on a board on the wall (as in picture above) or simply on a wooden plank
 (as in picture below) on which the pictos are added (or even removed during the day) showing the 
