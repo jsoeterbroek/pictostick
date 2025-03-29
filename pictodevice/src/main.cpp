@@ -317,8 +317,8 @@ void drawMain() {
     // Serial.println(_array_picto[12]);
     // Serial.println(_array_name[12]);
     Serial.println(" ");
-    Serial.println("*current picto: ");
-    Serial.println(current_picto);
+    Serial.println("*current picto index: ");
+    Serial.println(current_picto_index);
     Serial.println("***************");
 
     sprite.createSprite(MY_WIDTH, MY_HEIGHT);
@@ -336,7 +336,7 @@ void drawMain() {
     for (int i = 0; i < config_activities_size; i++ ) {
     
         // current
-        if (i == current_picto) {
+        if (i == current_picto_index) {
             drawPicto(_array_picto[i]);
             drawName(_array_name[i]);
         }
@@ -390,7 +390,7 @@ void drawMain() {
 
     if (config_activities_size < config_activities_size_max) {
         for (int i = 0; i < config_activities_size; i++) {
-            if (i == current_picto) {
+            if (i == current_picto_index) {
                 sprite.fillSmoothCircle(_circle_x, 124, _size_circle, DAYPERIOD_CIRCLE_FG_COLOR, BG_COLOR);
             } else {
                 sprite.fillSmoothCircle(_circle_x, 124, _size_circle, DAYPERIOD_CIRCLE_BG_COLOR, BG_COLOR);
@@ -405,8 +405,8 @@ void drawMain() {
 
     // button action
     if (StickCP2.BtnPWR.wasPressed()) {
-        if (current_picto >= 1) {
-            current_picto = current_picto - 1;
+        if (current_picto_index >= 1) {
+            current_picto_index = current_picto_index - 1;
         } else {
             if(buzzer) {
                 StickCP2.Speaker.tone(6000, 100);
@@ -414,8 +414,8 @@ void drawMain() {
         }
     }
     if (StickCP2.BtnB.wasPressed()) {
-        if (current_picto < config_activities_size - 1) {
-            current_picto = current_picto + 1;
+        if (current_picto_index < config_activities_size - 1) {
+            current_picto_index = current_picto_index + 1;
         } else {
             if(buzzer) {
                 StickCP2.Speaker.tone(6000, 100);
