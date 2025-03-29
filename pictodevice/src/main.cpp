@@ -169,23 +169,14 @@ void drawBg() {
     sprite.createSprite(MY_WIDTH, MY_HEIGHT);
     sprite.fillSprite(TFT_TRANSPARENT);
     
-    // top
-    //sprite.fillRect(0, 0, 240, 12, TOP_RECT_BG_COLOR);
-    
     // main
-    // middle prev
-    //sprite.fillSmoothRoundRect(-38, 13, picto_box_width, picto_box_height, 5, FG_COLOR, BG_COLOR);
     // middle now
     sprite.fillSmoothRoundRect(10, 10, picto_box_width, picto_box_height, 5, FG_COLOR,BG_COLOR);
-    // middle next
-    //sprite.fillSmoothRoundRect(178, 13, picto_box_width, picto_box_height, 5, FG_COLOR, BG_COLOR);
 
     // bottom
     // each activity gets its own circle 
     // we should maximize the number of activities to screen length
-
  
-    //sprite.setTextDatum(0);
     sprite.unloadFont();
     sprite.pushSprite(0,0,TFT_TRANSPARENT);
 }
@@ -208,10 +199,58 @@ void drawPicto(String _strname) {
     }
 }
 
+void drawBatt() {
+    // battery
+    // FIXME: animate battery charging (icon) to indicate charging
+    // FIXME: draw percentage of battery juice left
+    sprite.unloadFont();
+    sprite.drawRect(200, 4, 28, 14, RGB565_GRAY_STONE); // body
+    sprite.fillRect(229, 8, 3, 6, RGB565_GRAY_STONE); // tip
+    for(int i=0;i<volE;i++) {
+        sprite.fillRect(222-(i*5), 6, 3, 10, RGB565_GRAY_STONE);
+    }
+}
+
+void drawUserName() {
+    // user name
+    sprite.loadFont(Noto);
+    sprite.fillRect(116, 20, 120, 20, RIGHT_RECT_BG_COLOR_1);
+    sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_1, RIGHT_RECT_BG_COLOR_1);
+    sprite.drawString(config_name, 120, 24);
+    sprite.unloadFont();
+}
+
+void drawTime() {
+    // time
+    static constexpr const char* const wd_nl[7] = {"Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"};
+    auto dt = StickCP2.Rtc.getDateTime();
+    // ESP32 internal timer
+    auto t = time(nullptr);
+    auto tm = localtime(&t);  // for local timezone.
+    char timebuffer[30];
+    char daybuffer[30];
+    snprintf(timebuffer, sizeof(timebuffer), "%02d:%02d:%02d",
+        tm->tm_hour,
+        tm->tm_min,
+        tm->tm_sec);
+    snprintf(daybuffer, sizeof(daybuffer), "%s",
+        wd_nl[tm->tm_wday]);
+
+    sprite.loadFont(Noto);
+    sprite.fillRect(116, 40, 120, 20, RIGHT_RECT_BG_COLOR_2);
+    sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_2, RIGHT_RECT_BG_COLOR_2);
+    sprite.drawString(daybuffer, 120, 44);
+
+    sprite.fillRect(116, 60, 120, 20, RIGHT_RECT_BG_COLOR_1);
+    sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_1, RIGHT_RECT_BG_COLOR_1);
+    sprite.drawString(timebuffer, 120, 64);
+    sprite.unloadFont();
+}
+
 void drawName(String _strname) {
     sprite.loadFont(Noto);
     sprite.fillRect(116, 80, 120, 30, RGB565_CORAL);
-    sprite.setTextColor(TOP_RECT_TEXT_COLOR, RGB565_CORAL);
+    sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_1, RGB565_CORAL);
     sprite.drawString(_strname, 120, 88);
     sprite.unloadFont();
 }
@@ -260,47 +299,13 @@ void drawMain() {
     sprite.createSprite(MY_WIDTH, MY_HEIGHT);
     sprite.fillSprite(TFT_TRANSPARENT);
     sprite.unloadFont();
-    sprite.setTextColor(TFT_WHITE, TOP_RECT_BG_COLOR);
+    sprite.setTextColor(TFT_WHITE, RIGHT_RECT_BG_COLOR_1);
 
-    // time
-    static constexpr const char* const wd_nl[7] = {"Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"};
-    auto dt = StickCP2.Rtc.getDateTime();
-    // ESP32 internal timer
-    auto t = time(nullptr);
-    auto tm = localtime(&t);  // for local timezone.
-    char timebuffer[30];
-    char daybuffer[30];
-    snprintf(timebuffer, sizeof(timebuffer), "%02d:%02d:%02d",
-        tm->tm_hour,
-        tm->tm_min,
-        tm->tm_sec);
-    snprintf(daybuffer, sizeof(daybuffer), "%s",
-        wd_nl[tm->tm_wday]);
+    drawTime();
 
-    sprite.loadFont(Noto);
-    sprite.fillRect(116, 40, 120, 20, RGB565_CORAL);
-    sprite.setTextColor(TOP_RECT_TEXT_COLOR, RGB565_CORAL);
-    sprite.drawString(daybuffer, 120, 42);
+    drawUserName();
 
-    sprite.fillRect(116, 60, 120, 20, RGB565_RED_BRICK);
-    sprite.setTextColor(TOP_RECT_TEXT_COLOR, RGB565_RED_BRICK);
-    sprite.drawString(timebuffer, 120, 62);
-    sprite.unloadFont();
-
-    // user name
-    //sprite.drawString(config_name, 5, 3);
-
-    // battery
-    // FIXME: animate battery charging (icon)
-    sprite.unloadFont();
-    sprite.setTextColor(RGB565_GRAY_STONE, TFT_BLACK);
-    //sprite.drawRect(114, 12, 14, 28, RGB565_GRAY_STONE);
-    //sprite.fillRect(118, 9, 6, 3, RGB565_GRAY_STONE);
-    sprite.drawRect(174, 12, 14, 28, RGB565_GRAY_STONE);
-    sprite.fillRect(178, 9, 6, 3, RGB565_GRAY_STONE);
-    for(int i=0;i<volE;i++) {
-        sprite.fillRect(176,35-(i*5), 10, 3, TFT_GREEN);
-    }
+    drawBatt();
 
     // by default, if there is no current activity, the first one will be current 
     if (current_picto == 0) {
@@ -308,23 +313,11 @@ void drawMain() {
     }
     for (int i = 1; i < config_activities_size; i++ ) {
     
-        // previous
-        // xpos = -73; ypos = 16; // FIXME: this should be argument to drawPicto function, but how callback
-        // if (!current_picto == 1) {
-        //     drawPicto(config_activities_picto[current_picto-1]);
-        // }
-
         // current
         if (i == current_picto) {
             drawPicto(config_activities_picto[i]);
             drawName(config_activities_name_nl[i]);
         }
-    
-        // next
-        //xpos = 120; ypos = 16; // FIXME: this should be argument to drawPicto function, but how callback
-        //if (!current_picto == config_activities_size) {
-        //    drawPicto(config_activities_picto[current_picto+1]);
-        //}
     }
 
     // TEST, uncomment below
