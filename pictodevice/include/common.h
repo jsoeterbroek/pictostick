@@ -108,4 +108,4 @@ int16_t xpos = 12;
 int16_t ypos = 12;
 int16_t current_picto = 0;
 
-String lang = "en"; // "en" for english, "nl" for dutch
+String lang = "nl"; // "en" for english, "nl" for dutch

@@ -202,13 +202,24 @@ void drawPicto(String _strname) {
 void drawBatt() {
     // battery
     // FIXME: animate battery charging (icon) to indicate charging
-    // FIXME: draw percentage of battery juice left
-    sprite.unloadFont();
-    sprite.drawRect(200, 4, 28, 14, RGB565_GRAY_STONE); // body
-    sprite.fillRect(229, 8, 3, 6, RGB565_GRAY_STONE); // tip
+    vol = StickCP2.Power.getBatteryVoltage();
+    volE=map(vol,3000,4180,0,5);
+    String batteryPercentString;
+    int batteryPercent = map(vol, 3000, 4200, 0, 100);  // Convert voltage to percentage
+    if (batteryPercent > 100) batteryPercent = 100;  // Cap at 100%
+    if (batteryPercent < 0) batteryPercent = 0;      // Floor at 0%
+
+    sprite.fillRect(116, 0, 120, 20, RIGHT_RECT_BG_COLOR_2);
+    sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_2, RIGHT_RECT_BG_COLOR_2);
+    sprite.loadFont(Noto);
+    sprite.setCursor(160, 3);  // Adjust cursor for the top right
+    sprite.printf("%d%%", batteryPercent);
+    sprite.drawRect(200, 3, 28, 14, RGB565_GRAY_STONE); // body
+    sprite.fillRect(229, 7, 3, 6, RGB565_GRAY_STONE); // tip
     for(int i=0;i<volE;i++) {
-        sprite.fillRect(222-(i*5), 6, 3, 10, RGB565_GRAY_STONE);
+        sprite.fillRect(222-(i*5), 5, 3, 10, RGB565_GRAY_STONE);
     }
+    sprite.unloadFont();
 }
 
 void drawUserName() {
@@ -389,8 +400,9 @@ void drawMain() {
         }
     }
 
-    sprite.pushSprite(0,0,TFT_TRANSPARENT);
+    sprite.pushSprite(0, 0, TFT_TRANSPARENT);
     sprite.unloadFont();
+    sprite.deleteSprite(); // clean up
 
     // button action
     if (StickCP2.BtnPWR.wasPressed()) {
@@ -405,6 +417,9 @@ void drawMain() {
     if (StickCP2.BtnB.wasPressed()) {
         if (current_picto < config_activities_size) {
             current_picto = current_picto + 1;
+            // FIXME: remove later
+            Serial.print("current picto is: ");
+            Serial.println(current_picto);
         } else {
             if(buzzer) {
                 StickCP2.Speaker.tone(6000, 100);
@@ -543,8 +558,6 @@ void loop() {
 
     StickCP2.update();
 
-    vol = StickCP2.Power.getBatteryVoltage();
-    volE=map(vol,3000,4180,0,5);
 
     drawMain();
     delay(100);
