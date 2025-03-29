@@ -283,7 +283,7 @@ void drawMain() {
     config_date_created = cdoc["date_created"];
     config_date_valid = cdoc["date_valid"];
 
-    int _i = 1;  // count from 1 not 0
+    int _i = 0;
     // TODO: probably use a fance multidimensional array with structs for this, but just use 'lists' for now
     String config_activities_order[config_activities_size];
     String config_activities_picto[config_activities_size];
@@ -302,19 +302,23 @@ void drawMain() {
         _i = _i + 1;
     }
 
-    for (int i = 1; i < config_activities_size; i++ ) {
-        config_activities_order[i] = _array_order[i];
-        config_activities_picto[i] = _array_picto[i];
-        config_activities_name[i] = _array_name[i];
-    }
-
     // FIXME: remove later
     Serial.println("***************");
     //Serial.println(config_activities_size);
     //Serial.println(config_activities_size_max);
-    Serial.println(config_activities_order[13]);  // must be '004'
-    Serial.println(config_activities_picto[13]);
-    Serial.println(config_activities_name[13]);
+
+    // Serial.println("*last (013):");
+    // Serial.println(_array_order[0]);  // must be '001'
+    // Serial.println(_array_picto[0]);
+    // Serial.println(_array_name[0]);
+    // Serial.println(" ");
+    // Serial.println("*last (013):");
+    // Serial.println(_array_order[12]);  // must be '013'
+    // Serial.println(_array_picto[12]);
+    // Serial.println(_array_name[12]);
+    Serial.println(" ");
+    Serial.println("*current picto: ");
+    Serial.println(current_picto);
     Serial.println("***************");
 
     sprite.createSprite(MY_WIDTH, MY_HEIGHT);
@@ -329,15 +333,12 @@ void drawMain() {
     drawBatt();
 
     // by default, if there is no current activity, the first one will be current 
-    if (current_picto == 0) {
-        current_picto = 1;
-    }
-    for (int i = 1; i < config_activities_size; i++ ) {
+    for (int i = 0; i < config_activities_size; i++ ) {
     
         // current
         if (i == current_picto) {
-            drawPicto(config_activities_picto[i]);
-            drawName(config_activities_name[i]);
+            drawPicto(_array_picto[i]);
+            drawName(_array_name[i]);
         }
     }
 
@@ -388,14 +389,12 @@ void drawMain() {
     }
 
     if (config_activities_size < config_activities_size_max) {
-        for(int i = 1; i <= config_activities_size; i++){
-
+        for (int i = 0; i < config_activities_size; i++) {
             if (i == current_picto) {
                 sprite.fillSmoothCircle(_circle_x, 124, _size_circle, DAYPERIOD_CIRCLE_FG_COLOR, BG_COLOR);
             } else {
                 sprite.fillSmoothCircle(_circle_x, 124, _size_circle, DAYPERIOD_CIRCLE_BG_COLOR, BG_COLOR);
             }
-
             _circle_x = _circle_x + _dist_between;
         }
     }
@@ -406,7 +405,7 @@ void drawMain() {
 
     // button action
     if (StickCP2.BtnPWR.wasPressed()) {
-        if (current_picto > 1) {
+        if (current_picto >= 1) {
             current_picto = current_picto - 1;
         } else {
             if(buzzer) {
@@ -415,11 +414,8 @@ void drawMain() {
         }
     }
     if (StickCP2.BtnB.wasPressed()) {
-        if (current_picto < config_activities_size) {
+        if (current_picto < config_activities_size - 1) {
             current_picto = current_picto + 1;
-            // FIXME: remove later
-            Serial.print("current picto is: ");
-            Serial.println(current_picto);
         } else {
             if(buzzer) {
                 StickCP2.Speaker.tone(6000, 100);
@@ -546,7 +542,6 @@ void setup() {
             }
             delay(2000);  // FIXME, remove later
             Serial.println("initialisation complete");
-            delay(10000);
             drawSplash();
             delay(10000);
             drawBg();
