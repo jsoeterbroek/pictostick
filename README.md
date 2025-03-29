@@ -11,10 +11,12 @@ ahead are presented. This provides understanding and prevents stress and miscomm
 
 ![a typical picto board](https://github.com/jsoeterbroek/pictostick/blob/main/assets/1911376602_cropped.jpg?raw=true)
 
-Often the pictos are presented on a board on the wall (as in picture above) or simply on a wooden plank 
-on which the pictos are added (or even removed during the day) showing the activities and the order in 
-which these take place. While this low tech way often works fine in practice it is not portable and 
-often only used in either the users' household or the (work) places during the day.
+Often the pictos are presented on a board on the wall (as in picture above) or simply on a wooden plank
+(as in picture below) on which the pictos are added (or even removed during the day) showing the 
+activities and the order in which these take place. While this low tech way often works fine in practice 
+it is not portable and often only used in either the users' household or the (work) places during the day.
+
+![a typical picto plank](https://github.com/jsoeterbroek/pictostick/blob/main/assets/1823811866_cropped.jpg)
 
 ## Pictostick
 The pictostick offers a method to present a scrollable sequence of pictos for the user in a portable way,
