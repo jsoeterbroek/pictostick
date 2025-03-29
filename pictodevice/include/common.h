@@ -106,6 +106,6 @@ uint8_t region;
 #define MAX_IMAGE_WIDTH 100 // Adjust for your images
 int16_t xpos = 12;
 int16_t ypos = 12;
-int16_t current_picto_index = 0;
+int current_activity_index = 0;
 
 String lang = "nl"; // "en" for english, "nl" for dutch

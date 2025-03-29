@@ -16,6 +16,7 @@
 #include "smallFont.h"
 #include <PNGdec.h>
 #include <PNG_SPIFFS_Support.h>
+#include <PSpref.h>
 
 TFT_eSPI tft = TFT_eSPI();
 TFT_eSprite sprite = TFT_eSprite(&tft);
@@ -58,7 +59,6 @@ void setTime() {
     }
 }
 
-// TODO: when started outside of wifi range device goes into config mode, even though allready configured.
 void configModeCallback(WiFiManager *myWiFiManager) {
 
     Serial.println("Entered config mode");
@@ -142,6 +142,24 @@ void getConfigDataHTTP () {
     http.end(); // Free resources
 }
 
+void beepBeep() {
+  static unsigned long previousMillis = 0;  // Store the previous time
+  unsigned long currentMillis = millis();   // Get the current time
+
+  static int state = 0;  // Store the current state
+  static int beepDuration = 250;  // Store the beep duration
+  if (currentMillis - previousMillis >= beepDuration) {  // If the beep duration has passed
+    previousMillis = currentMillis;  // Update the previous time
+
+    state++; if (state >= 10) state = 0;
+
+    if (state == 1 || state == 3)
+        if(buzzer) {
+            StickCP2.Speaker.tone(6000, 100);
+        }
+    }
+}
+
 void drawSplash() {
 
     tft.fillScreen(TFT_WHITE);
@@ -186,6 +204,13 @@ void pngDraw(PNGDRAW *pDraw) {
     uint16_t lineBuffer[MAX_IMAGE_WIDTH];
     png.getLineAsRGB565(pDraw, lineBuffer, PNG_RGB565_BIG_ENDIAN, 0xffffffff);
     sprite.pushImage(xpos, ypos + pDraw->y, pDraw->iWidth, 1, lineBuffer);
+}
+
+void drawMarkedDone() {
+    sprite.loadFont(Noto);
+    sprite.setTextColor(TFT_BLACK, RIGHT_RECT_BG_COLOR_1);
+    sprite.drawString("X", 20, 100);
+    sprite.unloadFont();
 }
 
 void drawPicto(String _strname) {
@@ -264,10 +289,15 @@ void drawTime() {
     sprite.unloadFont();
 }
 
-void drawName(String _strname) {
+void drawName(String _strname, int _marked_done) {
     sprite.loadFont(Noto);
-    sprite.fillRect(116, 80, 120, 30, RGB565_CORAL);
-    sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_1, RGB565_CORAL);
+    if (_marked_done == 1) {
+        sprite.fillRect(116, 80, 120, 30, COLOR_DONE);
+        sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_1, COLOR_DONE);
+    } else {
+        sprite.fillRect(116, 80, 120, 30, COLOR_TODO);
+        sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_1, COLOR_TODO);
+    }
     sprite.drawString(_strname, 120, 88);
     sprite.unloadFont();
 }
@@ -284,13 +314,11 @@ void drawMain() {
     config_date_valid = cdoc["date_valid"];
 
     int _i = 0;
-    // TODO: probably use a fance multidimensional array with structs for this, but just use 'lists' for now
-    String config_activities_order[config_activities_size];
-    String config_activities_picto[config_activities_size];
-    String config_activities_name[config_activities_size];
+    // TODO: probably use a fancy multidimensional array with structs for this, but just use 'lists' for now
     String _array_order[config_activities_size];
     String _array_picto[config_activities_size];
     String _array_name[config_activities_size];
+    int _array_activity_marked_done[config_activities_size];
     for (JsonObject activity : cdoc["activities"].as<JsonArray>()) {
         _array_order[_i] = String(activity["order"]);
         _array_picto[_i] = String(activity["picto"]);
@@ -303,7 +331,7 @@ void drawMain() {
     }
 
     // FIXME: remove later
-    Serial.println("***************");
+    //Serial.println("***************");
     //Serial.println(config_activities_size);
     //Serial.println(config_activities_size_max);
 
@@ -317,8 +345,8 @@ void drawMain() {
     // Serial.println(_array_picto[12]);
     // Serial.println(_array_name[12]);
     Serial.println(" ");
-    Serial.println("*current picto index: ");
-    Serial.println(current_picto_index);
+    Serial.print("DEBUG: current activity index: ");
+    Serial.println(current_activity_index);
     Serial.println("***************");
 
     sprite.createSprite(MY_WIDTH, MY_HEIGHT);
@@ -336,9 +364,25 @@ void drawMain() {
     for (int i = 0; i < config_activities_size; i++ ) {
     
         // current
-        if (i == current_picto_index) {
+        if (i == current_activity_index) {
+            
+            // draw the picto
             drawPicto(_array_picto[i]);
-            drawName(_array_name[i]);
+
+            // draw the name of the activity
+            if (_array_activity_marked_done[i] == 1) {
+                drawName(_array_name[i], 1);
+            } else {
+                drawName(_array_name[i], 0);
+            }
+
+            // now check if this activity is marked done in  
+            // _array_activity_marked_done[current_activity_index]
+            if (_array_activity_marked_done[current_activity_index] == 1) {
+                Serial.print(current_activity_index); // FIXME: remove later
+                Serial.println(" is marked done"); // FIXME: remove later
+                //drawMarkedDone();
+            }
         }
     }
 
@@ -388,12 +432,17 @@ void drawMain() {
         _circle_x = 14; _dist_between = 16; _size_circle = 6; break;
     }
 
+    sprite.fillRect(0, 128, 240, 5, BG_COLOR);
+
     if (config_activities_size < config_activities_size_max) {
         for (int i = 0; i < config_activities_size; i++) {
-            if (i == current_picto_index) {
-                sprite.fillSmoothCircle(_circle_x, 124, _size_circle, DAYPERIOD_CIRCLE_FG_COLOR, BG_COLOR);
+            if (i == current_activity_index) {
+                sprite.fillRect(_circle_x - 8, 129, 16, 4, DAYPERIOD_CIRCLE_BG_COLOR);
+            }
+            if (_array_activity_marked_done[i] == 1) {
+                sprite.fillSmoothCircle(_circle_x, 122, _size_circle, COLOR_DONE, BG_COLOR);
             } else {
-                sprite.fillSmoothCircle(_circle_x, 124, _size_circle, DAYPERIOD_CIRCLE_BG_COLOR, BG_COLOR);
+                sprite.fillSmoothCircle(_circle_x, 122, _size_circle, COLOR_TODO, BG_COLOR);
             }
             _circle_x = _circle_x + _dist_between;
         }
@@ -405,8 +454,8 @@ void drawMain() {
 
     // button action
     if (StickCP2.BtnPWR.wasPressed()) {
-        if (current_picto_index >= 1) {
-            current_picto_index = current_picto_index - 1;
+        if (current_activity_index >= 1) {
+            current_activity_index = current_activity_index - 1;
         } else {
             if(buzzer) {
                 StickCP2.Speaker.tone(6000, 100);
@@ -414,13 +463,31 @@ void drawMain() {
         }
     }
     if (StickCP2.BtnB.wasPressed()) {
-        if (current_picto_index < config_activities_size - 1) {
-            current_picto_index = current_picto_index + 1;
+        if (current_activity_index < config_activities_size - 1) {
+            current_activity_index = current_activity_index + 1;
         } else {
             if(buzzer) {
                 StickCP2.Speaker.tone(6000, 100);
             }
         }
+    }
+    if (StickCP2.BtnA.wasPressed()) {
+
+        // mark activity done
+        // if it was turned off, turn on
+        // if it was turned on, turn off
+        // since we have only one button available
+        if (_array_activity_marked_done[current_activity_index] == 1) {
+            _array_activity_marked_done[current_activity_index] = 0;
+        } else {
+            _array_activity_marked_done[current_activity_index] = 1;
+        }
+        Serial.println(_array_activity_marked_done[current_activity_index]);
+
+        // now write to Preferences
+        // TODO: write to preferences
+
+        //beepBeep();
     }
 }
 
