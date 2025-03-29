@@ -94,7 +94,7 @@ Documentation Link: procedure_wifi.md  TODO
 
 ### battery saving stuff
 * sleep mode after x seconds inactivity
-* turn of WiFi when not needed
+* ~~turn of WiFi when not needed~~
 * backlight dimming by user
 
 ### Attribution
