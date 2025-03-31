@@ -1,4 +1,4 @@
-# Pictostick
+# Pictostick Prototype
 
 ![Pictostick 2](https://github.com/jsoeterbroek/pictostick/blob/main/assets/IMG_0917.jpg)
 
@@ -97,7 +97,7 @@ Documentation Link: procedure_wifi.md  TBA
 ## TODO
 * configuration screen
 * configurable options for user (eg. color themes)
-* show battery charging status when charging
+* ~~show battery charging status when charging~~
 * make user changes (eg. activites done) persistent
 * user changes (eg. activites done) to be cleared overnight to signify new day
 * write more documentation for parents, care givers and health care professionals
