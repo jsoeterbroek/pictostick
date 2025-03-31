@@ -102,6 +102,8 @@ Documentation Link: procedure_wifi.md  TBA
 * user changes (eg. activites done) to be cleared overnight to signify new day
 * write more documentation for parents, care givers and health care professionals
 * battery display is too 'wobbly'; changes to frequently
+* The caregivers web interface for deploying (new) configuration file is very, very
+barebones atm. This needs to become a full-fledged web server service.
 
 ### battery saving stuff
 * sleep mode after x seconds inactivity
