@@ -95,20 +95,21 @@ See the Documentation for specific details of this procedure.
 Documentation Link: procedure_wifi.md  TBA
 
 ## TODO
-* [#2] configuration screen
-* configurable options for user (eg. color themes)
+* configuration screen [#2]
+* configurable options for user (eg. color themes) [#3]
 * ~~show battery charging status when charging~~
-* make user changes (eg. activites done) persistent
-* user changes (eg. activites done) to be cleared overnight to signify new day
-* write more documentation for parents, care givers and health care professionals
-* battery display is too 'wobbly'; changes to frequently
+* make user changes (eg. activites done) persistent [#4]
+* user changes (eg. activites done) to be cleared overnight to signify new day [#5]
+* write documentation for parents, care givers and health care professionals [#6]
+* write documentation for users [#7]
+* battery display is too 'wobbly'; changes to frequently [#8]
 * The caregivers web interface for deploying (new) configuration file is very, very
-barebones atm. This needs to become a full-fledged web server service.
+barebones atm. This needs to become a full-fledged web server service. [#9]
 
 ### battery saving stuff
-* sleep mode after x seconds inactivity
+* sleep mode after x seconds inactivity [#10]
 * ~~turn of WiFi when not needed~~
-* backlight dimmable by user (and make persistent)
+* backlight dimmable by user (and make persistent) [#11]
 
 ### Attribution
 Special thanks to VolosR (https://github.com/VolosR) for many, many code examples and ideas, 
