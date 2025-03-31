@@ -28,7 +28,8 @@ The pictostick can be refered to by the user as to the daily activities and even
 ones that have allready been completed.
 
 ## Video
-![Youtub Demo Pictostick](https://youtu.be/uw7wsZyZL4c)
+[![Youtube Demo Pictostick](https://github.com/jsoeterbroek/pictostick/blob/main/assets/IMG_0917.jpg)](http://www.youtube.com/watch?v=uw7wsZyZL4c "Demo Pictostick")
+
 
 ## Hardware
 
