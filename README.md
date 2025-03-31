@@ -1,8 +1,6 @@
 # Pictostick
 
-![Pictostick 1](https://github.com/jsoeterbroek/pictostick/blob/main/assets/IMG_0916.jpg)
 ![Pictostick 2](https://github.com/jsoeterbroek/pictostick/blob/main/assets/IMG_0917.jpg)
-![Pictostick 3](https://github.com/jsoeterbroek/pictostick/blob/main/assets/IMG_0918.jpg)
 
 
 ## Introduction
@@ -30,7 +28,7 @@ The pictostick can be refered to by the user as to the daily activities and even
 ones that have allready been completed.
 
 ## Video
-[![Demo Pictostick]](https://youtube.com/shorts/cVaFAUJy1uw?feature=share)
+[![Youtub Demo Pictostick]](https://youtu.be/uw7wsZyZL4c)
 
 ## Hardware
 
