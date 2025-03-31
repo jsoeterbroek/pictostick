@@ -95,7 +95,7 @@ See the Documentation for specific details of this procedure.
 Documentation Link: procedure_wifi.md  TBA
 
 ## TODO
-* configuration screen
+* [#2] configuration screen
 * configurable options for user (eg. color themes)
 * ~~show battery charging status when charging~~
 * make user changes (eg. activites done) persistent
