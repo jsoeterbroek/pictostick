@@ -50,7 +50,7 @@ https://github.com/jsoeterbroek/pictostick Github repository.
 The picto icons used are Google Fonts Material Design icons, made available under the 
 Apache License Version 2.0 license, reside on the device fylesystem allready to be used.
 I have made a rough selection of about 150 suitable picto icons, but more can be added or
-requested to be added.
+requested to be added. Some are in need of a rework and some are currently missing alltogether.
  
 (https://fonts.google.com/icons)
 
