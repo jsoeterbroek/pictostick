@@ -1,5 +1,10 @@
 # Pictostick
 
+![Pictostick 1](https://github.com/jsoeterbroek/pictostick/blob/main/assets/IMG_0916.jpg)
+![Pictostick 2](https://github.com/jsoeterbroek/pictostick/blob/main/assets/IMG_0917.jpg)
+![Pictostick 3](https://github.com/jsoeterbroek/pictostick/blob/main/assets/IMG_0918.jpg)
+
+
 ## Introduction
 Care givers, parents and health care professionals of people with a mental disability and/or 
 an Autism spectrum disorder (ASD), or simply autism, often make use of pictograms to give
@@ -23,6 +28,9 @@ The pictostick offers a method to present a scrollable sequence of pictos for th
 either as a small device that can be carried around or a watch-like option with a wrist band.
 The pictostick can be refered to by the user as to the daily activities and even to check off the
 ones that have allready been completed.
+
+## Video
+[![Demo Pictostick]](https://youtube.com/shorts/cVaFAUJy1uw?feature=share)
 
 ## Hardware
 
