@@ -59,10 +59,15 @@ The full list is in the [pictodevice/data/](pictodevice/data/) dir of this repos
 ### Missing pictos
 
 * brush teeth
+* cat
+* cuddling/snoozleing
  
 ### Pictos that could improved
 
 * dinner.png
+* backpack.png
+* hospital.png
+* lunch.png
 
 ## Configuration
 
