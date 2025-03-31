@@ -252,7 +252,7 @@ void drawUserName() {
     sprite.loadFont(Noto);
     sprite.fillRect(116, 20, 120, 20, RIGHT_RECT_BG_COLOR_1);
     sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_1, RIGHT_RECT_BG_COLOR_1);
-    sprite.drawString(config_name, 120, 24);
+    sprite.drawString(config_name, 118, 24);
     sprite.unloadFont();
 }
 
@@ -266,10 +266,6 @@ void drawTime() {
     auto tm = localtime(&t);  // for local timezone.
     char timebuffer[30];
     char daybuffer[30];
-    snprintf(timebuffer, sizeof(timebuffer), "%02d:%02d:%02d",
-        tm->tm_hour,
-        tm->tm_min,
-        tm->tm_sec);
     if (lang.equals("en")) {
         snprintf(daybuffer, sizeof(daybuffer), "%s",
             wd_en[tm->tm_wday]);
@@ -277,28 +273,29 @@ void drawTime() {
         snprintf(daybuffer, sizeof(daybuffer), "%s",
             wd_nl[tm->tm_wday]);
     }
+    snprintf(timebuffer, sizeof(timebuffer), "%02d:%02d",
+        tm->tm_hour,
+        tm->tm_min);
+        //tm->tm_sec);
 
     sprite.loadFont(Noto);
     sprite.fillRect(116, 40, 120, 20, RIGHT_RECT_BG_COLOR_2);
     sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_2, RIGHT_RECT_BG_COLOR_2);
-    sprite.drawString(daybuffer, 120, 44);
-
-    sprite.fillRect(116, 60, 120, 20, RIGHT_RECT_BG_COLOR_1);
-    sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_1, RIGHT_RECT_BG_COLOR_1);
-    sprite.drawString(timebuffer, 120, 64);
+    sprite.drawString(daybuffer, 118, 44);
+    sprite.drawString(timebuffer, 196, 44);
     sprite.unloadFont();
 }
 
 void drawName(String _strname, int _marked_done) {
     sprite.loadFont(Noto);
     if (_marked_done == 1) {
-        sprite.fillRect(116, 80, 120, 30, COLOR_DONE);
+        sprite.fillRect(116, 70, 120, 40, COLOR_DONE);
         sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_1, COLOR_DONE);
     } else {
-        sprite.fillRect(116, 80, 120, 30, COLOR_TODO);
+        sprite.fillRect(116, 70, 120, 40, COLOR_TODO);
         sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_1, COLOR_TODO);
     }
-    sprite.drawString(_strname, 120, 88);
+    sprite.drawString(_strname, 118, 84);
     sprite.unloadFont();
 }
 
