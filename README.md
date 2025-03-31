@@ -5,8 +5,8 @@
 
 ## Introduction
 Care givers, parents and health care professionals of people with a mental disability and/or 
-an Autism spectrum disorder (ASD), or simply autism, often make use of pictograms to give
-people a clearer understanding of the world around them. 
+an Autism spectrum disorder (ASD), or previously refered to as 'autism', often make use of 
+visual pictograms to give people a clearer understanding of the world around them. 
 
 One of the biggest advantages of using pictograms (or pictos) is that in one 
 easy to grasp visual form the activities and their sequence that are planned for the day 
