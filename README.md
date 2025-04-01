@@ -2,6 +2,7 @@
 
 ![Pictostick 2](https://github.com/jsoeterbroek/pictostick/blob/main/assets/IMG_0917.jpg)
 
+Note this is a prototype, not all of the functionality working yet.
 
 ## Introduction
 Care givers, parents and health care professionals of people with a mental disability and/or 
