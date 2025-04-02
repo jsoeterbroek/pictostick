@@ -108,7 +108,7 @@ Documentation Link: procedure_wifi.md  TBA
 * configuration screen [#2]
 * configurable options for user (eg. color themes) [#3]
 * ~~show battery charging status when charging~~
-* make user changes (eg. activites done) persistent [#4]
+* ~~make user changes (eg. activites done) persistent~~ [#4]
 * user changes (eg. activites done) to be cleared overnight to signify new day [#5]
 * write documentation for parents, care givers and health care professionals [#6]
 * write documentation for users [#7]
@@ -117,7 +117,7 @@ Documentation Link: procedure_wifi.md  TBA
 barebones atm. This needs to become a full-fledged web server service. [#9]
 
 ### battery saving stuff
-* sleep mode after x seconds inactivity [#10]
+* ~~sleep mode after x seconds inactivity~~ [#10]
 * ~~turn of WiFi when not needed~~
 * backlight dimmable by user (and make persistent) [#11]
 
