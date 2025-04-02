@@ -110,3 +110,4 @@ int current_activity_index = 0;
 int ps_current_activity_index = 0;
 
 String lang = "en"; // "en" for english, "nl" for dutch
+bool marked_done = false;

@@ -306,27 +306,17 @@ void drawMain() {
 
     ps_current_activity_index = get_pspref_current_activity_index();
 
-    // FIXME: remove later
-    //Serial.println("***************");
-    //Serial.println(config_activities_size);
-    //Serial.println(config_activities_size_max);
-
-    // Serial.println("*last (013):");
-    // Serial.println(_array_order[0]);  // must be '001'
-    // Serial.println(_array_picto[0]);
-    // Serial.println(_array_name[0]);
-    // Serial.println(" ");
-    // Serial.println("*last (013):");
-    // Serial.println(_array_order[12]);  // must be '013'
-    // Serial.println(_array_picto[12]);
-    // Serial.println(_array_name[12]);
     Serial.println("***************");
     Serial.println(" ");
     Serial.print("DEBUG: current activity index: ");
-    Serial.println(current_activity_index);
-    Serial.print("DEBUG: current activity index (from persistant storage): ");
     Serial.println(ps_current_activity_index);
     Serial.println(" ");
+    Serial.print("DEBUG: this activity is: ");
+    if (get_pspref_activity_done(ps_current_activity_index) == 1) {
+        Serial.println("done");
+    } else {
+        Serial.println("todo");
+    }
     Serial.println("***************");
 
     sprite.unloadFont();
@@ -350,7 +340,7 @@ void drawMain() {
             drawPicto(_array_picto[i]);
 
             // draw the name of the activity
-            if (_array_activity_marked_done[i] == 1) {
+            if (get_pspref_activity_done(ps_current_activity_index) == 1) {
                 drawName(_array_name[i], 1);
             } else {
                 drawName(_array_name[i], 0);
@@ -358,7 +348,7 @@ void drawMain() {
 
             // now check if this activity is marked done in  
             // _array_activity_marked_done[current_activity_index]
-            if (_array_activity_marked_done[ps_current_activity_index] == 1) {
+            if (get_pspref_activity_done(ps_current_activity_index) == 1) {
                 Serial.print(ps_current_activity_index); // FIXME: remove later
                 Serial.println(" is marked done"); // FIXME: remove later
                 //drawMarkedDone();
@@ -416,10 +406,11 @@ void drawMain() {
 
     if (config_activities_size < config_activities_size_max) {
         for (int i = 0; i < config_activities_size; i++) {
+            // small indicator (rectangle) for the current activity
             if (i == ps_current_activity_index) {
                 sprite.fillRect(_circle_x - 8, 129, 16, 4, DAYPERIOD_CIRCLE_BG_COLOR);
             }
-            if (_array_activity_marked_done[i] == 1) {
+            if (get_pspref_activity_done(i) == 1) {
                 sprite.fillSmoothCircle(_circle_x, 122, _size_circle, COLOR_DONE, BG_COLOR);
             } else {
                 sprite.fillSmoothCircle(_circle_x, 122, _size_circle, COLOR_TODO, BG_COLOR);
@@ -461,15 +452,15 @@ void drawMain() {
         // if it was turned off, turn on
         // if it was turned on, turn off
         // since we have only one button available
-        if (_array_activity_marked_done[ps_current_activity_index] == 1) {
-            _array_activity_marked_done[ps_current_activity_index] = 0;
+        if (get_pspref_activity_done(ps_current_activity_index) == 1) {
+            set_pspref_activity_undone(ps_current_activity_index);
         } else {
-            _array_activity_marked_done[ps_current_activity_index] = 1;
+            set_pspref_activity_done(ps_current_activity_index);
         }
-        Serial.println(_array_activity_marked_done[ps_current_activity_index]);
 
-        // now write to Preferences
-        // TODO: write to preferences
+        //Serial.print("get_pspref_activity_done(ps_current_activity_index) is "); // FIXME: remove later
+        // Serial.println(get_pspref_activity_done(ps_current_activity_index)); // FIXME: remove later
+        //delay(8000); // FIXME: remove later
 
         //beepBeep();
     }
