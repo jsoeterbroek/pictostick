@@ -14,8 +14,3 @@ Introduction
 
     intro/introduction
     intro/getting_started
-
-.. toctree::
-    :hidden:
-
-    intro/index
