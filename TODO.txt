@@ -1,4 +1,17 @@
-pictodevice/src/main.cpp:300: warning: FIXME: animate battery charging (icon)
-pictodevice/src/main.cpp:371: warning: FIXME: add logic to compare config file on fs with possible new update from HTTP 
-pictodevice/src/main.cpp:388: warning: TODO: probably use a fance multidimensional array with structs for this, but just use 'lists' for now
-pictodevice/src/main.cpp:417: warning: FIXME: make check for md5sum checksum of config file
+pictodevice/src/devicemode.cpp:22: warning: FIXME: debug, remove later
+pictodevice/src/devicemode.cpp:23: warning: FIXME: debug, remove later
+pictodevice/src/main.cpp:229: warning: FIXME: animate battery charging (icon) to indicate charging
+pictodevice/src/main.cpp:295: warning: TODO);
+pictodevice/src/main.cpp:296: warning: TODO);
+pictodevice/src/main.cpp:314: warning: TODO: probably use a fancy multidimensional array with structs for this, but just use 'lists' for now
+pictodevice/src/main.cpp:330: warning: FIXME: remove later
+pictodevice/src/main.cpp:379: warning: FIXME: remove later
+pictodevice/src/main.cpp:380: warning: FIXME: remove later
+pictodevice/src/main.cpp:442: warning: TODO, BG_COLOR);
+pictodevice/src/main.cpp:485: warning: TODO: write to preferences
+pictodevice/src/main.cpp:531: warning: FIXME: remove later
+pictodevice/src/main.cpp:534: warning: FIXME: remove later
+pictodevice/src/main.cpp:536: warning: FIXME: fix or remov3?? 
+pictodevice/src/main.cpp:593: warning: FIXME: add logic to compare config file on fs with possible new update from HTTP in device mode 2
+pictodevice/src/main.cpp:600: warning: FIXME: make check for md5sum checksum of config file
+pictodevice/src/main.cpp:607: warning: FIXME, remove later

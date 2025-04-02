@@ -20,7 +20,6 @@
 
 TFT_eSPI tft = TFT_eSPI();
 TFT_eSprite sprite = TFT_eSprite(&tft);
-TFT_eSprite errSprite = TFT_eSprite(&tft);
 
 // WiFi Manager
 WiFiManager wm;
@@ -35,10 +34,6 @@ JsonDocument cdoc;
 void setTime() {
     Serial.println(" ");
     Serial.print("connecting to time server ");
-    tft.println("connecting to internet ");
-    tft.print("time server ");
-    Serial.println(ntpServer);
-    tft.println(ntpServer);
     Serial.println(" ");
     // Init and get the time
     configTime(0, 0, ntpServer);
@@ -47,33 +42,25 @@ void setTime() {
     tzset();
     delay(100);
     if(!getLocalTime(&timeinfo)){
-        tft.println("ERROR: failed to obtain time");
         Serial.println("ERROR: failed to obtain time");
         delay(10000);
     } else {
         Serial.println("OK: obtained time");
-        tft.println("OK: obtained time");
         Serial.println(&timeinfo, " %A, %B %d %Y %H:%M:%S");
-        tft.println(&timeinfo, " %A, %B %d %Y %H:%M:%S");
         STATUS_NTP_OK = true;
     }
 }
 
 void configModeCallback(WiFiManager *myWiFiManager) {
 
-    Serial.println("Entered config mode");
+    Serial.println(" ********************");
+    Serial.println(" Entered config mode:");
+    Serial.print(" Webportal started at:");
     Serial.println(WiFi.softAPIP());
+    Serial.print(" please connect to WiFi SSID: ");
     Serial.println(myWiFiManager->getConfigPortalSSID());
-
-    tft.println(" ");
-    tft.println(" ********************");
-    tft.println(" Entered config mode:");
-    tft.print(" Webportal started at:");
-    tft.println(WiFi.softAPIP());
-    tft.print(" please connect to WiFi SSID: ");
-    tft.println(myWiFiManager->getConfigPortalSSID());
-    tft.println(" to configure WiFI for this device");
-    tft.println(" ********************");
+    Serial.println(" to configure WiFI for this device");
+    Serial.println(" ********************");
 
     STATUS_WIFI_MGR_CONFIG_MODE_OK = true;
 }
@@ -160,10 +147,27 @@ void beepBeep() {
     }
 }
 
+void slowBrightnessDown() {
+
+    int _delay(8000); // 8 seconds
+
+    StickCP2.Display.setBrightness(60);
+    delay(_delay);
+    StickCP2.Display.setBrightness(40);
+    delay(_delay);
+    StickCP2.Display.setBrightness(20);
+    delay(_delay);
+    StickCP2.Display.setBrightness(0);
+    delay(20);
+    StickCP2.Display.powerSaveOn();
+
+}
+
 void drawSplash() {
 
-    tft.fillScreen(TFT_WHITE);
-    tft.loadFont(Noto);
+    sprite.createSprite(MY_WIDTH, MY_HEIGHT);
+    sprite.fillSprite(TFT_WHITE);
+    sprite.loadFont(Noto);
     sprite.setTextColor(TFT_DARKGRAY,TFT_WHITE);
     String software = " Pictostick ";
     //software += String("v") + pd_version_major() + "." + pd_version_minor() + "." + pd_version_patch();
@@ -172,31 +176,14 @@ void drawSplash() {
     String maker_email = " <joost.soeterbroek@gmail.com>";
     String code = " github.com/jsoeterbroek/pictostick";
 
-    tft.drawString(software,4,24);
-    tft.unloadFont();
-    tft.loadFont(smallFont);
-    tft.drawString(maker,4,52);
-    tft.drawString(maker_email,4,72);
-    tft.drawString(code,4,92);
-    tft.unloadFont();
-}
-
-void drawBg() {
-
-    tft.fillScreen(BG_COLOR);
-    sprite.createSprite(MY_WIDTH, MY_HEIGHT);
-    sprite.fillSprite(TFT_TRANSPARENT);
-    
-    // main
-    // middle now
-    sprite.fillSmoothRoundRect(10, 10, picto_box_width, picto_box_height, 5, FG_COLOR,BG_COLOR);
-
-    // bottom
-    // each activity gets its own circle 
-    // we should maximize the number of activities to screen length
- 
+    sprite.drawString(software,4,24);
     sprite.unloadFont();
-    sprite.pushSprite(0,0,TFT_TRANSPARENT);
+    sprite.loadFont(smallFont);
+    sprite.drawString(maker,4,52);
+    sprite.drawString(maker_email,4,72);
+    sprite.drawString(code,4,92);
+    sprite.unloadFont();
+    StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t*)sprite.getPointer());
 }
 
 // Callback function to draw pixels to the display
@@ -301,6 +288,11 @@ void drawName(String _strname, int _marked_done) {
 
 void drawMain() {
 
+    StickCP2.Display.powerSaveOff();
+    StickCP2.Display.setBrightness(brightness[b]);
+    sprite.createSprite(MY_WIDTH, MY_HEIGHT);
+    sprite.fillSprite(BG_COLOR);
+
     // extract values from config JSON object
     config_activities_size = cdoc["activities"].size();
     config_comment = cdoc["comment"]; // nullptr
@@ -346,10 +338,10 @@ void drawMain() {
     Serial.println(current_activity_index);
     Serial.println("***************");
 
-    sprite.createSprite(MY_WIDTH, MY_HEIGHT);
-    sprite.fillSprite(TFT_TRANSPARENT);
     sprite.unloadFont();
     sprite.setTextColor(TFT_WHITE, RIGHT_RECT_BG_COLOR_1);
+
+    sprite.fillSmoothRoundRect(10, 10, picto_box_width, picto_box_height, 5, FG_COLOR,BG_COLOR);
 
     drawTime();
 
@@ -445,9 +437,8 @@ void drawMain() {
         }
     }
 
-    sprite.pushSprite(0, 0, TFT_TRANSPARENT);
     sprite.unloadFont();
-    sprite.deleteSprite(); // clean up
+    StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t*)sprite.getPointer());
 
     // button action
     if (StickCP2.BtnPWR.wasPressed()) {
@@ -491,21 +482,17 @@ void drawMain() {
 void setup() {
 
     pinMode(35,INPUT_PULLUP);
-    pinMode(4, OUTPUT);
-    digitalWrite(4, HIGH);
     auto cfg = M5.config();
     StickCP2.begin(cfg);
-    StickCP2.Display.setBrightness(brightnes[b]);
+    StickCP2.Display.setRotation(3);
+    StickCP2.Display.fillScreen(TFT_WHITE);
+
+    sprite.createSprite(MY_WIDTH, MY_HEIGHT);
+
+    StickCP2.Display.setBrightness(brightness[b]);
 
     Serial.begin(115200);
     Serial.println("start initialisation..");
-
-    tft.init();
-    tft.setRotation(3);
-    tft.fillScreen(TFT_WHITE);
-    tft.setTextSize(1);
-    tft.println("");
-    tft.setTextColor(TFT_BLACK, TFT_WHITE);
 
     dmPrefs.begin(NS, RO_MODE);  // Open our namespace (or create it
                                  //  if it doesn't exist) in RO mode.
@@ -528,16 +515,14 @@ void setup() {
 
     uint8_t _mode = 0;
     Serial.print(" * Starting in mode:");
-    tft.print(" * DEBUG: Starting in mode:");  // FIXME: remove later
     _mode = get_devicemode();
     Serial.print(_mode);
-    tft.print(_mode);  // FIXME: remove later
 
     // FIXME: fix or remov3?? 
     switch(_mode) {
         case 0:
-            tft.println("mode 0");
-            tft.println("rebooting..");
+            Serial.println("mode 0");
+            Serial.println("rebooting..");
             delay(10000);
             ESP.restart(); // trigger reboot of device
             break;
@@ -557,7 +542,6 @@ void setup() {
                 ESP.restart();
             } else {
                 STATUS_WIFI_MGR_OK = true;
-                tft.println("WiFi connected.");
                 Serial.println("WiFi connected.");
             }
             
@@ -567,7 +551,7 @@ void setup() {
             // set NTP time to rtc clock
             struct tm timeInfo;
             if (STATUS_NTP_OK) {
-                tft.println("set rtc clock from NTP");
+                Serial.println("set rtc clock from NTP");
                 while (!getLocalTime(&timeInfo, 1000)) {
                     Serial.print('.');
                 };
@@ -576,7 +560,7 @@ void setup() {
                     ;  /// Synchronization in seconds
                 StickCP2.Rtc.setDateTime(gmtime(&t));
             } else {
-                tft.println("ERROR: rtc clock not set");
+                Serial.println("ERROR: rtc clock not set");
             }
             if (STATUS_NTP_OK) {
                 // set devicemode 3
@@ -608,7 +592,6 @@ void setup() {
             Serial.println("initialisation complete");
             drawSplash();
             delay(10000);
-            drawBg();
             break;
     }
 }
@@ -616,8 +599,6 @@ void setup() {
 void loop() {
 
     StickCP2.update();
-
-
     drawMain();
     delay(100);
 }
