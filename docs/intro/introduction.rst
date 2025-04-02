@@ -20,7 +20,6 @@ Requirements
 License
 *******
 
-The LVGL project (including all repositories) is licensed under the `MIT license
-<https://github.com/lvgl/lvgl/blob/master/LICENCE.txt>`__.  This means you can use it
-even in commercial projects.
+The Pictostick project is licenced under the 'Creative Commons Zero v1.0 Universal' license.
+The picto icons used are Google Fonts Material Design icons, made available under the Apache License Version 2.0 license.
 
