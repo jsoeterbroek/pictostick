@@ -6,12 +6,16 @@
 pictostick documentation
 ========================
 
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
-
+Introduction
+------------
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+    :maxdepth: 1
 
+    intro/introduction
+    intro/getting_started
+
+.. toctree::
+    :hidden:
+
+    intro/index
