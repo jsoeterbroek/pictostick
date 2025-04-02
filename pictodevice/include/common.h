@@ -16,7 +16,7 @@ static inline int pd_version_patch(void) {
     return PD_VERSION_PATCH;
 }
 
-int counter=0;
+//int counter=0;
 
 // status flags
 boolean STATUS_WIFI_OK = false;
@@ -83,8 +83,8 @@ int setPosX[8]={10,50,91,10,50,91,8,8};
 int setPosY[8]={54,54,54,124,124,124,172,192};
 int chosen=0;
 //brightness and battery
-int brightnes[6]={16,32,48,64,96,180};
-int b=2;
+int brightness[6] = {16, 32, 48, 64, 96, 180};
+int b = 2;
 int vol;
 int volE;
 
@@ -92,7 +92,7 @@ int volE;
 int buzzer = 1;
 
 //sleep variables
-int sleepTime = 10;
+int sleepTime = 50;
 int ts,tts = 0;
 bool slp = false;
 
@@ -107,5 +107,6 @@ uint8_t region;
 int16_t xpos = 12;
 int16_t ypos = 12;
 int current_activity_index = 0;
+int ps_current_activity_index = 0;
 
 String lang = "en"; // "en" for english, "nl" for dutch

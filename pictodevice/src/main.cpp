@@ -147,21 +147,6 @@ void beepBeep() {
     }
 }
 
-void slowBrightnessDown() {
-
-    int _delay(8000); // 8 seconds
-
-    StickCP2.Display.setBrightness(60);
-    delay(_delay);
-    StickCP2.Display.setBrightness(40);
-    delay(_delay);
-    StickCP2.Display.setBrightness(20);
-    delay(_delay);
-    StickCP2.Display.setBrightness(0);
-    delay(20);
-    StickCP2.Display.powerSaveOn();
-
-}
 
 void drawSplash() {
 
@@ -319,6 +304,8 @@ void drawMain() {
         _i = _i + 1;
     }
 
+    ps_current_activity_index = get_pspref_current_activity_index();
+
     // FIXME: remove later
     //Serial.println("***************");
     //Serial.println(config_activities_size);
@@ -333,9 +320,13 @@ void drawMain() {
     // Serial.println(_array_order[12]);  // must be '013'
     // Serial.println(_array_picto[12]);
     // Serial.println(_array_name[12]);
+    Serial.println("***************");
     Serial.println(" ");
     Serial.print("DEBUG: current activity index: ");
     Serial.println(current_activity_index);
+    Serial.print("DEBUG: current activity index (from persistant storage): ");
+    Serial.println(ps_current_activity_index);
+    Serial.println(" ");
     Serial.println("***************");
 
     sprite.unloadFont();
@@ -353,7 +344,7 @@ void drawMain() {
     for (int i = 0; i < config_activities_size; i++ ) {
     
         // current
-        if (i == current_activity_index) {
+        if (i == ps_current_activity_index) {
             
             // draw the picto
             drawPicto(_array_picto[i]);
@@ -367,8 +358,8 @@ void drawMain() {
 
             // now check if this activity is marked done in  
             // _array_activity_marked_done[current_activity_index]
-            if (_array_activity_marked_done[current_activity_index] == 1) {
-                Serial.print(current_activity_index); // FIXME: remove later
+            if (_array_activity_marked_done[ps_current_activity_index] == 1) {
+                Serial.print(ps_current_activity_index); // FIXME: remove later
                 Serial.println(" is marked done"); // FIXME: remove later
                 //drawMarkedDone();
             }
@@ -425,7 +416,7 @@ void drawMain() {
 
     if (config_activities_size < config_activities_size_max) {
         for (int i = 0; i < config_activities_size; i++) {
-            if (i == current_activity_index) {
+            if (i == ps_current_activity_index) {
                 sprite.fillRect(_circle_x - 8, 129, 16, 4, DAYPERIOD_CIRCLE_BG_COLOR);
             }
             if (_array_activity_marked_done[i] == 1) {
@@ -442,8 +433,10 @@ void drawMain() {
 
     // button action
     if (StickCP2.BtnPWR.wasPressed()) {
-        if (current_activity_index >= 1) {
-            current_activity_index = current_activity_index - 1;
+        sleepTime=25;
+        ps_current_activity_index = get_pspref_current_activity_index();
+        if (ps_current_activity_index >= 1) {
+            set_pspref_current_activity_index(ps_current_activity_index - 1);
         } else {
             if(buzzer) {
                 StickCP2.Speaker.tone(6000, 100);
@@ -451,8 +444,10 @@ void drawMain() {
         }
     }
     if (StickCP2.BtnB.wasPressed()) {
-        if (current_activity_index < config_activities_size - 1) {
-            current_activity_index = current_activity_index + 1;
+        sleepTime=25;
+        ps_current_activity_index = get_pspref_current_activity_index();
+        if (ps_current_activity_index < config_activities_size - 1) {
+            set_pspref_current_activity_index(ps_current_activity_index + 1);
         } else {
             if(buzzer) {
                 StickCP2.Speaker.tone(6000, 100);
@@ -461,16 +456,17 @@ void drawMain() {
     }
     if (StickCP2.BtnA.wasPressed()) {
 
+        sleepTime=25;
         // mark activity done
         // if it was turned off, turn on
         // if it was turned on, turn off
         // since we have only one button available
-        if (_array_activity_marked_done[current_activity_index] == 1) {
-            _array_activity_marked_done[current_activity_index] = 0;
+        if (_array_activity_marked_done[ps_current_activity_index] == 1) {
+            _array_activity_marked_done[ps_current_activity_index] = 0;
         } else {
-            _array_activity_marked_done[current_activity_index] = 1;
+            _array_activity_marked_done[ps_current_activity_index] = 1;
         }
-        Serial.println(_array_activity_marked_done[current_activity_index]);
+        Serial.println(_array_activity_marked_done[ps_current_activity_index]);
 
         // now write to Preferences
         // TODO: write to preferences
@@ -588,7 +584,6 @@ void setup() {
             } else {
                 Serial.println("ERROR: error reading config from fs");
             }
-            delay(2000);  // FIXME, remove later
             Serial.println("initialisation complete");
             drawSplash();
             delay(10000);
@@ -599,6 +594,26 @@ void setup() {
 void loop() {
 
     StickCP2.update();
+    if(slp) {
+        StickCP2.Display.setBrightness(brightness[b]);
+        slp = false;
+        sleepTime = 25;
+    }
     drawMain();
     delay(100);
+    auto dt = StickCP2.Rtc.getDateTime();
+    if(dt.time.seconds<10) s="0"+String(dt.time.seconds); else s=String(dt.time.seconds);
+    if(dt.time.minutes<10) m="0"+String(dt.time.minutes); else m=String(dt.time.minutes);
+    ts=dt.time.seconds;
+    if(tts!=ts) {sleepTime--; tts=ts;}
+
+    Serial.print("DEBUG: sleepTime: "); // FIXME: remove later
+    Serial.println(sleepTime); // FIXME: remove later
+
+    if(sleepTime == 0) {
+        slp = true;
+        StickCP2.Display.setBrightness(0);
+        delay(20);
+        StickCP2.Power.lightSleep();
+    }
 }
