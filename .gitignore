@@ -17,3 +17,5 @@ docs/_build/gettext/.doctrees/environment.pickle
 docs/_build/gettext/.doctrees/index.doctree
 docs/_build/gettext/.doctrees/intro/getting_started.doctree
 docs/_build/gettext/.doctrees/intro/introduction.doctree
+picto_ws/pictostick/main/migrations/
+picto_ws/pictostick/mydatabase.sqlite3
