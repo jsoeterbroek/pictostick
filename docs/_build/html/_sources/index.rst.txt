@@ -3,13 +3,13 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-pictostick documentation
+PictoStick documentation
 ========================
 
 .. raw:: html
 
     <div style="margin-bottom:30px; margin-top:14px">
-    <img src="_static/images/pictostick.jpg" alt="Pictostick" style="width:100%">
+    <img src="_static/images/pictostick.jpg" alt="PictoStick" style="width:100%">
     </div>
 
 Introduction

@@ -1,6 +1,6 @@
 const DOCUMENTATION_OPTIONS = {
-    VERSION: '1.2',
-    LANGUAGE: 'en',
+    VERSION: '1.2 PROTOTYPE',
+    LANGUAGE: 'nl',
     COLLAPSE_INDEX: false,
     BUILDER: 'html',
     FILE_SUFFIX: '.html',
