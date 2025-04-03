@@ -1,0 +1,12 @@
+# Create your views here.
+from django.http import HttpResponse
+
+
+def index(request):
+    return HttpResponse("Hello, world. You're at the main index.")
+
+def change(request):
+    return HttpResponse("Hello, world. You're at the main index change.")
+
+
+
