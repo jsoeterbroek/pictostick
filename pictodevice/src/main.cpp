@@ -230,8 +230,8 @@ void drawUserName() {
 
 void drawTime() {
     // time
-    static constexpr const char* const wd_en[7] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-    static constexpr const char* const wd_nl[7] = {"Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"};
+    static constexpr const char* const wd_en[7] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+    static constexpr const char* const wd_nl[7] = {"Zon", "Maa", "Din", "Woe", "Don", "Vri", "Zat"};
     auto dt = StickCP2.Rtc.getDateTime();
     // ESP32 internal timer
     auto t = time(nullptr);
@@ -347,7 +347,6 @@ void drawMain() {
             }
 
             // now check if this activity is marked done in  
-            // _array_activity_marked_done[current_activity_index]
             if (get_pspref_activity_done(ps_current_activity_index) == 1) {
                 Serial.print(ps_current_activity_index); // FIXME: remove later
                 Serial.println(" is marked done"); // FIXME: remove later
@@ -357,7 +356,6 @@ void drawMain() {
     }
 
     // TEST, uncomment below
-    // maximum activities_size = 18;
     // config_activities_size = 5;
 
     int _circle_x; int _dist_between; int _size_circle;
