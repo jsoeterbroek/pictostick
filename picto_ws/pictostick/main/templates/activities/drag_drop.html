@@ -1,0 +1,54 @@
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Assign Activities</title>
+
+    <link rel="stylesheet" href="{% static 'css/drag_drop.css' %}">
+    <script src="{% static 'js/jquery.js' %}" defer></script>
+    <script src="{% static 'js/project.js' %}" defer></script>
+  </head>
+  <body>
+    <div class="board">
+     {% if sorted_av_activities_list %}
+      <div class="lanes">
+
+        <div class="swim-lane" id="-1">
+          <h3 class="heading">Available Pictos</h3>
+          {% for activity in sorted_av_activities_list %}
+            <p class="activity" draggable="true" id="{{ activity.id }}">
+            <img src="{{ STATIC_PREFIX }}images/picto/{{ activity.picto }}">
+            <br> {{ activity.order }}
+             {{ activity.name_en }}
+            </p>
+          {% endfor %}
+        </div>
+
+        <div class="swim-lane" id="2">
+          <h3 class="heading">Activity List</h3>
+          {% for activity in sorted_fu_activities_list %}
+            <p class="fuactivity" draggable="true" id="{{ activity.id }}">
+            <img src="{{ STATIC_PREFIX }}images/picto/{{ activity.picto }}">
+            <br> {{ activity.order }}
+             {{ activity.name_en }}
+            </p>
+          {% endfor %}
+        </div>
+
+        {% for employee in employees %}
+          <div class="swim-lane" id="{{ employee.id }}">
+            <h3 class="heading">Employee {{ employee.firstname }}</h3>
+          </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>
+
+<!--Inspired by https://github.com/TomIsLoading/drag-and-drop-kanban-->

@@ -21,7 +21,22 @@ class Activities(models.Model):
     def __str__(self):
         return self.type
 
+# all available activities
 class Activity(models.Model):
+    order = models.IntegerField()
+    picto = models.CharField(max_length = 20)
+    name_nl = models.CharField(max_length = 20)
+    name_en = models.CharField(max_length = 20)
+    #activities = models.ForeignKey(Activities, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.picto
+
+    class Meta:
+        ordering = ["order"]
+
+# all frequantly used activities
+class FuActivity(models.Model):
     order = models.IntegerField()
     picto = models.CharField(max_length = 20)
     name_nl = models.CharField(max_length = 20)
