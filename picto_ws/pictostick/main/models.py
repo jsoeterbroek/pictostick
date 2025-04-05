@@ -26,7 +26,7 @@ class Activity(models.Model):
     picto = models.CharField(max_length = 20)
     name_nl = models.CharField(max_length = 20)
     name_en = models.CharField(max_length = 20)
-    activities = models.ForeignKey(Activities, on_delete=models.CASCADE)
+    #activities = models.ForeignKey(Activities, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.picto
