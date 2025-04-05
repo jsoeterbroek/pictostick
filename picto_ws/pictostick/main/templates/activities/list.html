@@ -1,0 +1,16 @@
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+{% if sorted_activities_list %}
+<table border=0>
+    {% for activity in sorted_activities_list %}
+    <tr>
+        <td>{{ activity.order }}</td>
+        <td><img src="{{ STATIC_PREFIX }}images/picto/{{ activity.picto }}">
+        <td>{{ activity.name_nl }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
