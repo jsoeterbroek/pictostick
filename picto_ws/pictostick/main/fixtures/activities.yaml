@@ -1164,90 +1164,97 @@
   pk: 166
   fields:
     order: 166
-    picto: train.png
-    name_nl: train
-    name_en: train
+    picto: toothbrush.png
+    name_nl: toothbrush
+    name_en: toothbrush
 - model: main.activity
   pk: 167
   fields:
     order: 167
-    picto: tram.png
-    name_nl: tram
-    name_en: tram
+    picto: train.png
+    name_nl: train
+    name_en: train
 - model: main.activity
   pk: 168
   fields:
     order: 168
-    picto: trophy.png
-    name_nl: trophy
-    name_en: trophy
+    picto: tram.png
+    name_nl: tram
+    name_en: tram
 - model: main.activity
   pk: 169
   fields:
     order: 169
-    picto: tv.png
-    name_nl: tv
-    name_en: tv
+    picto: trophy.png
+    name_nl: trophy
+    name_en: trophy
 - model: main.activity
   pk: 170
   fields:
     order: 170
-    picto: umbrella.png
-    name_nl: umbrella
-    name_en: umbrella
+    picto: tv.png
+    name_nl: tv
+    name_en: tv
 - model: main.activity
   pk: 171
   fields:
     order: 171
-    picto: vaccines.png
-    name_nl: vaccines
-    name_en: vaccines
+    picto: umbrella.png
+    name_nl: umbrella
+    name_en: umbrella
 - model: main.activity
   pk: 172
   fields:
     order: 172
-    picto: vacuum.png
-    name_nl: vacuum
-    name_en: vacuum
+    picto: vaccines.png
+    name_nl: vaccines
+    name_en: vaccines
 - model: main.activity
   pk: 173
   fields:
     order: 173
-    picto: volunteer.png
-    name_nl: volunteer
-    name_en: volunteer
+    picto: vacuum.png
+    name_nl: vacuum
+    name_en: vacuum
 - model: main.activity
   pk: 174
   fields:
     order: 174
-    picto: walker.png
-    name_nl: walker
-    name_en: walker
+    picto: volunteer.png
+    name_nl: volunteer
+    name_en: volunteer
 - model: main.activity
   pk: 175
   fields:
     order: 175
-    picto: walk.png
-    name_nl: walk
-    name_en: walk
+    picto: walker.png
+    name_nl: walker
+    name_en: walker
 - model: main.activity
   pk: 176
   fields:
     order: 176
-    picto: wash.png
-    name_nl: wash
-    name_en: wash
+    picto: walk.png
+    name_nl: walk
+    name_en: walk
 - model: main.activity
   pk: 177
   fields:
     order: 177
-    picto: wc.png
-    name_nl: wc
-    name_en: wc
+    picto: wash.png
+    name_nl: wash
+    name_en: wash
 - model: main.activity
   pk: 178
   fields:
     order: 178
+    picto: wc.png
+    name_nl: wc
+    name_en: wc
+- model: main.activity
+  pk: 179
+  fields:
+    order: 179
     picto: wheelbarrow.png
     name_nl: wheelbarrow
     name_en: wheelbarrow
