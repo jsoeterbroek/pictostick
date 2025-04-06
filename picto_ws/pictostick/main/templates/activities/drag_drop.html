@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Assign Activities</title>
     <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-sortablejs@latest/jquery-sortable.js"></script>
     <script src="{% static 'js/project.js' %}" defer></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
@@ -16,45 +17,32 @@
   </head>
   <body>
 
-     
 		<div id="cloning" class="row">
 			<h4 class="col-12">Cloning</h4>
 			<p class="col-12">Try dragging from one list to another. The item you drag will be cloned and the clone will stay in the original list.</p>
-			<div id="left" class="list-group col">
-				<div class="list-group-item">Item 1</div>
-				<div class="list-group-item">Item 2</div>
-				<div class="list-group-item">Item 3</div>
-				<div class="list-group-item">Item 4</div>
-				<div class="list-group-item">Item 5</div>
-				<div class="list-group-item">Item 6</div>
+      <h3 class="col-12">Pictos</h3>
+
+     {% if sorted_av_activities_list %}
+			<div id="pictos" class="list-group col">
+        {% for activity in sorted_av_activities_list %}
+				<div class="list-group-item">
+          {{ activity.id }}
+          <img src="{{ STATIC_PREFIX }}images/picto/{{ activity.picto }}" width="46" height="46">
+          {{ activity.name_en }}
+        </div>
+        {% endfor %}
 			</div>
+      {% endif %}
 
 			<div id="right" class="list-group col">
 				<div class="list-group-item tinted">Item 1</div>
 				<div class="list-group-item tinted">Item 2</div>
 				<div class="list-group-item tinted">Item 3</div>
-				<div class="list-group-item tinted">Item 4</div>
-				<div class="list-group-item tinted">Item 5</div>
-				<div class="list-group-item tinted">Item 6</div>
 			</div>
 
     </div>
 		<hr />
-     <!--
-     {% if sorted_av_activities_list %}
-
-		  <div id="cloning" class="row">
-
-        <div id="left" class="sortable-container">
-          <h3 class="heading">Pictos</h3>
-          {% for activity in sorted_av_activities_list %}
-          <div class="sort">
-             {{ activity.order }}
-             {{ activity.name_en }}
-            </div>
-          {% endfor %}
-        </div>
-
+    <!--
         {% for weekday in weekdays %}
           <div id="right" class="list-group col">
             <h3 class="heading">Weekday {{ weekday.day }}</h3>
@@ -62,7 +50,6 @@
           </div>
         {% endfor %}
       </div>
-      {% endif %}
     -->
 
   </body>

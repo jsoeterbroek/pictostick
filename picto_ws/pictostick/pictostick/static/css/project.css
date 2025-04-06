@@ -1,9 +1,6 @@
 body {
 	font-family: Helvetica Neue, Helvetica, Arial;
-	background: rgb(244,215,201); /* Old browsers */
-	background: -moz-linear-gradient(top, rgb(244,215,201) 0%, rgb(244,226,201) 100%); /* FF3.6-15 */
-	background: -webkit-linear-gradient(top, rgb(244,215,201) 0%,rgb(244,226,201) 100%); /* Chrome10-25,Safari5.1-6 */
-	background: linear-gradient(to bottom, rgb(244,215,201) 0%,rgb(244,226,201) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	background:  white;
 	margin-bottom: 100px;
 }
 

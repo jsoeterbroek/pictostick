@@ -1,4 +1,4 @@
-new Sortable(left, {
+new Sortable(pictos, {
   group: {
       name: 'shared',
       pull: 'clone'
