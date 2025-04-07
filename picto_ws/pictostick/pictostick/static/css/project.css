@@ -66,7 +66,6 @@ code {
 	background-color: rgb(255,255,255,0.5);
 }
 
-
 .square {
 	width: 20vw;
 	height: 20vw;
@@ -110,12 +109,12 @@ code {
 }
 
 .grid-square {
-	width: 100px;
-	height: 100px;
+	width: 36px;
+	height: 36px;
 	display: inline-block;
 	background-color: #fff;
 	border: solid 1px rgb(0,0,0,0.2);
-	padding: 10px;
+	padding: 2px;
 	margin: 12px;
 }
 
@@ -146,7 +145,7 @@ code {
 }
 
 input[type=range] {
-  -webkit-appearance: none;
+  -appearance: none;
   width: 100%;
   margin: 3.8px 0;
 }

@@ -8,8 +8,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Assign Activities</title>
-    <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-sortablejs@latest/jquery-sortable.js"></script>
+    <script src="{% static 'js/Sortable.js' %}" defer></script>
+    <script src="{% static 'js/jquery.js' %}" defer></script>
+    <script src="{% static 'js/jquery-sortable.js' %}" defer></script>
     <script src="{% static 'js/project.js' %}" defer></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
@@ -23,12 +24,14 @@
       <h3 class="col-12">Pictos</h3>
 
         {% for weekday in weekdays %}
-          <div id="{{ weekday.day }}" class="list-group col">
-            <h3 class="heading">  {{ weekday.day }}</h3>
+        <div id="{{ weekday.day }}" class="list-group col">
+          <div class="droppable">
+            <h3 class="heading">{{ weekday.day }}</h3>
             <div class="list-group-item tinted">Item 1</div>
           </div>
+        </div>
         {% endfor %}
-      </div>
+    </div>
 
       <hr>
 
@@ -37,23 +40,25 @@
 			<div id="fugrid" class="row">
         {% for activity in sorted_fu_activities_list %}
 				<div class="grid-square">
+          <div class="draggable">
           <!-- {{ activity.id }} -->
           <img src="{{ STATIC_PREFIX }}images/picto/{{ activity.picto }}" width="32" height="32">
-          <br>{{ activity.name_en }}
+          <!-- <br>{{ activity.name_en }} -->
+          </div>
         </div>
         {% endfor %}
 			</div>
       {% endif %}
       <hr>
 
-      <h3 >More Pictos</h3>
+      <h3>All Pictos</h3>
      {% if sorted_av_activities_list %}
 			<div id="avgrid" class="row">
         {% for activity in sorted_av_activities_list %}
 				<div class="grid-square">
           <!-- {{ activity.id }} -->
-          <img src="{{ STATIC_PREFIX }}images/picto/{{ activity.picto }}" width="32" height="32">
-          <br>{{ activity.name_en }}
+          <img src="{{ STATIC_PREFIX }}images/picto/{{ activity.picto }}" width="32" height="32" alt="{{ activity.name_en }}">
+          <!-- <br>{{ activity.name_en }} -->
         </div>
         {% endfor %}
 			</div>
@@ -64,4 +69,5 @@
   </body>
 </html>
 
-<!--Inspired by https://github.com/TomIsLoading/drag-and-drop-kanban-->
+<!--Inspired by https://github.com/TomIsLoading/drag-and-drop-kanban -->
+<!--Inspired by https://medium.com/@jakubjadczak02/drag-drop-and-django-5a5743913c8f -->
