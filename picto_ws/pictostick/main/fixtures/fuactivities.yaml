@@ -1,0 +1,49 @@
+- model: main.fuactivity
+  pk: 3
+  fields:
+    order: 3
+    picto: alarm.png
+    name_nl: alarm
+    name_en: alarm
+- model: main.fuactivity
+  pk: 15
+  fields:
+    order: 15
+    picto: bedtime.png
+    name_nl: slapen
+    name_en: bedtime
+- model: main.fuactivity
+  pk: 22
+  fields:
+    order: 22
+    picto: breakfast.png
+    name_nl: ontbijt
+    name_en: breakfast
+- model: main.fuactivity
+  pk: 40
+  fields:
+    order: 40
+    picto: coffee.png
+    name_nl: koffie
+    name_en: coffee
+- model: main.fuactivity
+  pk: 140
+  fields:
+    order: 140
+    picto: shower.png
+    name_nl: douche
+    name_en: shower
+- model: main.fuactivity
+  pk: 158
+  fields:
+    order: 158
+    picto: taxi.png
+    name_nl: taxi
+    name_en: taxi
+- model: main.fuactivity
+  pk: 159
+  fields:
+    order: 159
+    picto: tea.png
+    name_nl: tea
+    name_en: tea

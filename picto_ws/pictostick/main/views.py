@@ -16,18 +16,21 @@ def list(request):
     return HttpResponse(template.render(context, request))
 
 weekdays = [
-    { 'day': 'Mon', 'id': 1},
-    { 'day': 'Tue', 'id': 2},
-    { 'day': 'Wed', 'id': 3},
-    { 'day': 'Thu', 'id': 4},
-    { 'day': 'Fri', 'id': 5},
-    { 'day': 'Sat', 'id': 6},
-    { 'day': 'Sun', 'id': 7},
+    { 'day': 'Monday', 'id': 1},
+    { 'day': 'Tuesday', 'id': 2},
+    { 'day': 'Wednesday', 'id': 3},
+    { 'day': 'Thursday', 'id': 4},
+    { 'day': 'Friday', 'id': 5},
+    { 'day': 'Saturday', 'id': 6},
+    { 'day': 'Sunday', 'id': 7},
         ]
 def dragdrop(request):
     sorted_av_activities_list = Activity.objects.order_by("order")
     sorted_fu_activities_list = FuActivity.objects.order_by("order")
     template = loader.get_template("activities/drag_drop.html")
-    context = {"sorted_av_activities_list": sorted_av_activities_list,
-               "weekdays": weekdays, }
+    context = {
+        "sorted_av_activities_list": sorted_av_activities_list,
+        "sorted_fu_activities_list": sorted_fu_activities_list,
+               "weekdays": weekdays,
+                }
     return HttpResponse(template.render(context, request))
