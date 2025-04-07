@@ -22,36 +22,29 @@
 			<p class="col-12">Try dragging from one list to another. The item you drag will be cloned and the clone will stay in the original list.</p>
       <h3 class="col-12">Pictos</h3>
 
+        {% for weekday in weekdays %}
+          <div id="{{ weekday.day }}" class="list-group col">
+            <h3 class="heading">{{ weekday.day }}</h3>
+            <div class="list-group-item tinted">Item 1</div>
+          </div>
+        {% endfor %}
+      </div>
+
+
      {% if sorted_av_activities_list %}
-			<div id="pictos" class="list-group col">
+			<div id="grid" class="row">
         {% for activity in sorted_av_activities_list %}
-				<div class="list-group-item">
-          {{ activity.id }}
-          <img src="{{ STATIC_PREFIX }}images/picto/{{ activity.picto }}" width="46" height="46">
-          {{ activity.name_en }}
+				<div class="grid-square">
+          <!-- {{ activity.id }} -->
+          <img src="{{ STATIC_PREFIX }}images/picto/{{ activity.picto }}" width="32" height="32">
+          <br>{{ activity.name_en }}
         </div>
         {% endfor %}
 			</div>
       {% endif %}
 
-			<div id="right" class="list-group col">
-				<div class="list-group-item tinted">Item 1</div>
-				<div class="list-group-item tinted">Item 2</div>
-				<div class="list-group-item tinted">Item 3</div>
-			</div>
-
     </div>
 		<hr />
-    <!--
-        {% for weekday in weekdays %}
-          <div id="right" class="list-group col">
-            <h3 class="heading">Weekday {{ weekday.day }}</h3>
-            <div class="list-group-item tinted">Item 1</div>
-          </div>
-        {% endfor %}
-      </div>
-    -->
-
   </body>
 </html>
 
