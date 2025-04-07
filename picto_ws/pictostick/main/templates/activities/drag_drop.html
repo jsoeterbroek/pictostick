@@ -23,14 +23,15 @@
 			<p class="col-12">Try dragging from one list to another. The item you drag will be cloned and the clone will stay in the original list.</p>
       <h3 class="col-12">Pictos</h3>
 
-        {% for weekday in weekdays %}
+      <div id="data" class="list-group col">
+            <div class="list-group-item tinted">Item 1</div>
+      </div>
+        <!-- {% for weekday in weekdays %}
         <div id="{{ weekday.day }}" class="list-group col">
-          <div class="droppable">
             <h3 class="heading">{{ weekday.day }}</h3>
             <div class="list-group-item tinted">Item 1</div>
-          </div>
         </div>
-        {% endfor %}
+        {% endfor %} -->
     </div>
 
       <hr>
@@ -40,11 +41,9 @@
 			<div id="fugrid" class="row">
         {% for activity in sorted_fu_activities_list %}
 				<div class="grid-square">
-          <div class="draggable">
           <!-- {{ activity.id }} -->
           <img src="{{ STATIC_PREFIX }}images/picto/{{ activity.picto }}" width="32" height="32">
           <!-- <br>{{ activity.name_en }} -->
-          </div>
         </div>
         {% endfor %}
 			</div>

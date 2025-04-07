@@ -23,7 +23,19 @@ new Sortable(fugrid, {
   ghostClass: 'blue-background-class'
 });
 
-new Sortable(Monday, {
+new Sortable(data, {
+  group: { 
+    name: 'shared', 
+    pull: 'clone' 
+  },
+  animation: 150, 
+  ghostClass: 'blue-background-class',
+  onUpdate: function (evt) {
+    get_assign(activity_id, list_id);
+  }
+});
+
+/* new Sortable(Monday, {
   group: { 
     name: 'shared', 
     pull: 'clone' 
@@ -37,28 +49,52 @@ new Sortable(Monday, {
 
 new Sortable(Tuesday, {
   group: { name: 'shared', pull: 'clone' },
-  animation: 150, ghostClass: 'blue-background-class'
+  animation: 150, 
+  ghostClass: 'blue-background-class',
+  onUpdate: function (evt) {
+    get_assign(activity_id, list_id);
+  }
 });
 new Sortable(Wednesday, {
   group: { name: 'shared', pull: 'clone' },
-  animation: 150, ghostClass: 'blue-background-class'
+  animation: 150, 
+  ghostClass: 'blue-background-class',
+  onUpdate: function (evt) {
+    get_assign(activity_id, list_id);
+  }
 });
 new Sortable(Thursday, {
   group: { name: 'shared', pull: 'clone' },
-  animation: 150, ghostClass: 'blue-background-class'
+  animation: 150, 
+  ghostClass: 'blue-background-class',
+  onUpdate: function (evt) {
+    get_assign(activity_id, list_id);
+  }
 });
 new Sortable(Friday, {
   group: { name: 'shared', pull: 'clone' },
-  animation: 150, ghostClass: 'blue-background-class'
+  animation: 150, 
+  ghostClass: 'blue-background-class',
+  onUpdate: function (evt) {
+    get_assign(activity_id, list_id);
+  }
 });
 new Sortable(Saturday, {
   group: { name: 'shared', pull: 'clone' },
-  animation: 150, ghostClass: 'blue-background-class'
+  animation: 150, 
+  ghostClass: 'blue-background-class',
+  onUpdate: function (evt) {
+    get_assign(activity_id, list_id);
+  }
 });
 new Sortable(Sunday, {
   group: { name: 'shared', pull: 'clone' },
-  animation: 150, ghostClass: 'blue-background-class'
-});
+  animation: 150, 
+  ghostClass: 'blue-background-class',
+  onUpdate: function (evt) {
+    get_assign(activity_id, list_id);
+  }
+}); */
 
 function get_assign(activity_id, list_id){
   console.log('get_assign triggered');
