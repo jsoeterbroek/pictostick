@@ -24,7 +24,9 @@
       <h3 class="col-12">Pictos</h3>
 
       <div id="data" class="list-group col">
+        <div class="swimlane" droppable="true" id="{{ list.id }}">
             <div class="list-group-item tinted">Item 1</div>
+        </div>
       </div>
         <!-- {% for weekday in weekdays %}
         <div id="{{ weekday.day }}" class="list-group col">
@@ -34,39 +36,39 @@
         {% endfor %} -->
     </div>
 
-      <hr>
+    <hr>
 
-      <h3 >Frequently used Pictos</h3>
+    <h3 >Frequently used Pictos</h3>
      {% if sorted_fu_activities_list %}
 			<div id="fugrid" class="row">
         {% for activity in sorted_fu_activities_list %}
 				<div class="grid-square">
-          <!-- {{ activity.id }} -->
+          <div class="activity" draggable="true" actid="{{ activity.id }}">
           <img src="{{ STATIC_PREFIX }}images/picto/{{ activity.picto }}" width="32" height="32">
           <!-- <br>{{ activity.name_en }} -->
+           </div>
         </div>
         {% endfor %}
 			</div>
       {% endif %}
-      <hr>
+    <hr>
 
-      <h3>All Pictos</h3>
+    <h3>All Pictos</h3>
      {% if sorted_av_activities_list %}
 			<div id="avgrid" class="row">
         {% for activity in sorted_av_activities_list %}
 				<div class="grid-square">
+          <div class="activity" draggable="true" actid="{{ activity.id }}">
           <!-- {{ activity.id }} -->
           <img src="{{ STATIC_PREFIX }}images/picto/{{ activity.picto }}" width="32" height="32" alt="{{ activity.name_en }}">
           <!-- <br>{{ activity.name_en }} -->
+          </div>
         </div>
         {% endfor %}
 			</div>
-      {% endif %}
+    {% endif %}
 
     </div>
 		<hr />
   </body>
 </html>
-
-<!--Inspired by https://github.com/TomIsLoading/drag-and-drop-kanban -->
-<!--Inspired by https://medium.com/@jakubjadczak02/drag-drop-and-django-5a5743913c8f -->

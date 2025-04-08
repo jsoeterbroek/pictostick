@@ -1,6 +1,7 @@
+const droppable = document.querySelector(".swimlane");
+const items = [];
 var activity_id= '0';
 var list_id= '0';
-
 
 new Sortable(avgrid, {
   group: {
@@ -13,7 +14,6 @@ new Sortable(avgrid, {
   sort: false // To disable sorting: set sort to false
 });
 
-//    get_assign(activity_id, list_id);
 new Sortable(fugrid, {
   group: {
       name: 'shared',
@@ -23,14 +23,23 @@ new Sortable(fugrid, {
   ghostClass: 'blue-background-class'
 });
 
-new Sortable(data, {
+Sortable.create(droppable, {
   group: { 
     name: 'shared', 
     pull: 'clone' 
   },
   animation: 150, 
   ghostClass: 'blue-background-class',
+  onAdd: function (evt) {
+    const target = evt.item.querySelector('[actid]');
+    //console.log(target);
+    activity_id = $(target).attr('actid');
+    //console.log(activity_id);
+    get_assign(activity_id, list_id);
+  },
   onUpdate: function (evt) {
+    const target = evt.item.querySelector('[actid]');
+    activity_id = $(target).attr('actid');
     get_assign(activity_id, list_id);
   }
 });
@@ -98,6 +107,7 @@ new Sortable(Sunday, {
 
 function get_assign(activity_id, list_id){
   console.log('get_assign triggered');
+  console.log(activity_id, list_id);
   //send_request(activity_id, list_id);
 }
 
