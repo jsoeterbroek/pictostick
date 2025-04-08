@@ -6,11 +6,7 @@ pictodevice_ui/backup/*.zip
 assets/material/24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24/
 *.org
 __pycache__/
-docs/_build/doctrees/environment.pickle
-docs/_build/latex/
-docs/_build/html/.buildinfo
-docs/_build/html/.buildinfo.bak
-_build/gettext/.doctrees/
+docs/_build/
 picto_ws/venv/
 docs/_build/doctrees/index.doctree
 docs/_build/gettext/.doctrees/environment.pickle
