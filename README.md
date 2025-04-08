@@ -28,11 +28,11 @@ either as a small device that can be carried around or a watch-like option with 
 The pictostick can be refered to by the user as to the daily activities and even to check off the
 ones that have allready been completed.
 
+## Documentation
+The documentation is available at (https://pictostick.readthedocs.io/)
+
 ## Video
 [![Youtube Demo Pictostick](https://github.com/jsoeterbroek/pictostick/blob/main/assets/IMG_0917.jpg)](http://www.youtube.com/watch?v=uw7wsZyZL4c "Demo Pictostick")
-
-## Documentation
-The documentation is available at (pictostick.readthedocs.io/)
 
 
 ## Hardware
