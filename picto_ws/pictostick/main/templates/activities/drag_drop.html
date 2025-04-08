@@ -25,7 +25,6 @@
 
       <div id="data" class="list-group col">
         <div class="swimlane" droppable="true" id="{{ list.id }}">
-            <div class="list-group-item tinted">Item 1</div>
         </div>
       </div>
         <!-- {% for weekday in weekdays %}
@@ -38,6 +37,7 @@
 
     <hr>
 
+    <!--
     <h3 >Frequently used Pictos</h3>
      {% if sorted_fu_activities_list %}
 			<div id="fugrid" class="row">
@@ -45,13 +45,14 @@
 				<div class="grid-square">
           <div class="activity" draggable="true" actid="{{ activity.id }}">
           <img src="{{ STATIC_PREFIX }}images/picto/{{ activity.picto }}" width="32" height="32">
-          <!-- <br>{{ activity.name_en }} -->
+          <br>{{ activity.name_en }}
            </div>
         </div>
         {% endfor %}
 			</div>
       {% endif %}
     <hr>
+    -->
 
     <h3>All Pictos</h3>
      {% if sorted_av_activities_list %}

@@ -14,15 +14,6 @@ new Sortable(avgrid, {
   sort: false // To disable sorting: set sort to false
 });
 
-new Sortable(fugrid, {
-  group: {
-      name: 'shared',
-      pull: 'clone',
-  },
-  animation: 150,
-  ghostClass: 'blue-background-class'
-});
-
 Sortable.create(droppable, {
   group: { 
     name: 'shared', 
