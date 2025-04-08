@@ -31,6 +31,9 @@ ones that have allready been completed.
 ## Video
 [![Youtube Demo Pictostick](https://github.com/jsoeterbroek/pictostick/blob/main/assets/IMG_0917.jpg)](http://www.youtube.com/watch?v=uw7wsZyZL4c "Demo Pictostick")
 
+## Documentation
+The documentation is available at (pictostick.readthedocs.io/)
+
 
 ## Hardware
 
