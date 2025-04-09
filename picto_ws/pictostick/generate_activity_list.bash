@@ -10,13 +10,14 @@ i=0
 for f in pictostick/static/images/picto/*.png; do
   basename=$(basename "$f")
   basename_no_file_ext=$(basename -- "$f" .png)
-  echo "- model: main.activity"
+  echo "- model: main.picto"
   echo "  pk: $i"
   echo "  fields:"
   echo "    order: $i"
   echo "    picto: $basename"
   echo "    name_nl: $basename_no_file_ext"
   echo "    name_en: $basename_no_file_ext"
+  echo "    activity_list: 1"
 
   ((i++))
 

@@ -11,7 +11,7 @@ class Serial(models.Model):
     def __str__(self):
         return self.number
 
-class Activities(models.Model):
+class ActivityList(models.Model):
     pub_date = models.DateTimeField("date published")
     name_nl = models.CharField(max_length = 20, default='name_nl')
     name_en = models.CharField(max_length = 20, default='name en')
@@ -19,34 +19,19 @@ class Activities(models.Model):
     type = models.CharField(max_length=6, choices=ACTIVITY_TYPES, default='daily')
 
     def __str__(self):
-        return self.type
+        return self.name_en
 
 # all available activities
-class Activity(models.Model):
+class Picto(models.Model):
     order = models.IntegerField()
     picto = models.CharField(max_length = 20)
     name_nl = models.CharField(max_length = 20)
     name_en = models.CharField(max_length = 20)
-    #activities = models.ForeignKey(Activities, on_delete=models.CASCADE)
+    activity_list = models.ForeignKey(ActivityList, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.picto
 
     class Meta:
         ordering = ["order"]
-
-# all frequantly used activities
-class FuActivity(models.Model):
-    order = models.IntegerField()
-    picto = models.CharField(max_length = 20)
-    name_nl = models.CharField(max_length = 20)
-    name_en = models.CharField(max_length = 20)
-    #activities = models.ForeignKey(Activities, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.picto
-
-    class Meta:
-        ordering = ["order"]
-
 

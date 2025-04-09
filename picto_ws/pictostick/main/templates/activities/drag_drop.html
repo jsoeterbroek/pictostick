@@ -23,46 +23,30 @@
 			<p class="col-12">Try dragging from one list to another. The item you drag will be cloned and the clone will stay in the original list.</p>
       <h3 class="col-12">Pictos</h3>
 
-      <div id="data" class="list-group col">
-        <div class="swimlane" droppable="true" id="{{ list.id }}">
+     {% if sorted_activity_list %}
+      <div id="activitylist" class="row">
+        {% for activity in sorted_activity_list %}
+				<div class="grid-square">
+          <div class="activity" draggable="true" pictid="{{ picto.id }}">
+          <img src="{{ STATIC_PREFIX }}images/picto/{{ activity.picto }}" width="32" height="32" alt="{{ activity.name_en }}">
         </div>
+        </div>
+        {% endfor %}
       </div>
-        <!-- {% for weekday in weekdays %}
-        <div id="{{ weekday.day }}" class="list-group col">
-            <h3 class="heading">{{ weekday.day }}</h3>
-            <div class="list-group-item tinted">Item 1</div>
-        </div>
-        {% endfor %} -->
+    {% endif %}
     </div>
 
     <hr>
 
-    <!--
-    <h3 >Frequently used Pictos</h3>
-     {% if sorted_fu_activities_list %}
-			<div id="fugrid" class="row">
-        {% for activity in sorted_fu_activities_list %}
-				<div class="grid-square">
-          <div class="activity" draggable="true" actid="{{ activity.id }}">
-          <img src="{{ STATIC_PREFIX }}images/picto/{{ activity.picto }}" width="32" height="32">
-          <br>{{ activity.name_en }}
-           </div>
-        </div>
-        {% endfor %}
-			</div>
-      {% endif %}
-    <hr>
-    -->
-
     <h3>All Pictos</h3>
-     {% if sorted_av_activities_list %}
-			<div id="avgrid" class="row">
-        {% for activity in sorted_av_activities_list %}
+     {% if sorted_picto_list %}
+			<div id="pictogrid" class="row">
+        {% for picto in sorted_picto_list %}
 				<div class="grid-square">
-          <div class="activity" draggable="true" actid="{{ activity.id }}">
-          <!-- {{ activity.id }} -->
-          <img src="{{ STATIC_PREFIX }}images/picto/{{ activity.picto }}" width="32" height="32" alt="{{ activity.name_en }}">
-          <!-- <br>{{ activity.name_en }} -->
+          <div class="activity" draggable="true" pictid="{{ picto.id }}">
+          <!-- {{ picto.order }} -->
+          <img src="{{ STATIC_PREFIX }}images/picto/{{ picto.picto }}" width="32" height="32" alt="{{ picto.name_en }}">
+          <!-- <br>{{ picto.name_en }} -->
           </div>
         </div>
         {% endfor %}
