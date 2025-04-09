@@ -4,6 +4,9 @@
 First Start
 ===========
 
+Network Configuration Mode
+==========================
+
 When the PictoStick boots for the first time, it will start in 
 'network configuration mode'. In this mode we will configure the 
 device (once only) to connect to your local WiFi network. This will

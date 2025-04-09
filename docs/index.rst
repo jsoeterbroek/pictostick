@@ -16,7 +16,7 @@ Introduction
 ------------
 
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
 
     intro/introduction
     intro/getting_started
@@ -24,13 +24,15 @@ Introduction
 Users
 -----
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
+
+    users/howto_use
 
 Caretakers
 ----------
 
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
 
     caretakers/first_start
 
