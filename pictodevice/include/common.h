@@ -103,5 +103,5 @@ int16_t ypos = 12;
 int current_activity_index = 0;
 int ps_current_activity_index = 0;
 
-String lang = "nl"; // "en" for english, "nl" for dutch
+String lang = "en"; // "en" for english, "nl" for dutch
 bool marked_done = false;

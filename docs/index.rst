@@ -20,3 +20,17 @@ Introduction
 
     intro/introduction
     intro/getting_started
+
+Users
+-----
+.. toctree::
+    :maxdepth: 1
+
+Caretakers
+----------
+
+.. toctree::
+    :maxdepth: 1
+
+    caretakers/first_start
+
