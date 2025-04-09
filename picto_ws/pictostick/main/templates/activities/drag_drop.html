@@ -18,17 +18,20 @@
   </head>
   <body>
 
-		<div id="cloning" class="row">
-			<h4 class="col-12">Cloning</h4>
-			<p class="col-12">Try dragging from one list to another. The item you drag will be cloned and the clone will stay in the original list.</p>
-      <h3 class="col-12">Pictos</h3>
+		<div id="cloning">
+			<h4>Cloning</h4>
+			<p>Try dragging from one list to another. The item you drag will be cloned and the clone
+      will stay in the original list.</p>
+      <h3>Pictos</h3>
 
      {% if sorted_activity_list %}
       <div id="activitylist" class="row">
         {% for activity in sorted_activity_list %}
 				<div class="grid-square">
           <div class="activity" draggable="true" pictid="{{ picto.id }}">
+          <!-- {{ picto.order }} -->
           <img src="{{ STATIC_PREFIX }}images/picto/{{ activity.picto }}" width="32" height="32" alt="{{ activity.name_en }}">
+          <!-- <br>{{ picto.name_en }} -->
         </div>
         </div>
         {% endfor %}
