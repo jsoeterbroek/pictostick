@@ -147,6 +147,106 @@ void beepBeep() {
     }
 }
 
+void drawDeviceMode1() {
+    Serial.println("DEBUG: drawDeviceMode1 active");  //FIXME, remove later
+    sprite.createSprite(MY_WIDTH, MY_HEIGHT);
+    sprite.fillSprite(RGB565_GRAY_LIGHT);
+    sprite.loadFont(Noto);
+    sprite.setTextColor(RGB565_GRAY_BATTLESHIP, RGB565_GRAY_LIGHT);
+    sprite.drawString("device mode 1", 2, 4);
+    delay(8000);
+    sprite.unloadFont();
+    StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t*)sprite.getPointer());
+    draw_device_mode_1 = false;
+    draw_device_mode_2 = false;
+    draw_device_mode_config = false;
+    set_devicemode(3);
+}
+
+void drawDeviceMode2() {
+
+    Serial.println("DEBUG: drawDeviceMode2 active");  //FIXME, remove later
+    sprite.createSprite(MY_WIDTH, MY_HEIGHT);
+    sprite.fillSprite(RGB565_GRAY_LIGHT);
+    sprite.loadFont(Noto);
+    sprite.setTextColor(RGB565_GRAY_BATTLESHIP, RGB565_GRAY_LIGHT);
+    sprite.drawString("device mode 2", 2, 4);
+    delay(8000);
+    sprite.unloadFont();
+    StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t*)sprite.getPointer());
+    set_devicemode(3);
+}
+
+void drawDeviceModeConfig(uint8_t _desired_mode) {
+
+    Serial.println("DEBUG: drawDeviceMode active");  //FIXME, remove later
+    Serial.print("DEBUG: desired mode is ");  //FIXME, remove later
+    Serial.println(_desired_mode);  //FIXME, remove later
+    sprite.createSprite(MY_WIDTH, MY_HEIGHT);
+    sprite.fillSprite(RGB565_GRAY_LIGHT);
+    sprite.loadFont(Noto);
+    sprite.setTextColor(RGB565_GRAY_BATTLESHIP, RGB565_GRAY_LIGHT);
+    sprite.drawString("Select device mode: ", 2, 4);
+    mode = get_devicemode();
+
+    unsigned short _color1 = RGB565_GRAY_BATTLESHIP;
+    unsigned short _color2 = TFT_WHITE;
+
+    if (_desired_mode == 1) {
+        _color1 = TFT_ORANGE;
+        _color2 = RGB565_GRAY_BATTLESHIP;
+    } else {
+        _color1 = RGB565_GRAY_BATTLESHIP;
+        _color2 = TFT_WHITE;
+    }
+    sprite.fillRect(0, 28, 140, 30, _color2);
+    sprite.setTextColor(_color1, _color2);
+    sprite.drawString("Device mode 1", 4, 38);
+
+    if (_desired_mode == 2) {
+        _color1 = TFT_ORANGE;
+        _color2 = RGB565_GRAY_BATTLESHIP;
+    } else {
+        _color1 = RGB565_GRAY_BATTLESHIP;
+        _color2 = TFT_WHITE;
+    }
+    sprite.fillRect(0, 64, 140, 30, _color2);
+    sprite.setTextColor(_color1, _color2);
+    sprite.drawString("Device mode 2", 4, 74);
+
+    if (_desired_mode == 3) {
+        _color1 = TFT_ORANGE;
+        _color2 = RGB565_GRAY_BATTLESHIP;
+    } else {
+        _color1 = RGB565_GRAY_BATTLESHIP;
+        _color2 = TFT_WHITE;
+    }
+    sprite.fillRect(0, 100, 140, 30, _color2);
+    sprite.setTextColor(_color1, _color2);
+    sprite.drawString("Device mode 3", 4, 110);
+    sprite.unloadFont();
+    StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t*)sprite.getPointer());
+
+    // button action
+    if (StickCP2.BtnPWR.wasPressed()) {
+        switch (desired_mode) {
+        case 1: desired_mode = 3; break;
+        case 2: desired_mode = 1; break;
+        case 3: desired_mode = 2; break;
+        }
+    }
+    if (StickCP2.BtnB.wasPressed()) {
+        switch (desired_mode) {
+        case 1: desired_mode = 2; break;
+        case 2: desired_mode = 3; break;
+        case 3: desired_mode = 1; break;
+        }
+    }
+    if (StickCP2.BtnA.wasPressed()) {
+        draw_device_mode_config = false;
+        set_devicemode(desired_mode);
+    }
+}
 
 void drawSplash() {
 
@@ -274,7 +374,7 @@ void drawName(String _strname, int _marked_done) {
 void drawMain() {
 
     StickCP2.Display.powerSaveOff();
-    StickCP2.Display.setBrightness(brightness[b]);
+    StickCP2.Display.setBrightness(brightness[bd]);
     sprite.createSprite(MY_WIDTH, MY_HEIGHT);
     sprite.fillSprite(BG_COLOR);
 
@@ -306,18 +406,18 @@ void drawMain() {
 
     ps_current_activity_index = get_pspref_current_activity_index();
 
-    Serial.println("***************");
-    Serial.println(" ");
-    Serial.print("DEBUG: current activity index: ");
-    Serial.println(ps_current_activity_index);
-    Serial.println(" ");
-    Serial.print("DEBUG: this activity is: ");
-    if (get_pspref_activity_done(ps_current_activity_index) == 1) {
-        Serial.println("done");
-    } else {
-        Serial.println("todo");
-    }
-    Serial.println("***************");
+    //Serial.println("***************");
+    //Serial.println(" ");
+    //Serial.print("DEBUG: current activity index: ");
+    //Serial.println(ps_current_activity_index);
+    //Serial.println(" ");
+    //Serial.print("DEBUG: this activity is: ");
+    //if (get_pspref_activity_done(ps_current_activity_index) == 1) {
+    //    Serial.println("done");
+    //} else {
+    //    Serial.println("todo");
+    //}
+    //Serial.println("***************");
 
     sprite.unloadFont();
     sprite.setTextColor(TFT_WHITE, RIGHT_RECT_BG_COLOR_1);
@@ -421,46 +521,58 @@ void drawMain() {
     StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t*)sprite.getPointer());
 
     // button action
-    if (StickCP2.BtnPWR.wasPressed()) {
-        sleepTime=25;
-        ps_current_activity_index = get_pspref_current_activity_index();
-        if (ps_current_activity_index >= 1) {
-            set_pspref_current_activity_index(ps_current_activity_index - 1);
-        } else {
-            if(buzzer) {
-                StickCP2.Speaker.tone(6000, 100);
+    if (mode = 3) {
+        if (StickCP2.BtnPWR.wasPressed() ) {
+            sleepTime=25;
+            ps_current_activity_index = get_pspref_current_activity_index();
+            if (ps_current_activity_index >= 1) {
+                set_pspref_current_activity_index(ps_current_activity_index - 1);
+            } else {
+                if(buzzer) {
+                    StickCP2.Speaker.tone(6000, 100);
+                }
             }
         }
-    }
-    if (StickCP2.BtnB.wasPressed()) {
-        sleepTime=25;
-        ps_current_activity_index = get_pspref_current_activity_index();
-        if (ps_current_activity_index < config_activities_size - 1) {
-            set_pspref_current_activity_index(ps_current_activity_index + 1);
-        } else {
+    
+        // go to device mode configuration screen
+        if (StickCP2.BtnB.pressedFor(5000)) { //longpress 5 seconds
             if(buzzer) {
-                StickCP2.Speaker.tone(6000, 100);
+                StickCP2.Speaker.tone(4000, 20);
+                delay(1000);
+            }
+            draw_device_mode_config = true;
+        }
+
+        if (StickCP2.BtnB.wasPressed()) { // normal, shortpress
+            sleepTime=25;
+            ps_current_activity_index = get_pspref_current_activity_index();
+            if (ps_current_activity_index < config_activities_size - 1) {
+                set_pspref_current_activity_index(ps_current_activity_index + 1);
+            } else {
+                if(buzzer) {
+                    StickCP2.Speaker.tone(6000, 100);
+                }
             }
         }
-    }
-    if (StickCP2.BtnA.wasPressed()) {
+        if (StickCP2.BtnA.wasPressed()) { // normal, shortpress
 
-        sleepTime=25;
-        // mark activity done
-        // if it was turned off, turn on
-        // if it was turned on, turn off
-        // since we have only one button available
-        if (get_pspref_activity_done(ps_current_activity_index) == 1) {
-            set_pspref_activity_undone(ps_current_activity_index);
-        } else {
-            set_pspref_activity_done(ps_current_activity_index);
+            sleepTime=25;
+            // mark activity done
+            // if it was turned off, turn on
+            // if it was turned on, turn off
+            // since we have only one button available
+            if (get_pspref_activity_done(ps_current_activity_index) == 1) {
+                set_pspref_activity_undone(ps_current_activity_index);
+            } else {
+                set_pspref_activity_done(ps_current_activity_index);
+            }
+
+            //Serial.print("get_pspref_activity_done(ps_current_activity_index) is "); // FIXME: remove later
+            // Serial.println(get_pspref_activity_done(ps_current_activity_index)); // FIXME: remove later
+            //delay(8000); // FIXME: remove later
+
+            beepBeep();
         }
-
-        //Serial.print("get_pspref_activity_done(ps_current_activity_index) is "); // FIXME: remove later
-        // Serial.println(get_pspref_activity_done(ps_current_activity_index)); // FIXME: remove later
-        //delay(8000); // FIXME: remove later
-
-        //beepBeep();
     }
 }
 
@@ -474,7 +586,7 @@ void setup() {
 
     sprite.createSprite(MY_WIDTH, MY_HEIGHT);
 
-    StickCP2.Display.setBrightness(brightness[b]);
+    StickCP2.Display.setBrightness(brightness[bd]);
 
     Serial.begin(115200);
     Serial.println("start initialisation..");
@@ -498,13 +610,12 @@ void setup() {
         dmPrefs.begin(NS, RO_MODE);     //  reopen it in RO mode
     }
 
-    uint8_t _mode = 0;
     Serial.print(" * Starting in mode:");
-    _mode = get_devicemode();
-    Serial.print(_mode);
+    mode = get_devicemode();
+    Serial.print(mode);
 
     // FIXME: fix or remov3?? 
-    switch(_mode) {
+    switch(mode) {
         case 0:
             Serial.println("mode 0");
             Serial.println("rebooting..");
@@ -555,6 +666,9 @@ void setup() {
             }
             break;
         case 2:  // 2. config mode
+            Serial.println("mode 2");
+            delay(10000);
+            draw_device_mode_2 = true;
             break;
         case 3:  // 3. regular mode
 
@@ -584,25 +698,33 @@ void loop() {
 
     StickCP2.update();
     if(slp) {
-        StickCP2.Display.setBrightness(brightness[b]);
+        StickCP2.Display.setBrightness(brightness[bd]);
         slp = false;
         sleepTime = 25;
     }
-    drawMain();
-    delay(100);
-    auto dt = StickCP2.Rtc.getDateTime();
-    if(dt.time.seconds<10) s="0"+String(dt.time.seconds); else s=String(dt.time.seconds);
-    if(dt.time.minutes<10) m="0"+String(dt.time.minutes); else m=String(dt.time.minutes);
-    ts=dt.time.seconds;
-    if(tts!=ts) {sleepTime--; tts=ts;}
+    if (draw_device_mode_config) {
+        drawDeviceModeConfig(desired_mode);
+    } else if (draw_device_mode_1) {
+        drawDeviceMode1();
+    } else if (draw_device_mode_2) {
+        drawDeviceMode2();
+    } else {
+        drawMain();
+        delay(100);
+        auto dt = StickCP2.Rtc.getDateTime();
+        if(dt.time.seconds<10) s="0"+String(dt.time.seconds); else s=String(dt.time.seconds);
+        if(dt.time.minutes<10) m="0"+String(dt.time.minutes); else m=String(dt.time.minutes);
+        ts=dt.time.seconds;
+        if(tts!=ts) {sleepTime--; tts=ts;}
 
-    Serial.print("DEBUG: sleepTime: "); // FIXME: remove later
-    Serial.println(sleepTime); // FIXME: remove later
+        //Serial.print("DEBUG: sleepTime: "); // FIXME: remove later
+        //Serial.println(sleepTime); // FIXME: remove later
 
-    if(sleepTime == 0) {
-        slp = true;
-        StickCP2.Display.setBrightness(0);
-        delay(20);
-        StickCP2.Power.lightSleep();
+        if(sleepTime == 0) {
+            slp = true;
+            StickCP2.Display.setBrightness(0);
+            delay(20);
+            StickCP2.Power.lightSleep();
+        }
     }
 }

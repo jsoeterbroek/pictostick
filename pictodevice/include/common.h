@@ -78,7 +78,9 @@ int chosen=0;
 
 //brightness and battery
 int brightness[6] = {16, 32, 48, 64, 96, 180};
-int b = 2;
+int bb = 2;
+int bc = 3;
+int bd = 3;
 int vol;
 int volE;
 
@@ -103,5 +105,7 @@ int16_t ypos = 12;
 int current_activity_index = 0;
 int ps_current_activity_index = 0;
 
-String lang = "en"; // "en" for english, "nl" for dutch
+String lang = "nl"; // "en" for english, "nl" for dutch
 bool marked_done = false;
+
+

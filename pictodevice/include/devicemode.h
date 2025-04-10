@@ -9,6 +9,13 @@ extern Preferences dmPrefs; // preferences
 // Namespace
 extern const char* NS;
 
+// device mode
+extern uint8_t mode;    
+extern uint8_t desired_mode;  // device mode 3 is default, normal mode
+extern bool draw_device_mode_config;
+extern bool draw_device_mode_1;
+extern bool draw_device_mode_2;
+
 ////////////////////////////////////////////////////
 //
 // Device mode
