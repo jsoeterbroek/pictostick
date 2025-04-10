@@ -17,12 +17,22 @@
 #include <PNGdec.h>
 #include <PNG_SPIFFS_Support.h>
 #include <PSpref.h>
+#include <AsyncTCP.h>
+#include <ESPAsyncWebServer.h>
+#include <StreamString.h>
+
+#include <AsyncJson.h>
+#include <AsyncMessagePack.h>
 
 TFT_eSPI tft = TFT_eSPI();
 TFT_eSprite sprite = TFT_eSprite(&tft);
 
 // WiFi Manager
 WiFiManager wm;
+
+// AsyncWebserver
+static AsyncWebServer server(80);
+static AsyncCallbackJsonWebHandler *handler = new AsyncCallbackJsonWebHandler("/json2");
 
 PNG png;
 
@@ -50,6 +60,7 @@ void setTime() {
         STATUS_NTP_OK = true;
     }
 }
+
 
 void configModeCallback(WiFiManager *myWiFiManager) {
 
@@ -97,38 +108,6 @@ void getConfigDataSPIFF () {
     readConfigFile(SPIFFS, "/data.json");
 }
 
-void getConfigDataHTTP () {
-
-    STATUS_GET_CONFIG_DATA_HTTP_OK = false;
-    HTTPClient http;
-    String serverPath = serverName;
-    String payloadStr = "";
-      
-    // Your Domain name with URL path or IP address with path
-    http.begin(serverPath.c_str());
-    int httpResponseCode = http.GET();
-    if (httpResponseCode>0) {
-        Serial.print("HTTP Response code: ");
-        Serial.println(httpResponseCode);
-        payloadStr = http.getString();
-        DeserializationError error = deserializeJson(cdoc, payloadStr);
-
-        if (!error) {
-            STATUS_CONFIG_DATA_OK = true;
-            STATUS_GET_CONFIG_DATA_HTTP_OK = true;
-        } else {
-            Serial.print("ERROR JSON-a: ");
-            Serial.println(error.c_str());
-            STATUS_GET_CONFIG_DATA_HTTP_OK = false;
-        }
-    } else {
-        Serial.print("Error code: ");
-        Serial.println(httpResponseCode);
-        STATUS_GET_CONFIG_DATA_HTTP_OK = false;
-    }
-    http.end(); // Free resources
-}
-
 void beepBeep() {
   static unsigned long previousMillis = 0;  // Store the previous time
   unsigned long currentMillis = millis();   // Get the current time
@@ -146,35 +125,83 @@ void beepBeep() {
         }
     }
 }
+void init_ESPAsync_Ws() {
+
+    // Send JSON using AsyncResponseStream
+    //
+    // curl -v -X POST -H 'Content-Type: application/json' -d '{"name":"You"}' http://192.168.178.192/json2
+    //
+    server.on("/json2", HTTP_GET, [](AsyncWebServerRequest *request) {
+        AsyncResponseStream *response = request->beginResponseStream("application/json");
+        JsonDocument doc;
+        JsonObject root = doc.to<JsonObject>();
+        root["foo"] = "bar";
+        serializeJson(root, *response);
+        request->send(response);
+    });
+    handler->setMethod(HTTP_POST | HTTP_PUT);
+    handler->onRequest([](AsyncWebServerRequest *request, JsonVariant &json) {
+        serializeJson(json, Serial);
+        AsyncJsonResponse *response = new AsyncJsonResponse();
+        JsonObject root = response->getRoot().to<JsonObject>();
+        root["hello"] = json.as<JsonObject>()["name"];
+        response->setLength();
+        request->send(response);
+    });
+
+    server.addHandler(handler);
+    server.begin();
+}
 
 void drawDeviceMode1() {
     Serial.println("DEBUG: drawDeviceMode1 active");  //FIXME, remove later
-    sprite.createSprite(MY_WIDTH, MY_HEIGHT);
-    sprite.fillSprite(RGB565_GRAY_LIGHT);
-    sprite.loadFont(Noto);
-    sprite.setTextColor(RGB565_GRAY_BATTLESHIP, RGB565_GRAY_LIGHT);
-    sprite.drawString("device mode 1", 2, 4);
-    delay(8000);
-    sprite.unloadFont();
-    StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t*)sprite.getPointer());
-    draw_device_mode_1 = false;
-    draw_device_mode_2 = false;
-    draw_device_mode_config = false;
     set_devicemode(3);
 }
 
 void drawDeviceMode2() {
 
     Serial.println("DEBUG: drawDeviceMode2 active");  //FIXME, remove later
-    sprite.createSprite(MY_WIDTH, MY_HEIGHT);
-    sprite.fillSprite(RGB565_GRAY_LIGHT);
-    sprite.loadFont(Noto);
-    sprite.setTextColor(RGB565_GRAY_BATTLESHIP, RGB565_GRAY_LIGHT);
-    sprite.drawString("device mode 2", 2, 4);
-    delay(8000);
-    sprite.unloadFont();
-    StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t*)sprite.getPointer());
-    set_devicemode(3);
+    StickCP2.Display.clear();
+    StickCP2.Display.drawString("device mode 2", 4, 4);
+    StickCP2.Display.drawString("* starting WiFi", 4, 16);
+
+    WiFi.mode(WIFI_STA);
+
+    String mySSID = wm.getWiFiSSID();
+    
+    //res = wm.autoConnect(wifi_mngr_networkname, wifi_mngr_password);
+    Serial.print("Connecting to WiFi network ");
+    Serial.println(mySSID);
+    WiFi.begin(wm.getWiFiSSID(), wm.getWiFiPass());
+
+    unsigned long currentMillis = millis();
+    while (WiFi.status() != WL_CONNECTED && (millis() - currentMillis) <= 5000) {
+        Serial.print(".");
+        delay(100);
+    }
+
+    if (WiFi.status() != WL_CONNECTED) {
+        Serial.println("Not connected to the WiFi network");
+        Serial.println("restarting in device mode 1");
+        set_devicemode(1);
+        ESP.restart();
+    } else {
+        Serial.println("\nConnected to the WiFi network");
+        Serial.print("Local IP: ");
+        Serial.println(WiFi.localIP());
+        String localip = WiFi.localIP().toString();
+        StickCP2.Display.drawString(localip, 120, 16);
+    }
+
+    StickCP2.Display.drawString("* starting Webserver", 4, 28);
+    StickCP2.Display.drawString("* waiting for file upload... ", 4, 40);
+    init_ESPAsync_Ws();
+
+    delay(80000); // 80 seconds
+
+    // shutdown wifi
+
+    //set_devicemode(3);
 }
 
 void drawDeviceModeConfig(uint8_t _desired_mode) {
@@ -243,7 +270,11 @@ void drawDeviceModeConfig(uint8_t _desired_mode) {
         }
     }
     if (StickCP2.BtnA.wasPressed()) {
+        Serial.println("DEBUG: Btn A was pressed");  //FIXME, remove later
+        Serial.println("DEBUG: setting draw_device_mode_config to false");  //FIXME, remove later
         draw_device_mode_config = false;
+        Serial.print("DEBUG: Set device mode to: ");  //FIXME, remove later
+        Serial.println(desired_mode);  //FIXME, remove later
         set_devicemode(desired_mode);
     }
 }
@@ -269,6 +300,7 @@ void drawSplash() {
     sprite.drawString(code,4,92);
     sprite.unloadFont();
     StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t*)sprite.getPointer());
+    delay(10000);
 }
 
 // Callback function to draw pixels to the display
@@ -661,23 +693,17 @@ void setup() {
             if (STATUS_NTP_OK) {
                 // set devicemode 3
                 set_devicemode(3);
-                // set devicemode_1_flag = true to mark this mode succesfull completed
-                set_devicemode_1_flag(true);
             }
             break;
         case 2:  // 2. config mode
             Serial.println("mode 2");
-            delay(10000);
             draw_device_mode_2 = true;
             break;
         case 3:  // 3. regular mode
 
             // get config data
-            // FIXME: add logic to compare config file on fs with possible new update from HTTP in device mode 2
             if(GET_CONFIG_DATA_SPIFF) {
                 getConfigDataSPIFF();
-            } else {
-                getConfigDataHTTP();
             }
 
             // FIXME: make check for md5sum checksum of config file
@@ -689,7 +715,6 @@ void setup() {
             }
             Serial.println("initialisation complete");
             drawSplash();
-            delay(10000);
             break;
     }
 }
