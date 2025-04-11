@@ -21,6 +21,7 @@
 #include <ESPAsyncWebServer.h>
 #include <StreamString.h>
 
+#include <StreamUtils.h>
 #include <AsyncJson.h>
 #include <AsyncMessagePack.h>
 
@@ -76,6 +77,53 @@ void configModeCallback(WiFiManager *myWiFiManager) {
     STATUS_WIFI_MGR_CONFIG_MODE_OK = true;
 }
 
+void deleteConfigFile(fs::FS &fs, const char * path){
+    Serial.printf("Deleting file: %s\r\n", path);
+    if(fs.remove(path)){
+        Serial.println("- file deleted");
+    } else {
+        Serial.println("- delete failed");
+    }
+}
+
+void writeConfigFile(fs::FS &fs, const char * path, JsonObject _json) {
+
+    STATUS_SET_CONFIG_DATA_SPIFF_OK = false;
+
+    if (!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED)) {
+        Serial.println("SPIFFS Mount Failed");
+        return;
+    }
+
+    Serial.printf(""); // FIXME, remove later
+    Serial.printf("Writing config file: %s\r\n", path); // FIXME, remove later
+
+    // Open file for writing
+    File file = fs.open(path);
+    if(!file || file.isDirectory()){
+        Serial.println("ERROR: failed to open config file for reading");
+    } else {
+
+        //serializeJson(_json, Serial);
+        //delay(10000);
+        WriteLoggingStream loggedFile(file, Serial);
+
+        if (serializeJson(_json, loggedFile) == 0) {
+            Serial.print(F("Failed write to file "));
+            Serial.println(F(path));
+            STATUS_SET_CONFIG_DATA_SPIFF_OK = false;
+        } else {
+            Serial.print(F("Succes write to file "));
+            Serial.println(F(path));
+            STATUS_SET_CONFIG_DATA_SPIFF_OK = true;
+        }
+        delay(10000);
+    }
+    // Close the file
+    file.close();
+    delay(9000); // FIXME, remove later
+}
+
 void readConfigFile(fs::FS &fs, const char * path){
 
     STATUS_GET_CONFIG_DATA_SPIFF_OK = false;
@@ -99,13 +147,22 @@ void readConfigFile(fs::FS &fs, const char * path){
     cfile.close();
 }
 
+void writeConfigDataSPIFF (JsonObject _json) {
+
+    if(!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED)){
+        Serial.println("SPIFFS Mount Failed");
+        return;
+    }
+    writeConfigFile(SPIFFS, cfilename, _json);
+}
+
 void getConfigDataSPIFF () {
 
     if(!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED)){
         Serial.println("SPIFFS Mount Failed");
         return;
     }
-    readConfigFile(SPIFFS, "/data.json");
+    readConfigFile(SPIFFS, cfilename);
 }
 
 void beepBeep() {
@@ -129,7 +186,7 @@ void init_ESPAsync_Ws() {
 
     // Send JSON using AsyncResponseStream
     //
-    // curl -v -X POST -H 'Content-Type: application/json' -d '{"name":"You"}' http://192.168.178.192/json2
+    // curl -v -X POST -H 'Content-Type: application/json' -d @data.json http://192.168.178.192/json2
     //
     server.on("/json2", HTTP_GET, [](AsyncWebServerRequest *request) {
         AsyncResponseStream *response = request->beginResponseStream("application/json");
@@ -141,14 +198,16 @@ void init_ESPAsync_Ws() {
     });
     handler->setMethod(HTTP_POST | HTTP_PUT);
     handler->onRequest([](AsyncWebServerRequest *request, JsonVariant &json) {
-        serializeJson(json, Serial);
+        //serializeJson(json, Serial);
         AsyncJsonResponse *response = new AsyncJsonResponse();
-        JsonObject root = response->getRoot().to<JsonObject>();
-        root["hello"] = json.as<JsonObject>()["name"];
         response->setLength();
         request->send(response);
+        String _response = response->responseCodeToString(response->code());
+        if (_response == "OK" ) {
+            STATUS_GET_CONFIG_DATA_HTTP_OK = true;
+            writeConfigDataSPIFF(json);
+        }
     });
-
     server.addHandler(handler);
     server.begin();
 }
@@ -167,11 +226,8 @@ void drawDeviceMode2() {
 
     WiFi.mode(WIFI_STA);
 
-    String mySSID = wm.getWiFiSSID();
-    
-    //res = wm.autoConnect(wifi_mngr_networkname, wifi_mngr_password);
     Serial.print("Connecting to WiFi network ");
-    Serial.println(mySSID);
+    Serial.println(wm.getWiFiSSID());
     WiFi.begin(wm.getWiFiSSID(), wm.getWiFiPass());
 
     unsigned long currentMillis = millis();
@@ -195,13 +251,47 @@ void drawDeviceMode2() {
 
     StickCP2.Display.drawString("* starting Webserver", 4, 28);
     StickCP2.Display.drawString("* waiting for file upload... ", 4, 40);
+
     init_ESPAsync_Ws();
 
-    delay(80000); // 80 seconds
+    while (!STATUS_GET_CONFIG_DATA_HTTP_OK) {
+        Serial.print(".");
+        delay(1000);
+    }
+    //if (!STATUS_SET_CONFIG_DATA_SPIFF_OK) {
+    //    StickCP2.Display.drawString("* writing config file ", 4, 52);
+    //    writeConfigDataSPIFF();
+    //}
+
+    if (STATUS_SET_CONFIG_DATA_SPIFF_OK) {
+        StickCP2.Display.drawString("* file upload OK ", 4, 64);
+    } else {
+        StickCP2.Display.drawString("* ERROR: file upload failed ", 4, 64);
+    }
+    delay(2000);
 
     // shutdown wifi
+    StickCP2.Display.drawString("* disconnect WiFi ", 4, 76);
+    delay(2000);
+    WiFi.disconnect(true);
 
-    //set_devicemode(3);
+    if (STATUS_SET_CONFIG_DATA_SPIFF_OK) {
+        //set_devicemode(3);
+        StickCP2.Display.drawString("* Setting device mode 3", 4, 88);
+        delay(2000);
+        set_devicemode(3);
+    } else {
+        //set_devicemode(2);
+        StickCP2.Display.drawString("* Setting device mode 2", 4, 88);
+        delay(2000);
+        set_devicemode(2);
+    }
+
+    // restart
+    StickCP2.Display.drawString("* Restart device", 4, 100);
+    delay(2000);
+    ESP.restart();
+
 }
 
 void drawDeviceModeConfig(uint8_t _desired_mode) {
@@ -412,27 +502,23 @@ void drawMain() {
 
     // extract values from config JSON object
     config_activities_size = cdoc["activities"].size();
-    config_comment = cdoc["comment"]; // nullptr
-    config_version = cdoc["version"]; // "1.0.1"
+    //config_comment = cdoc["comment"]; // nullptr
+    //config_version = cdoc["version"]; // "1.0.1"
     config_name = cdoc["name"]; // "Peter"
-    config_device_ip = cdoc["device_ip"]; // "128.8.2.123"
-    config_date_created = cdoc["date_created"];
-    config_date_valid = cdoc["date_valid"];
+    //config_device_ip = cdoc["device_ip"]; // "128.8.2.123"
+    //config_date_created = cdoc["date_created"];
+    //config_date_valid = cdoc["date_valid"];
 
     int _i = 0;
     // TODO: probably use a fancy multidimensional array with structs for this, but just use 'lists' for now
     String _array_order[config_activities_size];
     String _array_picto[config_activities_size];
-    String _array_name[config_activities_size];
+    String _array_desc[config_activities_size];
     int _array_activity_marked_done[config_activities_size];
     for (JsonObject activity : cdoc["activities"].as<JsonArray>()) {
         _array_order[_i] = String(activity["order"]);
         _array_picto[_i] = String(activity["picto"]);
-        if (lang.equals("en")) {
-            _array_name[_i] = String(activity["name_en"]);
-        } else {
-            _array_name[_i] = String(activity["name_nl"]);
-        }
+        _array_desc[_i] = String(activity["description"]);
         _i = _i + 1;
     }
 
@@ -473,9 +559,9 @@ void drawMain() {
 
             // draw the name of the activity
             if (get_pspref_activity_done(ps_current_activity_index) == 1) {
-                drawName(_array_name[i], 1);
+                drawName(_array_desc[i], 1);
             } else {
-                drawName(_array_name[i], 0);
+                drawName(_array_desc[i], 0);
             }
 
             // now check if this activity is marked done in  
@@ -644,7 +730,7 @@ void setup() {
 
     Serial.print(" * Starting in mode:");
     mode = get_devicemode();
-    Serial.print(mode);
+    Serial.println(mode);
 
     // FIXME: fix or remov3?? 
     switch(mode) {

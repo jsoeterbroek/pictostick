@@ -24,6 +24,7 @@ boolean STATUS_NTP_OK = false;
 boolean STATUS_CONFIG_DATA_OK = false;
 boolean STATUS_BLE_OK = false;
 boolean STATUS_GET_CONFIG_DATA_SPIFF_OK = false;
+boolean STATUS_SET_CONFIG_DATA_SPIFF_OK = false;
 boolean STATUS_GET_CONFIG_DATA_HTTP_OK = false;
 
 boolean GET_CONFIG_DATA_HTTP = false;
@@ -40,6 +41,10 @@ const char* wifi_mngr_password = "p@ssw0rd";
 String serverName = "http://192.168.178.148:8001";
 
 #define FORMAT_SPIFFS_IF_FAILED true
+
+// configuration file in json format stored in SPIFFS fs
+const char* cfilename = "/data.json"; 
+const char* rfilename = "/httpreceived.json"; 
 
 // store values from JSON config file
 const char* config_comment; // nullptr
