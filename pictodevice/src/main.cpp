@@ -99,16 +99,12 @@ void writeConfigFile(fs::FS &fs, const char * path, JsonObject _json) {
     Serial.printf("Writing config file: %s\r\n", path); // FIXME, remove later
 
     // Open file for writing
-    File file = fs.open(path);
-    if(!file || file.isDirectory()){
-        Serial.println("ERROR: failed to open config file for reading");
+    File file = fs.open(path, FILE_WRITE);
+    if(!file){
+        Serial.println("ERROR: failed to open config file for writing");
     } else {
-
         //serializeJson(_json, Serial);
-        //delay(10000);
-        WriteLoggingStream loggedFile(file, Serial);
-
-        if (serializeJson(_json, loggedFile) == 0) {
+        if (serializeJson(_json, file) == 0) {
             Serial.print(F("Failed write to file "));
             Serial.println(F(path));
             STATUS_SET_CONFIG_DATA_SPIFF_OK = false;
@@ -117,11 +113,9 @@ void writeConfigFile(fs::FS &fs, const char * path, JsonObject _json) {
             Serial.println(F(path));
             STATUS_SET_CONFIG_DATA_SPIFF_OK = true;
         }
-        delay(10000);
     }
     // Close the file
     file.close();
-    delay(9000); // FIXME, remove later
 }
 
 void readConfigFile(fs::FS &fs, const char * path){
@@ -258,10 +252,6 @@ void drawDeviceMode2() {
         Serial.print(".");
         delay(1000);
     }
-    //if (!STATUS_SET_CONFIG_DATA_SPIFF_OK) {
-    //    StickCP2.Display.drawString("* writing config file ", 4, 52);
-    //    writeConfigDataSPIFF();
-    //}
 
     if (STATUS_SET_CONFIG_DATA_SPIFF_OK) {
         StickCP2.Display.drawString("* file upload OK ", 4, 64);
