@@ -5,6 +5,8 @@ pictodevice_ui/backup/
 pictodevice_ui/backup/*.zip
 assets/material/24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24/
 *.org
+*.MOV
+*.HEIC
 __pycache__/
 docs/_build/
 picto_ws/venv/
