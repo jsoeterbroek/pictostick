@@ -66,9 +66,9 @@ The full list is in the [pictodevice/data/](pictodevice/data/) dir of this repos
 
 ### Missing pictos
 
-* brush teeth
 * cat
 * cuddling/snoozleing
+* female hygiene products (tampons, etc.)
 
 ### Pictos that could improved
 
@@ -76,6 +76,7 @@ The full list is in the [pictodevice/data/](pictodevice/data/) dir of this repos
 * backpack.png
 * hospital.png
 * lunch.png
+* brush teeth
 
 ## Configuration
 
