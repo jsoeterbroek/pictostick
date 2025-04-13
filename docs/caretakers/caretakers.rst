@@ -4,6 +4,11 @@
 Caretakers
 ==========
 
+.. note::
+   **Intended Audience**
+   This documentent is intended for Caretakers, Health Professionals and
+   Parents of users of the PictoStick.
+
 Network Configuration Mode
 ==========================
 
