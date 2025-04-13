@@ -1,5 +1,5 @@
 {
-    "name": "Demo",
+    "name": "Sarah",
     "activities": [
     {
         "order": "001",
@@ -63,6 +63,16 @@
     },
     {
         "order": "013",
+        "picto": "candle.png",
+        "description": "Candle"
+    },
+    {
+        "order": "015",
+        "picto": "factory.png",
+        "description": "fabriek"
+    },
+    {
+        "order": "014",
         "picto": "bedtime.png",
         "description": "Bedtime"
     }
