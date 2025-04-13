@@ -1,4 +1,4 @@
-# Pictostick
+# PictoStick
 
 ![Pictostick 2](https://github.com/jsoeterbroek/pictostick/blob/main/assets/pictostick_logo.png)
 
@@ -24,10 +24,10 @@ it is not portable and often only used in either the users' household or the (wo
 
 ![a typical picto plank](https://github.com/jsoeterbroek/pictostick/blob/main/assets/1823811866_cropped.jpg)
 
-## Pictostick
-The pictostick offers a method to present a scrollable sequence of pictos for the user in a portable way,
+## PictoStick
+The PictoStick offers a method to present a scrollable sequence of pictos for the user in a portable way,
 either as a small device that can be carried around or a watch-like option with a wrist band.
-The pictostick can be refered to by the user as to the daily activities and even to check off the
+The device can be refered to by the user as to the daily activities and even to check off the
 ones that have allready been completed.
 
 ![Pictostick 3](https://github.com/jsoeterbroek/pictostick/blob/main/assets/IMG_0918.jpg)
@@ -86,7 +86,7 @@ a correct time-based order and updates the device via a Web Browser interface ov
 WiFi.
 
 ### Technical
-The configuration of the Pictostick device is provided on a per device/user basis via a
+The configuration of the PictoStick device is provided on a per device/user basis via a
 JSON configuration file which is located on the device file system /data directory
 called data.json.
 An update mechanism for providing the device with a new
@@ -104,7 +104,7 @@ specifically the picto sequences stored on the device for the specific user.
 ### WiFi secure credentials
 The WiFi secure
 credentials of the care-giver or parent of the user are not initially stored on the
-device or in the software code. On first startup of the Pictostick device these
+device or in the software code. On first startup of the PictoStick device these
 secure credentials configuration data can be programmed into the device via a Web
 browser and a temporary WiFI network between he device and the user.
 
