@@ -8,8 +8,8 @@ PictoStick documentation
 
 .. raw:: html
 
-    <div style="margin-bottom:30px; margin-top:14px">
-    <img src="_static/images/pictostick.jpg" alt="PictoStick" style="width:100%">
+    <div style="margin-bottom:14px; margin-top:14px">
+    <img src="_static/images/pictostick.jpg" alt="PictoStick" style="width:50%">
     </div>
 
 Introduction
@@ -34,5 +34,13 @@ Caretakers
 .. toctree::
     :maxdepth: 2
 
-    caretakers/first_start
+    caretakers/caretakers
+
+Developers
+----------
+
+.. toctree::
+    :maxdepth: 2
+
+    developers/developers
 
