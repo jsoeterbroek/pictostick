@@ -23,6 +23,17 @@ Key features
 Requirements
 ************
 
+Hardware
+--------
+M5 StickC Plus2, a low-cost, small form factor ESP32 Mini IoT Development Kit. It has a 1.14-inch TFT screen with a resolution of 135x240 pixels and a battery capacity of 200mAh. (https://shop.m5stack.com/products/m5stickc-plus2-esp32-mini-iot-development-kit)
+M5-Watch wristband for M5 StickC Plus2 (optional)
+
+.. image:: images/hardware.jpg
+   :width: 310
+
+Software
+--------
+The code for the pictostick is Free/Open Source software made available under the Creative Commons Zero v1.0 Universal License at https://github.com/jsoeterbroek/pictostick Github repository.
 
 
 License
