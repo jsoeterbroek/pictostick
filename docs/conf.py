@@ -30,7 +30,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
-html_logo = "logo200x120.png"
+html_logo = "pictostick_logo.png"
 html_theme_options = {
     'logo_only': True,
 }
