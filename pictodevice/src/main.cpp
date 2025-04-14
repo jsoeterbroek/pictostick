@@ -38,7 +38,6 @@ static AsyncCallbackJsonWebHandler *handler = new AsyncCallbackJsonWebHandler("/
 PNG png;
 
 struct tm timeinfo;
-ESP32Time rtc(0);
 
 JsonDocument cdoc;
 
@@ -306,9 +305,9 @@ void drawDeviceModeConfig(uint8_t _desired_mode) {
         _color1 = RGB565_GRAY_BATTLESHIP;
         _color2 = TFT_WHITE;
     }
-    sprite.fillRect(0, 28, 140, 30, _color2);
+    sprite.fillRect(0, 28, 230, 30, _color2);
     sprite.setTextColor(_color1, _color2);
-    sprite.drawString("Device mode 1", 4, 38);
+    sprite.drawString("Network configuration", 4, 38);
 
     if (_desired_mode == 2) {
         _color1 = TFT_ORANGE;
@@ -317,9 +316,9 @@ void drawDeviceModeConfig(uint8_t _desired_mode) {
         _color1 = RGB565_GRAY_BATTLESHIP;
         _color2 = TFT_WHITE;
     }
-    sprite.fillRect(0, 64, 140, 30, _color2);
+    sprite.fillRect(0, 64, 230, 30, _color2);
     sprite.setTextColor(_color1, _color2);
-    sprite.drawString("Device mode 2", 4, 74);
+    sprite.drawString("Activity sequence update", 4, 74);
 
     if (_desired_mode == 3) {
         _color1 = TFT_ORANGE;
@@ -328,9 +327,9 @@ void drawDeviceModeConfig(uint8_t _desired_mode) {
         _color1 = RGB565_GRAY_BATTLESHIP;
         _color2 = TFT_WHITE;
     }
-    sprite.fillRect(0, 100, 140, 30, _color2);
+    sprite.fillRect(0, 100, 230, 30, _color2);
     sprite.setTextColor(_color1, _color2);
-    sprite.drawString("Device mode 3", 4, 110);
+    sprite.drawString("Normal mode", 4, 110);
     sprite.unloadFont();
     StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t*)sprite.getPointer());
 
