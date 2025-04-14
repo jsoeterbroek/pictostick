@@ -37,19 +37,24 @@ static AsyncCallbackJsonWebHandler *handler = new AsyncCallbackJsonWebHandler("/
 
 PNG png;
 
-struct tm timeinfo;
-
 JsonDocument cdoc;
 
-void setTime() {
+struct tm timeinfo;
+
+void setTimezone(String timezone) {
+    Serial.printf("  Setting Timezone to %s\n",timezone.c_str());
+    setenv("TZ",timezone.c_str(),1);  //  Now adjust the TZ.  Clock settings are adjusted to show the new local time
+    tzset();
+}
+
+void initTime(String timezone) {
     Serial.println(" ");
     Serial.print("connecting to time server ");
     Serial.println(" ");
     // Init and get the time
     configTime(0, 0, ntpServer);
     delay(500);
-    setenv("TZ", "CET-1CEST,M3.5.0,M10.5.0/3", 1);
-    tzset();
+    setTimezone(timezone);
     delay(100);
     if(!getLocalTime(&timeinfo)){
         Serial.println("ERROR: failed to obtain time");
@@ -60,7 +65,6 @@ void setTime() {
         STATUS_NTP_OK = true;
     }
 }
-
 
 void configModeCallback(WiFiManager *myWiFiManager) {
 
@@ -441,6 +445,7 @@ void drawUserName() {
 
 void drawTime() {
     // time
+    struct tm timeinfo;
     static constexpr const char* const wd_en[7] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
     static constexpr const char* const wd_nl[7] = {"Zon", "Maa", "Din", "Woe", "Don", "Vri", "Zat"};
     auto dt = StickCP2.Rtc.getDateTime();
@@ -749,13 +754,12 @@ void setup() {
             }
             
             // set NTP time
-            setTime();
+            initTime(timezone);
 
             // set NTP time to rtc clock
-            struct tm timeInfo;
             if (STATUS_NTP_OK) {
                 Serial.println("set rtc clock from NTP");
-                while (!getLocalTime(&timeInfo, 1000)) {
+                while (!getLocalTime(&timeinfo, 1000)) {
                     Serial.print('.');
                 };
                 time_t t = time(nullptr) + 1;  // Advance one second.

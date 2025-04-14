@@ -32,6 +32,7 @@ boolean GET_CONFIG_DATA_SPIFF = true;
 
 const char* ntpServer = "europe.pool.ntp.org";
 #define NTP_TIMEZONE  "UTC+1"
+String timezone = "CET-1CEST,M3.5.0,M10.5.0/3";
 
 // WiFi
 const char* wifi_mngr_networkname = "pictodevice";
