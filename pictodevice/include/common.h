@@ -35,8 +35,8 @@ const char* ntpServer = "europe.pool.ntp.org";
 String timezone = "CET-1CEST,M3.5.0,M10.5.0/3";
 
 // WiFi
-const char* wifi_mngr_networkname = "pictodevice";
-const char* wifi_mngr_password = "p@ssw0rd";
+const char* wifi_mngr_networkname = "pictostick";
+const char* wifi_mngr_password = "password";
 
 // FIXME: servername for HTTP server needs to change
 String serverName = "http://192.168.178.148:8001";
@@ -45,7 +45,6 @@ String serverName = "http://192.168.178.148:8001";
 
 // configuration file in json format stored in SPIFFS fs
 const char* cfilename = "/data.json"; 
-const char* rfilename = "/httpreceived.json"; 
 
 // store values from JSON config file
 const char* config_comment; // nullptr
@@ -113,5 +112,3 @@ int ps_current_activity_index = 0;
 
 String lang = "nl"; // "en" for english, "nl" for dutch
 bool marked_done = false;
-
-
