@@ -44,7 +44,7 @@ String serverName = "http://192.168.178.148:8001";
 #define FORMAT_SPIFFS_IF_FAILED true
 
 // configuration file in json format stored in SPIFFS fs
-const char* cfilename = "/data.json"; 
+const char* cfilename = "/data.json";
 
 // store values from JSON config file
 const char* config_comment; // nullptr
@@ -56,7 +56,7 @@ const char* config_date_valid; // "23-03-2025"
 int8_t config_activities_size = 0;
 int config_activities_size_max = 19;   // hardcoded maximum of activities still able to show mini menu
 
-// box for picto 100 x 100 pixels 
+// box for picto 100 x 100 pixels
 int16_t picto_box_width = 100;
 int16_t picto_box_height = 100;
 
@@ -97,7 +97,7 @@ int sleepTime = 50;
 int ts, tts = 0;
 bool slp = false;
 
-#define BUTTON_PRESSED LOW 
+#define BUTTON_PRESSED LOW
 #define BUTTON_RELEASED HIGH
 
 //uint16_t ontime, offtime;
@@ -112,3 +112,6 @@ int ps_current_activity_index = 0;
 
 String lang = "nl"; // "en" for english, "nl" for dutch
 bool marked_done = false;
+
+
+
