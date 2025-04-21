@@ -27,8 +27,8 @@ it is not portable and often only used in either the users' household or the (wo
 ## PictoStick
 The PictoStick offers a method to present a scrollable sequence of pictos for the user in a portable way,
 either as a small device that can be carried around or a watch-like option with a wrist band.
-The device can be refered to by the user as to the daily activities and even to check off the
-ones that have allready been completed.
+The device can be referred to by the user as to the daily activities and even to check off the
+ones that have already been completed.
 
 ![Pictostick 3](https://github.com/jsoeterbroek/pictostick/blob/main/assets/IMG_0918.jpg)
 
