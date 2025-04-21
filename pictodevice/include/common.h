@@ -2,7 +2,7 @@
 #include <colors.h>
 
 #define PD_VERSION_MAJOR 1
-#define PD_VERSION_MINOR 2
+#define PD_VERSION_MINOR 3
 #define PD_VERSION_PATCH 1
 
 static inline int pd_version_major(void) {
@@ -112,6 +112,8 @@ int ps_current_activity_index = 0;
 
 String lang = "nl"; // "en" for english, "nl" for dutch
 bool marked_done = false;
+
+
 
 
 

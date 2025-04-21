@@ -24,6 +24,7 @@
 #include <StreamUtils.h>
 #include <AsyncJson.h>
 #include <AsyncMessagePack.h>
+#include <_locale.h>
 
 TFT_eSPI tft = TFT_eSPI();
 TFT_eSprite sprite = TFT_eSprite(&tft);
@@ -76,6 +77,15 @@ void configModeCallback(WiFiManager *myWiFiManager) {
     Serial.println(myWiFiManager->getConfigPortalSSID());
     Serial.println(" to configure WiFI for this device");
     Serial.println(" ********************");
+
+    StickCP2.Display.drawString("******************", 4, 28);
+    StickCP2.Display.drawString(TXT_WM_WEBPORTAL_STARTED, 4, 40);
+    StickCP2.Display.drawString(WiFi.softAPIP().toString(), 4, 52);
+    StickCP2.Display.drawString(TXT_WM_CONNECT_SSID, 4, 64);
+    StickCP2.Display.drawString(myWiFiManager->getConfigPortalSSID(), 4, 76);
+    StickCP2.Display.drawString(TXT_WM_WITH_PASSWORD, 4, 88);
+    StickCP2.Display.drawString(TXT_WM_CONFIG_DEVICE, 4, 100);
+    StickCP2.Display.drawString("******************", 4, 112);
 
     STATUS_WIFI_MGR_CONFIG_MODE_OK = true;
 }
@@ -210,8 +220,50 @@ void init_ESPAsync_Ws() {
 }
 
 void drawDeviceMode1() {
+
     Serial.println("DEBUG: drawDeviceMode1 active");  //FIXME, remove later
-    set_devicemode(3);
+    //set_devicemode(3);
+    StickCP2.Display.clear();
+    StickCP2.Display.drawString("device mode 1", 4, 4);
+    StickCP2.Display.drawString("* starting WiFiManager", 4, 16);
+
+    // for testing
+    wm.resetSettings();
+
+    wm.setConfigPortalTimeout(5000);
+    wm.setAPCallback(configModeCallback);
+    bool res;
+    res = wm.autoConnect(wifi_mngr_networkname, wifi_mngr_password);
+
+    if (!res) {
+        Serial.println("Failed to connect and hit timeout");
+        delay(3000);
+        ESP.restart();
+    } else {
+        STATUS_WIFI_MGR_OK = true;
+        Serial.println("WiFi connected.");
+    }
+            
+    // set NTP time
+    initTime(timezone);
+
+    // set NTP time to rtc clock
+    if (STATUS_NTP_OK) {
+        Serial.println("set rtc clock from NTP");
+        while (!getLocalTime(&timeinfo, 1000)) {
+            Serial.print('.');
+        };
+        time_t t = time(nullptr) + 1;  // Advance one second.
+        while (t > time(nullptr))
+            ;  /// Synchronization in seconds
+        StickCP2.Rtc.setDateTime(gmtime(&t));
+    } else {
+        Serial.println("ERROR: rtc clock not set");
+    }
+    if (STATUS_NTP_OK) {
+        // set devicemode 3
+        set_devicemode(3);
+    }
 }
 
 void drawDeviceMode2() {
@@ -735,56 +787,18 @@ void setup() {
             ESP.restart(); // trigger reboot of device
             break;
         case 1:            // 1. network config mode
-        
-            // for testing
-            //wm.resetSettings();
-
-            wm.setConfigPortalTimeout(5000);
-            wm.setAPCallback(configModeCallback);
-            bool res;
-            res = wm.autoConnect(wifi_mngr_networkname, wifi_mngr_password);
-
-            if (!res) {
-                Serial.println("Failed to connect and hit timeout");
-                delay(3000);
-                ESP.restart();
-            } else {
-                STATUS_WIFI_MGR_OK = true;
-                Serial.println("WiFi connected.");
-            }
-            
-            // set NTP time
-            initTime(timezone);
-
-            // set NTP time to rtc clock
-            if (STATUS_NTP_OK) {
-                Serial.println("set rtc clock from NTP");
-                while (!getLocalTime(&timeinfo, 1000)) {
-                    Serial.print('.');
-                };
-                time_t t = time(nullptr) + 1;  // Advance one second.
-                while (t > time(nullptr))
-                    ;  /// Synchronization in seconds
-                StickCP2.Rtc.setDateTime(gmtime(&t));
-            } else {
-                Serial.println("ERROR: rtc clock not set");
-            }
-            if (STATUS_NTP_OK) {
-                // set devicemode 3
-                set_devicemode(3);
-            }
+            Serial.println("mode 1");
+            draw_device_mode_1 = true;
             break;
         case 2:  // 2. config mode
             Serial.println("mode 2");
             draw_device_mode_2 = true;
             break;
         case 3:  // 3. regular mode
-
             // get config data
             if(GET_CONFIG_DATA_SPIFF) {
                 getConfigDataSPIFF();
             }
-
             // FIXME: make check for md5sum checksum of config file
             if (STATUS_GET_CONFIG_DATA_SPIFF_OK) {
                 STATUS_CONFIG_DATA_OK = true;

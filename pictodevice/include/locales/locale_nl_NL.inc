@@ -18,3 +18,9 @@ const char *TXT_WL_CONNECTED       = "Connected";
 const char *TXT_WL_CONNECT_FAILED  = "Connection Failed";
 const char *TXT_WL_CONNECTION_LOST = "Connection Lost";
 const char *TXT_WL_DISCONNECTED    = "Disconnected";
+
+// WIFI MANAGER
+const char *TXT_WM_WEBPORTAL_STARTED = "Webportaal gestart op: ";
+const char *TXT_WM_CONNECT_SSID = "verbind met WiFi SSID: ";
+const char *TXT_WM_WITH_PASSWORD = "met wachtwoord 'password' om WiFi";
+const char *TXT_WM_CONFIG_DEVICE = "voor dit apparaat te configureren.";
