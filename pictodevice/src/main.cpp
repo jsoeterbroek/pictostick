@@ -224,8 +224,8 @@ void drawDeviceMode1() {
     Serial.println("DEBUG: drawDeviceMode1 active");  //FIXME, remove later
     //set_devicemode(3);
     StickCP2.Display.clear();
-    StickCP2.Display.drawString("device mode 1", 4, 4);
-    StickCP2.Display.drawString("* starting WiFiManager", 4, 16);
+    StickCP2.Display.drawString(TXT_DM1, 4, 4);
+    StickCP2.Display.drawString(TXT_WM_START, 4, 16);
 
     // for testing
     wm.resetSettings();
@@ -270,8 +270,8 @@ void drawDeviceMode2() {
 
     Serial.println("DEBUG: drawDeviceMode2 active");  //FIXME, remove later
     StickCP2.Display.clear();
-    StickCP2.Display.drawString("device mode 2", 4, 4);
-    StickCP2.Display.drawString("* starting WiFi", 4, 16);
+    StickCP2.Display.drawString(TXT_DM2, 4, 4);
+    StickCP2.Display.drawString(TXT_DM2_WIFI_START, 4, 16);
 
     WiFi.mode(WIFI_STA);
 
@@ -298,8 +298,8 @@ void drawDeviceMode2() {
         StickCP2.Display.drawString(localip, 120, 16);
     }
 
-    StickCP2.Display.drawString("* starting Webserver", 4, 28);
-    StickCP2.Display.drawString("* waiting for file upload... ", 4, 40);
+    StickCP2.Display.drawString(TXT_DM2_WS_START, 4, 28);
+    StickCP2.Display.drawString(TXT_DM2_FILE_WAITING, 4, 40);
 
     init_ESPAsync_Ws();
 
@@ -309,31 +309,31 @@ void drawDeviceMode2() {
     }
 
     if (STATUS_SET_CONFIG_DATA_SPIFF_OK) {
-        StickCP2.Display.drawString("* file upload OK ", 4, 64);
+        StickCP2.Display.drawString(TXT_DM2_FILE_OK, 4, 64);
     } else {
-        StickCP2.Display.drawString("* ERROR: file upload failed ", 4, 64);
+        StickCP2.Display.drawString(TXT_DM2_FILE_ERR, 4, 64);
     }
     delay(2000);
 
     // shutdown wifi
-    StickCP2.Display.drawString("* disconnect WiFi ", 4, 76);
+    StickCP2.Display.drawString(TXT_DM2_WIFI_DISC, 4, 76);
     delay(2000);
     WiFi.disconnect(true);
 
     if (STATUS_SET_CONFIG_DATA_SPIFF_OK) {
-        //set_devicemode(3);
-        StickCP2.Display.drawString("* Setting device mode 3", 4, 88);
+        //set devicemode 3
+        StickCP2.Display.drawString(TXT_DM_SET_3, 4, 88);
         delay(2000);
         set_devicemode(3);
     } else {
-        //set_devicemode(2);
-        StickCP2.Display.drawString("* Setting device mode 2", 4, 88);
+        //set devicemode 2
+        StickCP2.Display.drawString(TXT_DM_SET_2, 4, 88);
         delay(2000);
         set_devicemode(2);
     }
 
     // restart
-    StickCP2.Display.drawString("* Restart device", 4, 100);
+    StickCP2.Display.drawString(TXT_DM_RESTART, 4, 100);
     delay(2000);
     ESP.restart();
 
@@ -348,7 +348,7 @@ void drawDeviceModeConfig(uint8_t _desired_mode) {
     sprite.fillSprite(RGB565_GRAY_LIGHT);
     sprite.loadFont(Noto);
     sprite.setTextColor(RGB565_GRAY_BATTLESHIP, RGB565_GRAY_LIGHT);
-    sprite.drawString("Select device mode: ", 2, 4);
+    sprite.drawString(TXT_DM_SELECT, 2, 4);
     mode = get_devicemode();
 
     unsigned short _color1 = RGB565_GRAY_BATTLESHIP;
@@ -363,7 +363,7 @@ void drawDeviceModeConfig(uint8_t _desired_mode) {
     }
     sprite.fillRect(0, 28, 230, 30, _color2);
     sprite.setTextColor(_color1, _color2);
-    sprite.drawString("Network configuration", 4, 38);
+    sprite.drawString(TXT_DM_NET_CONF, 4, 38);
 
     if (_desired_mode == 2) {
         _color1 = TFT_ORANGE;
@@ -374,7 +374,7 @@ void drawDeviceModeConfig(uint8_t _desired_mode) {
     }
     sprite.fillRect(0, 64, 230, 30, _color2);
     sprite.setTextColor(_color1, _color2);
-    sprite.drawString("Activity sequence update", 4, 74);
+    sprite.drawString(TXT_DM_PICTO_UPD, 4, 74);
 
     if (_desired_mode == 3) {
         _color1 = TFT_ORANGE;
@@ -385,7 +385,7 @@ void drawDeviceModeConfig(uint8_t _desired_mode) {
     }
     sprite.fillRect(0, 100, 230, 30, _color2);
     sprite.setTextColor(_color1, _color2);
-    sprite.drawString("Normal mode", 4, 110);
+    sprite.drawString(TXT_DM_NORMAL_MODE, 4, 110);
     sprite.unloadFont();
     StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t*)sprite.getPointer());
 
@@ -420,7 +420,7 @@ void drawSplash() {
     sprite.fillSprite(TFT_WHITE);
     sprite.loadFont(Noto);
     sprite.setTextColor(TFT_DARKGRAY,TFT_WHITE);
-    String software = " Pictostick ";
+    String software = " PictoStick ";
     //software += String("v") + pd_version_major() + "." + pd_version_minor() + "." + pd_version_patch();
     software += String("v") + pd_version_major() + "." + pd_version_minor() + " PROTOTYPE";
     String maker = " Joost Soeterbroek";
