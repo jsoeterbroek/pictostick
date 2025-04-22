@@ -27,7 +27,7 @@ const char *TXT_WM_CONFIG_DEVICE = "configure WiFI for this device.";
 
 // Device modes
 const char *TXT_DM_SELECT = "Select device mode: ";
-const char *TXT_DM_NET_CONF = "Network configuration";
+const char *TXT_DM_NET_CONF = "WiFi configuration";
 const char *TXT_DM_PICTO_UPD = "Picto sequence update";
 const char *TXT_DM_NORMAL_MODE = "Normal mode";
 const char *TXT_DM_SET_1 = "Setting device mode 1";

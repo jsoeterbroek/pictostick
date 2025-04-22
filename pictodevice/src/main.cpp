@@ -172,23 +172,23 @@ void getConfigDataSPIFF () {
     readConfigFile(SPIFFS, cfilename);
 }
 
-void beepBeep() {
-  static unsigned long previousMillis = 0;  // Store the previous time
-  unsigned long currentMillis = millis();   // Get the current time
-
-  static int state = 0;  // Store the current state
-  static int beepDuration = 250;  // Store the beep duration
-  if (currentMillis - previousMillis >= beepDuration) {  // If the beep duration has passed
-    previousMillis = currentMillis;  // Update the previous time
-
-    state++; if (state >= 10) state = 0;
-
-    if (state == 1 || state == 3)
-        if(buzzer) {
-            StickCP2.Speaker.tone(6000, 100);
-        }
-    }
-}
+//void beepBeep() {
+//  static unsigned long previousMillis = 0;  // Store the previous time
+//  unsigned long currentMillis = millis();   // Get the current time
+//
+//  static int state = 0;  // Store the current state
+//  static int beepDuration = 250;  // Store the beep duration
+//  if (currentMillis - previousMillis >= beepDuration) {  // If the beep duration has passed
+//    previousMillis = currentMillis;  // Update the previous time
+//
+//    state++; if (state >= 10) state = 0;
+//
+//    if (state == 1 || state == 3)
+//        if(buzzer) {
+//            StickCP2.Speaker.tone(6000, 100);
+//        }
+//    }
+//}
 void init_ESPAsync_Ws() {
 
     // Send JSON using AsyncResponseStream
@@ -730,12 +730,9 @@ void drawMain() {
             } else {
                 set_pspref_activity_done(ps_current_activity_index);
             }
-
-            //Serial.print("get_pspref_activity_done(ps_current_activity_index) is "); // FIXME: remove later
-            // Serial.println(get_pspref_activity_done(ps_current_activity_index)); // FIXME: remove later
-            //delay(8000); // FIXME: remove later
-
-            beepBeep();
+            if(buzzer) {
+                StickCP2.Speaker.tone(6000, 100);
+            }
         }
     }
 }
@@ -778,7 +775,6 @@ void setup() {
     mode = get_devicemode();
     Serial.println(mode);
 
-    // FIXME: fix or remov3?? 
     switch(mode) {
         case 0:
             Serial.println("mode 0");

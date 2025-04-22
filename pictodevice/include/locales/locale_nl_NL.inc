@@ -28,7 +28,7 @@ const char *TXT_WM_CONFIG_DEVICE = "voor dit apparaat te configureren.";
 
 // Device modes
 const char *TXT_DM_SELECT = "Selecteer apparaat modus: ";
-const char *TXT_DM_NET_CONF = "Netwerk configuratie";
+const char *TXT_DM_NET_CONF = "WiFi configuratie";
 const char *TXT_DM_PICTO_UPD = "Picto serie update";
 const char *TXT_DM_NORMAL_MODE = "Normale modus";
 const char *TXT_DM_SET_1 = "Apparaat modus 1";
