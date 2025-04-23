@@ -70,6 +70,8 @@ int16_t picto_box_height = 100;
 //time variables
 String h, m, s;
 int day, month;
+int8_t hour = 0;
+int8_t minute = 0;
 
 //settime variables
 bool setTimeDate = false;
@@ -114,6 +116,6 @@ String lang = "nl"; // "en" for english, "nl" for dutch
 bool marked_done = false;
 
 
-
-
+int cursor = 0;
+int cursor_selected = 0;
 

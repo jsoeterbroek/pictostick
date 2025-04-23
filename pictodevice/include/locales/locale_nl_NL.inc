@@ -30,11 +30,16 @@ const char *TXT_WM_CONFIG_DEVICE = "voor dit apparaat te configureren.";
 const char *TXT_DM_SELECT = "Selecteer apparaat modus: ";
 const char *TXT_DM_NET_CONF = "WiFi configuratie";
 const char *TXT_DM_PICTO_UPD = "Picto serie update";
+const char *TXT_DM_USER_CONF = "Gebruiker configuratie";
 const char *TXT_DM_NORMAL_MODE = "Normale modus";
 const char *TXT_DM_SET_1 = "Apparaat modus 1";
 const char *TXT_DM_SET_2 = "Apparaat modus 2";
 const char *TXT_DM_SET_3 = "Apparaat modus 3";
+const char *TXT_DM_SET_4 = "Apparaat modus 4";
 const char *TXT_DM_RESTART = "Herstart apparaat";
+
+// device mode 1
+const char *TXT_DM1 = "Apparaat modus 1";
 
 // device mode 2
 const char *TXT_DM2 = "Apparaat modus 2";
@@ -45,5 +50,6 @@ const char *TXT_DM2_FILE_OK = "Bestand upload OK ";
 const char *TXT_DM2_FILE_ERR = "Bestand upload foutmelding ";
 const char *TXT_DM2_WIFI_DISC = "Stoppen WiFi ";
 
-// device mode 1
-const char *TXT_DM1 = "Apparaat modus 1";
+// device mode 3
+const char *TXT_DM3 = "Apparaat modus 3";
+const char *TXT_DM3_SAVE = "Opslaan";

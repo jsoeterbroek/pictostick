@@ -12,7 +12,8 @@
 #include <FS.h>
 #include <SPIFFS.h>
 #include <devicemode.h>
-#include "Noto.h"
+#include "NotoSansBold15.h"
+#include "bigFont.h"
 #include "smallFont.h"
 #include <PNGdec.h>
 #include <PNG_SPIFFS_Support.h>
@@ -68,15 +69,6 @@ void initTime(String timezone) {
 }
 
 void configModeCallback(WiFiManager *myWiFiManager) {
-
-    Serial.println(" ********************");
-    Serial.println(" Entered config mode:");
-    Serial.print(" Webportal started at:");
-    Serial.println(WiFi.softAPIP());
-    Serial.print(" please connect to WiFi SSID: ");
-    Serial.println(myWiFiManager->getConfigPortalSSID());
-    Serial.println(" to configure WiFI for this device");
-    Serial.println(" ********************");
 
     StickCP2.Display.drawString("******************", 4, 28);
     StickCP2.Display.drawString(TXT_WM_WEBPORTAL_STARTED, 4, 40);
@@ -321,10 +313,10 @@ void drawDeviceMode2() {
     WiFi.disconnect(true);
 
     if (STATUS_SET_CONFIG_DATA_SPIFF_OK) {
-        //set devicemode 3
-        StickCP2.Display.drawString(TXT_DM_SET_3, 4, 88);
+        //set devicemode 4
+        StickCP2.Display.drawString(TXT_DM_SET_4, 4, 88);
         delay(2000);
-        set_devicemode(3);
+        set_devicemode(4);
     } else {
         //set devicemode 2
         StickCP2.Display.drawString(TXT_DM_SET_2, 4, 88);
@@ -336,72 +328,212 @@ void drawDeviceMode2() {
     StickCP2.Display.drawString(TXT_DM_RESTART, 4, 100);
     delay(2000);
     ESP.restart();
-
 }
 
-void drawDeviceModeConfig(uint8_t _desired_mode) {
+void drawDeviceMode3() {
 
-    Serial.println("DEBUG: drawDeviceMode active");  //FIXME, remove later
-    Serial.print("DEBUG: desired mode is ");  //FIXME, remove later
-    Serial.println(_desired_mode);  //FIXME, remove later
+    // time
+    struct tm timeinfo;
+    auto dt = StickCP2.Rtc.getDateTime();
+    char hourbuffer[10];
+    char minutebuffer[10];
+    snprintf(hourbuffer, sizeof(hourbuffer), "%02d",
+        dt.time.hours);
+    snprintf(minutebuffer, sizeof(minutebuffer), "%02d",
+        dt.time.minutes);
+
+    hour = atoi(hourbuffer);
+    minute = atoi(minutebuffer);
+
+    Serial.println("DEBUG: drawDeviceMode3 active");  //FIXME, remove later
+    Serial.print("DEBUG: cursor: ");  //FIXME, remove later
+    Serial.print(cursor);  //FIXME, remove later
+    Serial.print(" selected: ");  //FIXME, remove later
+    Serial.print(cursor_selected);  //FIXME, remove later
+    Serial.print(" hour: ");  //FIXME, remove later
+    Serial.print(hour);  //FIXME, remove later
+    Serial.print(" minute: ");  //FIXME, remove later
+    Serial.println(minute);  //FIXME, remove later
     sprite.createSprite(MY_WIDTH, MY_HEIGHT);
     sprite.fillSprite(RGB565_GRAY_LIGHT);
-    sprite.loadFont(Noto);
-    sprite.setTextColor(RGB565_GRAY_BATTLESHIP, RGB565_GRAY_LIGHT);
-    sprite.drawString(TXT_DM_SELECT, 2, 4);
-    mode = get_devicemode();
 
-    unsigned short _color1 = RGB565_GRAY_BATTLESHIP;
-    unsigned short _color2 = TFT_WHITE;
+    sprite.drawRoundRect(4, 10, 138, 78, 4, RGB565_GRAY_STONE);
+    sprite.loadFont(bigFont);
 
-    if (_desired_mode == 1) {
-        _color1 = TFT_ORANGE;
-        _color2 = RGB565_GRAY_BATTLESHIP;
+    // element 1  -- hours
+    if (cursor == 1) {
+        sprite.fillRoundRect(8, 14, 60, 70, 4, RGB565_GRAY_BATTLESHIP);
+        sprite.setTextColor(RGB565_CORAL, RGB565_GRAY_BATTLESHIP);
     } else {
-        _color1 = RGB565_GRAY_BATTLESHIP;
-        _color2 = TFT_WHITE;
+        sprite.fillRoundRect(8, 14, 60, 70, 4, RGB565_CORAL);
+        sprite.setTextColor(RGB565_GRAY_BATTLESHIP, RGB565_CORAL);
     }
-    sprite.fillRect(0, 28, 230, 30, _color2);
-    sprite.setTextColor(_color1, _color2);
-    sprite.drawString(TXT_DM_NET_CONF, 4, 38);
+    sprite.drawNumber(hour, 20, 26);
 
-    if (_desired_mode == 2) {
-        _color1 = TFT_ORANGE;
-        _color2 = RGB565_GRAY_BATTLESHIP;
+    // element 2  -- minutes
+    if (cursor == 2) {
+        sprite.fillRoundRect(78, 14, 60, 70, 4, RGB565_GRAY_BATTLESHIP);
+        sprite.setTextColor(RGB565_CORAL, RGB565_GRAY_BATTLESHIP);
     } else {
-        _color1 = RGB565_GRAY_BATTLESHIP;
-        _color2 = TFT_WHITE;
+        sprite.fillRoundRect(78, 14, 60, 70, 4, RGB565_CORAL);
+        sprite.setTextColor(RGB565_GRAY_BATTLESHIP, RGB565_CORAL);
     }
-    sprite.fillRect(0, 64, 230, 30, _color2);
-    sprite.setTextColor(_color1, _color2);
-    sprite.drawString(TXT_DM_PICTO_UPD, 4, 74);
+    sprite.drawNumber(minute, 85, 26);
 
-    if (_desired_mode == 3) {
-        _color1 = TFT_ORANGE;
-        _color2 = RGB565_GRAY_BATTLESHIP;
+    sprite.unloadFont();
+
+    // element 6 -- box save
+    sprite.drawRoundRect(154, 80, 80, 50, 5, RGB565_GRAY_STONE);
+    if (cursor == 6) {
+        sprite.fillRoundRect(156, 82, 76, 46, 5, RGB565_GRAY_BATTLESHIP);
+        sprite.setTextColor(RGB565_CORAL, RGB565_GRAY_BATTLESHIP);
     } else {
-        _color1 = RGB565_GRAY_BATTLESHIP;
-        _color2 = TFT_WHITE;
+        sprite.fillRoundRect(156, 82, 76, 46, 5, RGB565_CORAL);
+        sprite.setTextColor(RGB565_GRAY_BATTLESHIP, RGB565_CORAL);
+
     }
-    sprite.fillRect(0, 100, 230, 30, _color2);
-    sprite.setTextColor(_color1, _color2);
-    sprite.drawString(TXT_DM_NORMAL_MODE, 4, 110);
+    sprite.loadFont(NotoSansBold15);
+    sprite.drawString(TXT_DM3_SAVE, 162, 100);
+
     sprite.unloadFont();
     StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t*)sprite.getPointer());
 
     // button action
     if (StickCP2.BtnPWR.wasPressed()) {
-        switch (desired_mode) {
-        case 1: desired_mode = 3; break;
-        case 2: desired_mode = 1; break;
-        case 3: desired_mode = 2; break;
+        if (cursor_selected == 0) {
+            switch (cursor) {
+            case 0: cursor = 6; break;
+            case 1: cursor = 6; break;
+            case 2: cursor = 1; break;
+            case 6: cursor = 2; break;
+            }
+        } else if (cursor_selected == 1) {
+            // decrement hour
+            hour--;
+            StickCP2.Rtc.setDateTime( { { dt.date.year, dt.date.month, dt.date.date }, { hour, minute, 0 } } );
+            Serial.printf("DEBUG: Setting Time:\n%02d:%02d:00",hour,minute);
+            delay(200);
+        } else if (cursor_selected == 2) {
+            // decrement minute
+            minute--;
+            StickCP2.Rtc.setDateTime( { { dt.date.year, dt.date.month, dt.date.date }, { hour, minute, 0 } } );
+            Serial.printf("DEBUG: Setting Time:\n%02d:%02d:00",hour,minute);
+            delay(200);
         }
     }
     if (StickCP2.BtnB.wasPressed()) {
-        switch (desired_mode) {
-        case 1: desired_mode = 2; break;
-        case 2: desired_mode = 3; break;
-        case 3: desired_mode = 1; break;
+        if (cursor_selected == 0) {
+            switch (cursor) {
+            case 0: cursor = 6; break;
+            case 1: cursor = 2; break;
+            case 2: cursor = 6; break;
+            case 6: cursor = 1; break;
+            }
+        } else if (cursor_selected == 1) {
+            // increment hour
+            hour++;
+            StickCP2.Rtc.setDateTime( { { dt.date.year, dt.date.month, dt.date.date }, { hour, minute, 0 } } );
+            Serial.printf("DEBUG: Setting Time:\n%02d:%02d:00",hour,minute);
+            delay(200);
+        } else if (cursor_selected == 2) {
+            // increment minute
+            minute++;
+            StickCP2.Rtc.setDateTime( { { dt.date.year, dt.date.month, dt.date.date }, { hour, minute, 0 } } );
+            Serial.printf("DEBUG: Setting Time:\n%02d:%02d:00",hour,minute);
+            delay(200);
+        }
+    }
+    if (StickCP2.BtnA.wasPressed()) {
+        if (cursor == 6 ) {
+            //set devicemode 4
+            set_devicemode(4);
+        } else {
+            if (cursor_selected == 0) {
+                cursor_selected = cursor;
+            } else {
+                cursor_selected = 0;
+            }
+        }
+    }
+}
+
+void drawDeviceModeConfig(uint8_t _desired_devicemode) {
+
+    Serial.println("DEBUG: drawDeviceMode active");  //FIXME, remove later
+    Serial.print("DEBUG: desired mode is ");  //FIXME, remove later
+    Serial.println(_desired_devicemode);  //FIXME, remove later
+    sprite.createSprite(MY_WIDTH, MY_HEIGHT);
+    sprite.fillSprite(RGB565_GRAY_LIGHT);
+    sprite.loadFont(NotoSansBold15);
+    sprite.setTextColor(RGB565_GRAY_BATTLESHIP, RGB565_GRAY_LIGHT);
+    sprite.drawString(TXT_DM_SELECT, 2, 4);
+    devicemode = get_devicemode();
+
+    unsigned short _color1 = RGB565_GRAY_BATTLESHIP;
+    unsigned short _color2 = TFT_WHITE;
+
+    if (_desired_devicemode == 1) {
+        _color1 = TFT_ORANGE;
+        _color2 = RGB565_GRAY_BATTLESHIP;
+    } else {
+        _color1 = RGB565_GRAY_BATTLESHIP;
+        _color2 = TFT_WHITE;
+    }
+    sprite.fillRect(0, 24, 220, 24, _color2);
+    sprite.setTextColor(_color1, _color2);
+    sprite.drawString(TXT_DM_NET_CONF, 4, 32);
+
+    if (_desired_devicemode == 2) {
+        _color1 = TFT_ORANGE;
+        _color2 = RGB565_GRAY_BATTLESHIP;
+    } else {
+        _color1 = RGB565_GRAY_BATTLESHIP;
+        _color2 = TFT_WHITE;
+    }
+    sprite.fillRect(0, 52, 220, 24, _color2);
+    sprite.setTextColor(_color1, _color2);
+    sprite.drawString(TXT_DM_PICTO_UPD, 4, 60);
+
+    if (_desired_devicemode == 3) {
+        _color1 = TFT_ORANGE;
+        _color2 = RGB565_GRAY_BATTLESHIP;
+    } else {
+        _color1 = RGB565_GRAY_BATTLESHIP;
+        _color2 = TFT_WHITE;
+    }
+    sprite.fillRect(0, 80, 220, 24, _color2);
+    sprite.setTextColor(_color1, _color2);
+    sprite.drawString(TXT_DM_USER_CONF, 4, 88);
+
+    if (_desired_devicemode == 4) {
+        _color1 = TFT_ORANGE;
+        _color2 = RGB565_GRAY_BATTLESHIP;
+    } else {
+        _color1 = RGB565_GRAY_BATTLESHIP;
+        _color2 = TFT_WHITE;
+    }
+    sprite.fillRect(0, 108, 220, 24, _color2);
+    sprite.setTextColor(_color1, _color2);
+    sprite.drawString(TXT_DM_NORMAL_MODE, 4, 116);
+
+    sprite.unloadFont();
+    StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t*)sprite.getPointer());
+
+    // button action
+    if (StickCP2.BtnPWR.wasPressed()) {
+        switch (desired_devicemode) {
+        case 1: desired_devicemode = 4; break;
+        case 2: desired_devicemode = 1; break;
+        case 3: desired_devicemode = 2; break;
+        case 4: desired_devicemode = 3; break;
+        }
+    }
+    if (StickCP2.BtnB.wasPressed()) {
+        switch (desired_devicemode) {
+        case 1: desired_devicemode = 2; break;
+        case 2: desired_devicemode = 3; break;
+        case 3: desired_devicemode = 4; break;
+        case 4: desired_devicemode = 1; break;
         }
     }
     if (StickCP2.BtnA.wasPressed()) {
@@ -409,8 +541,8 @@ void drawDeviceModeConfig(uint8_t _desired_mode) {
         Serial.println("DEBUG: setting draw_device_mode_config to false");  //FIXME, remove later
         draw_device_mode_config = false;
         Serial.print("DEBUG: Set device mode to: ");  //FIXME, remove later
-        Serial.println(desired_mode);  //FIXME, remove later
-        set_devicemode(desired_mode);
+        Serial.println(desired_devicemode);  //FIXME, remove later
+        set_devicemode(desired_devicemode);
     }
 }
 
@@ -418,7 +550,7 @@ void drawSplash() {
 
     sprite.createSprite(MY_WIDTH, MY_HEIGHT);
     sprite.fillSprite(TFT_WHITE);
-    sprite.loadFont(Noto);
+    sprite.loadFont(NotoSansBold15);
     sprite.setTextColor(TFT_DARKGRAY,TFT_WHITE);
     String software = " PictoStick ";
     //software += String("v") + pd_version_major() + "." + pd_version_minor() + "." + pd_version_patch();
@@ -446,7 +578,7 @@ void pngDraw(PNGDRAW *pDraw) {
 }
 
 void drawMarkedDone() {
-    sprite.loadFont(Noto);
+    sprite.loadFont(NotoSansBold15);
     sprite.setTextColor(TFT_BLACK, RIGHT_RECT_BG_COLOR_1);
     sprite.drawString("X", 20, 100);
     sprite.unloadFont();
@@ -475,7 +607,7 @@ void drawBatt() {
 
     sprite.fillRect(116, 0, 120, 20, RIGHT_RECT_BG_COLOR_2);
     sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_2, RIGHT_RECT_BG_COLOR_2);
-    sprite.loadFont(Noto);
+    sprite.loadFont(NotoSansBold15);
     sprite.setCursor(160, 3);  // Adjust cursor for the top right
     sprite.printf("%d%%", batteryPercent);
     sprite.drawRect(200, 3, 28, 14, RGB565_GRAY_STONE); // body
@@ -488,7 +620,7 @@ void drawBatt() {
 
 void drawUserName() {
     // user name
-    sprite.loadFont(Noto);
+    sprite.loadFont(NotoSansBold15);
     sprite.fillRect(116, 20, 120, 20, RIGHT_RECT_BG_COLOR_1);
     sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_1, RIGHT_RECT_BG_COLOR_1);
     sprite.drawString(config_name, 118, 24);
@@ -514,11 +646,10 @@ void drawTime() {
             wd_nl[tm->tm_wday]);
     }
     snprintf(timebuffer, sizeof(timebuffer), "%02d:%02d",
-        tm->tm_hour,
-        tm->tm_min);
-        //tm->tm_sec);
+        dt.time.hours,
+        dt.time.minutes);
 
-    sprite.loadFont(Noto);
+    sprite.loadFont(NotoSansBold15);
     sprite.fillRect(116, 40, 120, 20, RIGHT_RECT_BG_COLOR_2);
     sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_2, RIGHT_RECT_BG_COLOR_2);
     sprite.drawString(daybuffer, 118, 44);
@@ -527,7 +658,7 @@ void drawTime() {
 }
 
 void drawName(String _strname, int _marked_done) {
-    sprite.loadFont(Noto);
+    sprite.loadFont(NotoSansBold15);
     if (_marked_done == 1) {
         sprite.fillRect(116, 70, 120, 40, COLOR_DONE);
         sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_1, COLOR_DONE);
@@ -685,7 +816,7 @@ void drawMain() {
     StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t*)sprite.getPointer());
 
     // button action
-    if (mode = 3) {
+    if (devicemode = 4) {
         if (StickCP2.BtnPWR.wasPressed() ) {
             sleepTime=25;
             ps_current_activity_index = get_pspref_current_activity_index();
@@ -772,10 +903,10 @@ void setup() {
     }
 
     Serial.print(" * Starting in mode:");
-    mode = get_devicemode();
-    Serial.println(mode);
+    devicemode = get_devicemode();
+    Serial.println(devicemode);
 
-    switch(mode) {
+    switch(devicemode) {
         case 0:
             Serial.println("mode 0");
             Serial.println("rebooting..");
@@ -790,7 +921,11 @@ void setup() {
             Serial.println("mode 2");
             draw_device_mode_2 = true;
             break;
-        case 3:  // 3. regular mode
+        case 3:  // 3. config mode
+            Serial.println("mode 3");
+            draw_device_mode_3 = true;
+            break;
+        case 4:  // 4. regular mode
             // get config data
             if(GET_CONFIG_DATA_SPIFF) {
                 getConfigDataSPIFF();
@@ -817,11 +952,13 @@ void loop() {
         sleepTime = 25;
     }
     if (draw_device_mode_config) {
-        drawDeviceModeConfig(desired_mode);
+        drawDeviceModeConfig(desired_devicemode);
     } else if (draw_device_mode_1) {
         drawDeviceMode1();
     } else if (draw_device_mode_2) {
         drawDeviceMode2();
+    } else if (draw_device_mode_3) {
+        drawDeviceMode3();
     } else {
         drawMain();
         delay(100);

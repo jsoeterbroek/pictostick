@@ -36,11 +36,16 @@ extern const char *TXT_WM_CONFIG_DEVICE;
 extern const char *TXT_DM_SELECT;
 extern const char *TXT_DM_NET_CONF;
 extern const char *TXT_DM_PICTO_UPD;
+extern const char *TXT_DM_USER_CONF;
 extern const char *TXT_DM_NORMAL_MODE;
 extern const char *TXT_DM_SET_1;
 extern const char *TXT_DM_SET_2;
 extern const char *TXT_DM_SET_3;
+extern const char *TXT_DM_SET_4;
 extern const char *TXT_DM_RESTART;
+
+// device mode 1
+extern const char *TXT_DM1;
 
 // device mode 2
 extern const char *TXT_DM2;
@@ -51,7 +56,8 @@ extern const char *TXT_DM2_FILE_OK;
 extern const char *TXT_DM2_FILE_ERR;
 extern const char *TXT_DM2_WIFI_DISC;
 
-// device mode 1
-extern const char *TXT_DM1;
+// device mode 3
+extern const char *TXT_DM3;
+extern const char *TXT_DM3_SAVE;
 
 #endif

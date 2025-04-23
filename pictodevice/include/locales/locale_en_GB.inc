@@ -29,11 +29,16 @@ const char *TXT_WM_CONFIG_DEVICE = "configure WiFI for this device.";
 const char *TXT_DM_SELECT = "Select device mode: ";
 const char *TXT_DM_NET_CONF = "WiFi configuration";
 const char *TXT_DM_PICTO_UPD = "Picto sequence update";
+const char *TXT_DM_USER_CONF = "User configuration";
 const char *TXT_DM_NORMAL_MODE = "Normal mode";
 const char *TXT_DM_SET_1 = "Setting device mode 1";
 const char *TXT_DM_SET_2 = "Setting device mode 2";
 const char *TXT_DM_SET_3 = "Setting device mode 3";
+const char *TXT_DM_SET_4 = "Setting device mode 4";
 const char *TXT_DM_RESTART = "Restart device";
+
+// device mode 1
+const char *TXT_DM1 = "device mode 1";
 
 // device mode 2
 const char *TXT_DM2 = "device mode 2";
@@ -44,5 +49,6 @@ const char *TXT_DM2_FILE_OK = "Dile upload OK ";
 const char *TXT_DM2_FILE_ERR = "ERROR: file upload failed ";
 const char *TXT_DM2_WIFI_DISC = "Disconnect WiFi ";
 
-// device mode 1
-const char *TXT_DM1 = "device mode 1";
+// device mode 3
+const char *TXT_DM3 = "device mode 3";
+const char *TXT_DM3_SAVE = "Save";
