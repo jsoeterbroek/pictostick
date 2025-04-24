@@ -9,8 +9,13 @@ extern Preferences psPrefs; // preferences
 // Namespace
 extern const char* PSNS;
 
+extern int pspref_brightness;
 extern int pspref_current_activity_index;
 
+void set_pspref_brightness(int pspref_brightness);
+int get_pspref_brightness();
+void incr_pspref_brightness();
+void decr_pspref_brightness();
 void set_pspref_current_activity_index(int pspref_current_activity_index);
 int get_pspref_current_activity_index();
 

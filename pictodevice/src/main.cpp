@@ -354,46 +354,61 @@ void drawDeviceMode3() {
     Serial.print(hour);  //FIXME, remove later
     Serial.print(" minute: ");  //FIXME, remove later
     Serial.println(minute);  //FIXME, remove later
+    Serial.print(" brightness: ");  //FIXME, remove later
+    Serial.println(get_pspref_brightness());  //FIXME, remove later
+
+    StickCP2.Display.setBrightness(get_pspref_brightness());
     sprite.createSprite(MY_WIDTH, MY_HEIGHT);
     sprite.fillSprite(RGB565_GRAY_LIGHT);
 
-    sprite.drawRoundRect(4, 10, 138, 78, 4, RGB565_GRAY_STONE);
+    sprite.drawRoundRect(6, 10, 138, 78, 4, RGB565_GRAY_STONE);
     sprite.loadFont(bigFont);
 
     // element 1  -- hours
     if (cursor == 1) {
-        sprite.fillRoundRect(8, 14, 60, 70, 4, RGB565_GRAY_BATTLESHIP);
-        sprite.setTextColor(RGB565_CORAL, RGB565_GRAY_BATTLESHIP);
+        sprite.fillRoundRect(10, 14, 60, 70, 4, RGB565_GRAY_BATTLESHIP);
+        sprite.setTextColor(TFT_ORANGE, RGB565_GRAY_BATTLESHIP);
     } else {
-        sprite.fillRoundRect(8, 14, 60, 70, 4, RGB565_CORAL);
-        sprite.setTextColor(RGB565_GRAY_BATTLESHIP, RGB565_CORAL);
+        sprite.fillRoundRect(10, 14, 60, 70, 4, TFT_WHITE);
+        sprite.setTextColor(RGB565_GRAY_BATTLESHIP, TFT_WHITE);
     }
-    sprite.drawNumber(hour, 20, 26);
+    sprite.drawNumber(hour, 22, 26);
 
     // element 2  -- minutes
     if (cursor == 2) {
-        sprite.fillRoundRect(78, 14, 60, 70, 4, RGB565_GRAY_BATTLESHIP);
-        sprite.setTextColor(RGB565_CORAL, RGB565_GRAY_BATTLESHIP);
+        sprite.fillRoundRect(80, 14, 60, 70, 4, RGB565_GRAY_BATTLESHIP);
+        sprite.setTextColor(TFT_ORANGE, RGB565_GRAY_BATTLESHIP);
     } else {
-        sprite.fillRoundRect(78, 14, 60, 70, 4, RGB565_CORAL);
-        sprite.setTextColor(RGB565_GRAY_BATTLESHIP, RGB565_CORAL);
+        sprite.fillRoundRect(80, 14, 60, 70, 4, TFT_WHITE);
+        sprite.setTextColor(RGB565_GRAY_BATTLESHIP, TFT_WHITE);
     }
-    sprite.drawNumber(minute, 85, 26);
+    sprite.drawNumber(minute, 87, 26);
+    sprite.unloadFont();
 
+    // element 3 -- brightness
+    sprite.drawRoundRect(6, 90, 138, 40, 5, RGB565_GRAY_STONE);
+    if (cursor == 3) {
+        sprite.fillRoundRect(8, 92, 134, 36, 5, RGB565_GRAY_BATTLESHIP);
+        sprite.setTextColor(TFT_ORANGE, RGB565_GRAY_BATTLESHIP);
+    } else {
+        sprite.fillRoundRect(8, 92, 134, 36, 5, TFT_WHITE);
+        sprite.setTextColor(RGB565_GRAY_BATTLESHIP, TFT_WHITE);
+    }
+    sprite.loadFont(NotoSansBold15);
+    sprite.drawString(TXT_DM3_BRIGHTNESS, 22, 105);
     sprite.unloadFont();
 
     // element 6 -- box save
-    sprite.drawRoundRect(154, 80, 80, 50, 5, RGB565_GRAY_STONE);
+    sprite.drawRoundRect(150, 90, 80, 40, 5, RGB565_GRAY_STONE);
     if (cursor == 6) {
-        sprite.fillRoundRect(156, 82, 76, 46, 5, RGB565_GRAY_BATTLESHIP);
-        sprite.setTextColor(RGB565_CORAL, RGB565_GRAY_BATTLESHIP);
+        sprite.fillRoundRect(152, 92, 76, 36, 5, RGB565_GRAY_BATTLESHIP);
+        sprite.setTextColor(TFT_ORANGE, RGB565_GRAY_BATTLESHIP);
     } else {
-        sprite.fillRoundRect(156, 82, 76, 46, 5, RGB565_CORAL);
-        sprite.setTextColor(RGB565_GRAY_BATTLESHIP, RGB565_CORAL);
-
+        sprite.fillRoundRect(152, 92, 76, 36, 5, TFT_WHITE);
+        sprite.setTextColor(RGB565_GRAY_BATTLESHIP, TFT_WHITE);
     }
     sprite.loadFont(NotoSansBold15);
-    sprite.drawString(TXT_DM3_SAVE, 162, 100);
+    sprite.drawString(TXT_DM3_SAVE, 158, 105);
 
     sprite.unloadFont();
     StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t*)sprite.getPointer());
@@ -405,7 +420,8 @@ void drawDeviceMode3() {
             case 0: cursor = 6; break;
             case 1: cursor = 6; break;
             case 2: cursor = 1; break;
-            case 6: cursor = 2; break;
+            case 3: cursor = 2; break;
+            case 6: cursor = 3; break;
             }
         } else if (cursor_selected == 1) {
             // decrement hour
@@ -419,6 +435,10 @@ void drawDeviceMode3() {
             StickCP2.Rtc.setDateTime( { { dt.date.year, dt.date.month, dt.date.date }, { hour, minute, 0 } } );
             Serial.printf("DEBUG: Setting Time:\n%02d:%02d:00",hour,minute);
             delay(200);
+        } else if (cursor_selected == 3) {
+            // decrement brightness 
+            decr_pspref_brightness();
+            delay(200);
         }
     }
     if (StickCP2.BtnB.wasPressed()) {
@@ -426,7 +446,8 @@ void drawDeviceMode3() {
             switch (cursor) {
             case 0: cursor = 6; break;
             case 1: cursor = 2; break;
-            case 2: cursor = 6; break;
+            case 2: cursor = 3; break;
+            case 3: cursor = 6; break;
             case 6: cursor = 1; break;
             }
         } else if (cursor_selected == 1) {
@@ -440,6 +461,10 @@ void drawDeviceMode3() {
             minute++;
             StickCP2.Rtc.setDateTime( { { dt.date.year, dt.date.month, dt.date.date }, { hour, minute, 0 } } );
             Serial.printf("DEBUG: Setting Time:\n%02d:%02d:00",hour,minute);
+            delay(200);
+        } else if (cursor_selected == 3) {
+            // increment brightness 
+            incr_pspref_brightness();
             delay(200);
         }
     }
@@ -673,7 +698,7 @@ void drawName(String _strname, int _marked_done) {
 void drawMain() {
 
     StickCP2.Display.powerSaveOff();
-    StickCP2.Display.setBrightness(brightness[bd]);
+    StickCP2.Display.setBrightness(get_pspref_brightness());
     sprite.createSprite(MY_WIDTH, MY_HEIGHT);
     sprite.fillSprite(BG_COLOR);
 
@@ -878,7 +903,7 @@ void setup() {
 
     sprite.createSprite(MY_WIDTH, MY_HEIGHT);
 
-    StickCP2.Display.setBrightness(brightness[bd]);
+    StickCP2.Display.setBrightness(get_pspref_brightness());
 
     Serial.begin(115200);
     Serial.println("start initialisation..");
@@ -947,7 +972,7 @@ void loop() {
 
     StickCP2.update();
     if(slp) {
-        StickCP2.Display.setBrightness(brightness[bd]);
+        StickCP2.Display.setBrightness(get_pspref_brightness());
         slp = false;
         sleepTime = 25;
     }

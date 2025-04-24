@@ -52,3 +52,4 @@ const char *TXT_DM2_WIFI_DISC = "Disconnect WiFi ";
 // device mode 3
 const char *TXT_DM3 = "device mode 3";
 const char *TXT_DM3_SAVE = "Save";
+const char *TXT_DM3_BRIGHTNESS = "Brightness";

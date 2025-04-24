@@ -53,3 +53,4 @@ const char *TXT_DM2_WIFI_DISC = "Stoppen WiFi ";
 // device mode 3
 const char *TXT_DM3 = "Apparaat modus 3";
 const char *TXT_DM3_SAVE = "Opslaan";
+const char *TXT_DM3_BRIGHTNESS = "Helderheid";

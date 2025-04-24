@@ -59,5 +59,6 @@ extern const char *TXT_DM2_WIFI_DISC;
 // device mode 3
 extern const char *TXT_DM3;
 extern const char *TXT_DM3_SAVE;
+extern const char *TXT_DM3_BRIGHTNESS;
 
 #endif

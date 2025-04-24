@@ -83,11 +83,7 @@ int setPosX[8]={10,50,91,10,50,91,8,8};
 int setPosY[8]={54,54,54,124,124,124,172,192};
 int chosen=0;
 
-//brightness and battery
-int brightness[6] = {16, 32, 48, 64, 96, 180};
-int bb = 2;
-int bc = 3;
-int bd = 3;
+//battery
 int vol;
 int volE;
 
