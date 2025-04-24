@@ -29,7 +29,7 @@ const char *TXT_WM_CONFIG_DEVICE = "configure WiFI for this device.";
 const char *TXT_DM_SELECT = "Select device mode: ";
 const char *TXT_DM_NET_CONF = "WiFi configuration";
 const char *TXT_DM_PICTO_UPD = "Picto sequence update";
-const char *TXT_DM_USER_CONF = "User configuration";
+const char *TXT_DM_SETUP = "Setup";
 const char *TXT_DM_NORMAL_MODE = "Normal mode";
 const char *TXT_DM_SET_1 = "Setting device mode 1";
 const char *TXT_DM_SET_2 = "Setting device mode 2";
@@ -51,5 +51,9 @@ const char *TXT_DM2_WIFI_DISC = "Disconnect WiFi ";
 
 // device mode 3
 const char *TXT_DM3 = "device mode 3";
-const char *TXT_DM3_SAVE = "Save";
-const char *TXT_DM3_BRIGHTNESS = "Brightness";
+const char *TXT_DM3_SETUP = "SETUP";
+const char *TXT_DM3_HOUR = "HOUR";
+const char *TXT_DM3_MIN = "MIN";
+const char *TXT_DM3_SEC = "SEC";
+const char *TXT_DM3_BUZZER = "BUZZER";
+const char *TXT_DM3_BRIGHTNESS = "BRIGHTNESS";

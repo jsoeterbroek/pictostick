@@ -46,7 +46,7 @@ void incr_pspref_brightness(void) {
     case 164:
         set_pspref_brightness(180); break;
     case 180:
-        set_pspref_brightness(180); break;
+        set_pspref_brightness(16); break;
     default:
         set_pspref_brightness(32); break;
     }

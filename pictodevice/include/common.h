@@ -72,16 +72,17 @@ String h, m, s;
 int day, month;
 int8_t hour = 0;
 int8_t minute = 0;
+int8_t second = 0;
 
 //settime variables
-bool setTimeDate = false;
-int setData[8];  //setHour,setMin,setSec,setDate,setMonth,setYear; SET REGION , SET BEEPER;
-String setDataLbl[8]={"HOUR","MIN","SEC","DATE","MON","YEAR","REGION","SOUND"};
-int setMin[8]={0,0,0,1,1,24,0,0};
-int setMax[8]={24,60,60,32,13,36,2,2};
-int setPosX[8]={10,50,91,10,50,91,8,8};
-int setPosY[8]={54,54,54,124,124,124,172,192};
-int chosen=0;
+//bool setTimeDate = false;
+//int setData[8];  //setHour,setMin,setSec,setDate,setMonth,setYear; SET REGION , SET BEEPER;
+//String setDataLbl[8]={"HOUR","MIN","SEC","DATE","MON","YEAR","REGION","SOUND"};
+//int setMin[8]={0,0,0,1,1,24,0,0};
+//int setMax[8]={24,60,60,32,13,36,2,2};
+//int setPosX[8]={10,50,91,10,50,91,8,8};
+//int setPosY[8]={54,54,54,124,124,124,172,192};
+//int chosen=0;
 
 //battery
 int vol;
@@ -113,5 +114,4 @@ bool marked_done = false;
 
 
 int cursor = 0;
-int cursor_selected = 0;
 
