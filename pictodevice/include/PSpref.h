@@ -12,6 +12,8 @@ extern const char* PSNS;
 extern int pspref_brightness;
 extern int pspref_current_activity_index;
 
+void set_pspref_buzzer(bool pspref_buzzer);
+bool get_pspref_buzzer();
 void set_pspref_brightness(int pspref_brightness);
 int get_pspref_brightness();
 void incr_pspref_brightness();

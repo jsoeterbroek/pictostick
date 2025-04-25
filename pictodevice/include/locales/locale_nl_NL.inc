@@ -1,4 +1,3 @@
-
 #include "_locale.h"
 #include <Arduino.h>
 
@@ -58,3 +57,5 @@ const char *TXT_DM3_MIN = "MIN";
 const char *TXT_DM3_SEC = "SEC";
 const char *TXT_DM3_BUZZER = "GELUID";
 const char *TXT_DM3_BRIGHTNESS = "HELDERHEID";
+const char *TXT_DM3_ON = "AAN";
+const char *TXT_DM3_OFF = "UIT";

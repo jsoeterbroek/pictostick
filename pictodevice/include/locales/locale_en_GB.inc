@@ -57,3 +57,5 @@ const char *TXT_DM3_MIN = "MIN";
 const char *TXT_DM3_SEC = "SEC";
 const char *TXT_DM3_BUZZER = "BUZZER";
 const char *TXT_DM3_BRIGHTNESS = "BRIGHTNESS";
+const char *TXT_DM3_ON = "ON";
+const char *TXT_DM3_OFF = "OFF";

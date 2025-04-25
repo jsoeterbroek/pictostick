@@ -165,23 +165,13 @@ void getConfigDataSPIFF () {
     readConfigFile(SPIFFS, cfilename);
 }
 
-//void beepBeep() {
-//  static unsigned long previousMillis = 0;  // Store the previous time
-//  unsigned long currentMillis = millis();   // Get the current time
-//
-//  static int state = 0;  // Store the current state
-//  static int beepDuration = 250;  // Store the beep duration
-//  if (currentMillis - previousMillis >= beepDuration) {  // If the beep duration has passed
-//    previousMillis = currentMillis;  // Update the previous time
-//
-//    state++; if (state >= 10) state = 0;
-//
-//    if (state == 1 || state == 3)
-//        if(buzzer) {
-//            StickCP2.Speaker.tone(6000, 100);
-//        }
-//    }
-//}
+void beepOrNot() {
+
+    if (get_pspref_buzzer()) {
+        StickCP2.Speaker.tone(6000, 100);
+    }
+}
+
 void init_ESPAsync_Ws() {
 
     // Send JSON using AsyncResponseStream
@@ -384,13 +374,13 @@ void drawDeviceMode3() {
     sprite.unloadFont();
     sprite.loadFont(secFont);
     if (cursor == 2) {
-        sprite.fillRect(50, 48, 36, 40, RGB565_GRAY_BATTLESHIP);
+        sprite.fillRect(51, 48, 36, 40, RGB565_GRAY_BATTLESHIP);
         sprite.setTextColor(TFT_ORANGE, RGB565_GRAY_BATTLESHIP);
     } else {
-        sprite.fillRect(50, 48, 36, 40, TFT_WHITE);
+        sprite.fillRect(51, 48, 36, 40, TFT_WHITE);
         sprite.setTextColor(RGB565_GRAY_BATTLESHIP, TFT_WHITE);
     }
-    sprite.drawString(minutebuffer, 67, 70);
+    sprite.drawString(minutebuffer, 68, 70);
     sprite.unloadFont();
 
     // element 3  -- seconds
@@ -400,13 +390,13 @@ void drawDeviceMode3() {
     sprite.unloadFont();
     sprite.loadFont(secFont);
     if (cursor == 3) {
-        sprite.fillRect(90, 48, 36, 40, RGB565_GRAY_BATTLESHIP);
+        sprite.fillRect(92, 48, 36, 40, RGB565_GRAY_BATTLESHIP);
         sprite.setTextColor(TFT_ORANGE, RGB565_GRAY_BATTLESHIP);
     } else {
-        sprite.fillRect(90, 48, 36, 40, TFT_WHITE);
+        sprite.fillRect(92, 48, 36, 40, TFT_WHITE);
         sprite.setTextColor(RGB565_GRAY_BATTLESHIP, TFT_WHITE);
     }
-    sprite.drawString(secondbuffer, 107, 70);
+    sprite.drawString(secondbuffer, 108, 70);
     sprite.unloadFont();
 
     // element 4 -- brightness
@@ -420,28 +410,41 @@ void drawDeviceMode3() {
     sprite.setTextDatum(0);
     sprite.loadFont(smallFont);
     sprite.drawString(TXT_DM3_BRIGHTNESS, 15, 100);
+    sprite.drawNumber(get_pspref_brightness(), 100, 100);
     sprite.unloadFont();
 
-    // element 6 -- 
+    // element 6 -- buzzer on/off
     if (cursor == 6) {
-        sprite.fillRect(138, 92, 92, 30, RGB565_GRAY_BATTLESHIP);
+        sprite.fillRect(136, 92, 96, 30, RGB565_GRAY_BATTLESHIP);
         sprite.setTextColor(TFT_ORANGE, RGB565_GRAY_BATTLESHIP);
     } else {
-        sprite.fillRect(138, 92, 92, 30, TFT_WHITE);
+        sprite.fillRect(136, 92, 96, 30, TFT_WHITE);
         sprite.setTextColor(RGB565_GRAY_BATTLESHIP, TFT_WHITE);
     }
     sprite.loadFont(smallFont);
-    sprite.drawString(TXT_DM3_BUZZER, 150, 100);
+    sprite.drawString(TXT_DM3_BUZZER, 146, 100);
+
+    if (get_pspref_buzzer()) {
+        sprite.drawString(TXT_DM3_ON, 200, 100);
+    } else {
+        sprite.drawString(TXT_DM3_OFF, 200, 100);
+    }
 
     sprite.unloadFont();
     StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t*)sprite.getPointer());
 
     // button action
     if (StickCP2.BtnPWR.wasPressed()) {
+        if (get_pspref_buzzer()) {
+            StickCP2.Speaker.tone(6000, 100);
+        }
         set_devicemode(4);
     }
 
     if (StickCP2.BtnB.wasPressed()) {
+        if (get_pspref_buzzer()) {
+            StickCP2.Speaker.tone(6000, 100);
+        }
         switch (cursor) {
             case 0: cursor = 6; break;
             case 1: cursor = 2; break;
@@ -453,6 +456,9 @@ void drawDeviceMode3() {
     }
 
     if (StickCP2.BtnA.wasPressed()) {
+        if (get_pspref_buzzer()) {
+            StickCP2.Speaker.tone(6000, 100);
+        }
         if (cursor == 1) {
             // increment hour
             hour++;
@@ -482,16 +488,17 @@ void drawDeviceMode3() {
             incr_pspref_brightness();
             delay(200);
         } else if (cursor == 6) {
-            // TBA
+            if (get_pspref_buzzer()) {
+                set_pspref_buzzer(false);
+            } else {
+                set_pspref_buzzer(true);
+            }
         }
     }
 }
 
 void drawDeviceModeConfig(uint8_t _desired_devicemode) {
 
-    Serial.println("DEBUG: drawDeviceMode active");  //FIXME, remove later
-    Serial.print("DEBUG: desired mode is ");  //FIXME, remove later
-    Serial.println(_desired_devicemode);  //FIXME, remove later
     sprite.createSprite(MY_WIDTH, MY_HEIGHT);
     sprite.fillSprite(RGB565_GRAY_LIGHT);
     sprite.loadFont(NotoSansBold15);
@@ -551,14 +558,15 @@ void drawDeviceModeConfig(uint8_t _desired_devicemode) {
 
     // button action
     if (StickCP2.BtnPWR.wasPressed()) {
-        switch (desired_devicemode) {
-        case 1: desired_devicemode = 4; break;
-        case 2: desired_devicemode = 1; break;
-        case 3: desired_devicemode = 2; break;
-        case 4: desired_devicemode = 3; break;
+        if (get_pspref_buzzer()) {
+            StickCP2.Speaker.tone(6000, 100);
         }
+        set_devicemode(4);
     }
     if (StickCP2.BtnB.wasPressed()) {
+        if (get_pspref_buzzer()) {
+            StickCP2.Speaker.tone(6000, 100);
+        }
         switch (desired_devicemode) {
         case 1: desired_devicemode = 2; break;
         case 2: desired_devicemode = 3; break;
@@ -567,11 +575,10 @@ void drawDeviceModeConfig(uint8_t _desired_devicemode) {
         }
     }
     if (StickCP2.BtnA.wasPressed()) {
-        Serial.println("DEBUG: Btn A was pressed");  //FIXME, remove later
-        Serial.println("DEBUG: setting draw_device_mode_config to false");  //FIXME, remove later
+        if (get_pspref_buzzer()) {
+            StickCP2.Speaker.tone(6000, 100);
+        }
         draw_device_mode_config = false;
-        Serial.print("DEBUG: Set device mode to: ");  //FIXME, remove later
-        Serial.println(desired_devicemode);  //FIXME, remove later
         set_devicemode(desired_devicemode);
     }
 }
@@ -709,12 +716,7 @@ void drawMain() {
 
     // extract values from config JSON object
     config_activities_size = cdoc["activities"].size();
-    //config_comment = cdoc["comment"]; // nullptr
-    //config_version = cdoc["version"]; // "1.0.1"
     config_name = cdoc["name"]; // "Peter"
-    //config_device_ip = cdoc["device_ip"]; // "128.8.2.123"
-    //config_date_created = cdoc["date_created"];
-    //config_date_valid = cdoc["date_valid"];
 
     int _i = 0;
     // TODO: probably use a fancy multidimensional array with structs for this, but just use 'lists' for now
@@ -853,7 +855,7 @@ void drawMain() {
             if (ps_current_activity_index >= 1) {
                 set_pspref_current_activity_index(ps_current_activity_index - 1);
             } else {
-                if(buzzer) {
+                if (get_pspref_buzzer()) {
                     StickCP2.Speaker.tone(6000, 100);
                 }
             }
@@ -861,7 +863,7 @@ void drawMain() {
     
         // go to device mode configuration screen
         if (StickCP2.BtnB.pressedFor(5000)) { //longpress 5 seconds
-            if(buzzer) {
+            if(get_pspref_buzzer()) {
                 StickCP2.Speaker.tone(4000, 20);
                 delay(1000);
             }
@@ -874,7 +876,7 @@ void drawMain() {
             if (ps_current_activity_index < config_activities_size - 1) {
                 set_pspref_current_activity_index(ps_current_activity_index + 1);
             } else {
-                if(buzzer) {
+                if (get_pspref_buzzer()) {
                     StickCP2.Speaker.tone(6000, 100);
                 }
             }
@@ -891,7 +893,7 @@ void drawMain() {
             } else {
                 set_pspref_activity_done(ps_current_activity_index);
             }
-            if(buzzer) {
+            if (get_pspref_buzzer()) {
                 StickCP2.Speaker.tone(6000, 100);
             }
         }

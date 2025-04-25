@@ -88,9 +88,6 @@ int8_t second = 0;
 int vol;
 int volE;
 
-//buzzer
-int buzzer = 1;
-
 //sleep variables
 int sleepTime = 50;
 int ts, tts = 0;

@@ -64,5 +64,7 @@ extern const char *TXT_DM3_MIN;
 extern const char *TXT_DM3_SEC;
 extern const char *TXT_DM3_BUZZER;
 extern const char *TXT_DM3_BRIGHTNESS;
+extern const char *TXT_DM3_ON;
+extern const char *TXT_DM3_OFF;
 
 #endif
