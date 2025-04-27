@@ -124,7 +124,7 @@ void writeConfigFile(fs::FS &fs, const char * path, JsonObject _json) {
     file.close();
 }
 
-void readConfigFile(fs::FS &fs, const char * path){
+void readConfigFile(fs::FS &fs, const char * path) {
 
     STATUS_GET_CONFIG_DATA_SPIFF_OK = false;
 
