@@ -28,7 +28,7 @@
 	        <div class="grid-square">
           <div class="activity" draggable="true">
           <!-- {{ picto.order }} -->
-          <img src="{{ STATIC_PREFIX }}images/picto/{{ activity.picto }}" width="32" height="32" alt="{{ activity.name_en }}">
+          <img src="{{ STATIC_PREFIX }}images/picto/{{ activity.picto }}" width="32" height="32" alt="{{ activity.name_en }}"><br>
 	        <span id="name[]">{{ activity.name_en }}</span>
         </div>
         </div>
@@ -37,23 +37,7 @@
     {% endif %}
     </div>
     <hr>
-    <h3>All Pictos</h3>
-     {% if sorted_picto_list %}
-	      <div id="pictogrid" class="row">
-        {% for picto in sorted_picto_list %}
-	        <div class="grid-square">
-          <div class="activity" draggable="true" pictid="{{ picto.id }}">
-          <!-- {{ picto.order }} -->
-          <img src="{{ STATIC_PREFIX }}images/picto/{{ picto.picto }}" width="32" height="32" alt="{{ picto.name_en }}">
-	        <span id="name[]">{{ picto.name_en }}</span>
-          </div>
-        </div>
-        {% endfor %}
-	</div>
-    {% endif %}
-    </div>
-         <br>
-        <div class="text-center">
+       <div class="text-center">
           <button type="button" id="generateJSON" class="btn btn-info">Generate JSON</button>
         </div>
       </div>
@@ -61,6 +45,23 @@
         <h4 class="text-center">JSON</h4>
         <pre id="printCode"></pre>
       </div>
+    <hr>
+    <h3>All Pictos</h3>
+     {% if sorted_picto_list %}
+	      <div id="pictogrid" class="row">
+        {% for picto in sorted_picto_list %}
+	        <div class="grid-square">
+          <div class="activity" draggable="true" pictid="{{ picto.id }}">
+          <!-- {{ picto.order }} -->
+          <img src="{{ STATIC_PREFIX }}images/picto/{{ picto.picto }}" width="32" height="32" alt="{{ picto.name_en }}"><br>
+	        <span id="name[]">{{ picto.name_en }}</span>
+          </div>
+        </div>
+        {% endfor %}
+	</div>
+    {% endif %}
+    </div>
+     <br>
 	<hr />
 <script>
   // generate JSON
