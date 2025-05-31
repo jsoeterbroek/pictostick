@@ -55,6 +55,8 @@ Creative Commons Zero v1.0 Universal License at
 https://github.com/jsoeterbroek/pictostick Github repository.
 
 ## Picto Icons
+
+### Google Material Design Icons
 The picto icons used are Google Fonts Material Design icons, made available under the
 Apache License Version 2.0 license, reside on the device fylesystem allready to be used.
 I have made a rough selection of about 150 suitable picto icons, but more can be added or
@@ -63,6 +65,23 @@ requested to be added. Some are in need of a rework and some are currently missi
 The full list is in the [pictodevice/data/](pictodevice/data/) dir of this repository.
 
 (https://fonts.google.com/icons)
+
+### ChatGTP-generated Icons
+
+Some missing icons where generated using ChatGTP (see assets/prompt.txt) following Material
+Design Guidelines:
+
+* backpack.png
+* breakfast.png
+* dinner.png
+* femalehygiene.png
+* garden.png
+* hospital.png
+* lunch.png
+* petcat.png
+* petdog.png
+* toothbrush.png
+
 
 ### Missing pictos
 
