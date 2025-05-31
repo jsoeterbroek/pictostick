@@ -1,0 +1,13 @@
+For my 'Pictostick' project (https://github.com/jsoeterbroek/pictostick) I am using a set of icons from Google Material 
+Design Symbols & Icons (https://fonts.google.com/icons). This project is aimed at users with a mental disability and/or
+autism spectrum disorder.
+The icons I am using are PNG image data, 96 x 96, 8-bit grayscale, non-interlaced with a transparent background. 
+
+For this project I am missing some icons which I would like you to create or re-create for me using the guidelines as 
+described at https://m3.material.io/styles/icons/designing-icons in the same style as the available icons. I need the
+following icons: toothbrush (plus tube toothpaste), breakfast (sandwich plus coffee), lunch (sandwich plus glass of milk), 
+dinner (healthy), garden, pet (cat), pet (dog), hospital, backpack. I want you to output PNG image data, 96 x 96, 
+8-bit grayscale, non-interlaced, black foreground colour with a transparent background. I would like to publish/use these
+under Apache license: https://www.apache.org/licenses/LICENSE-2.0
+
+

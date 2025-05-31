@@ -66,19 +66,8 @@ The full list is in the [pictodevice/data/](pictodevice/data/) dir of this repos
 
 ### Missing pictos
 
-* cat
 * cuddling/snoozleing
-* female hygiene products (tampons, etc.)
-
-### Pictos that could improved
-
-* dinner.png
-* backpack.png
-* hospital.png
-* lunch.png
-* brush teeth
-
-## Configuration
+* ~~female hygiene products (tampons, etc.)~~
 
 ### Conceptual
 A caregiver or parent of the pictostick user configures the picto's on the device in
