@@ -253,7 +253,55 @@ void init_ESPAsync_Ws() {
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
         request->send(SPIFFS, "/index.html", "text/html", false, processor);
     });
+
+    // Route to handle JSON configuration save
+    AsyncCallbackJsonWebHandler *handler = new AsyncCallbackJsonWebHandler(
+        "/save-config", [](AsyncWebServerRequest *request, JsonVariant &json) {
+            Serial.println("Received JSON configuration");
+
+            // Write the JSON to data.json file
+            File file = SPIFFS.open("/data.json", FILE_WRITE);
+            if (!file) {
+                Serial.println("Failed to open data.json for writing");
+                request->send(500, "text/plain",
+                              "Failed to save configuration");
+                return;
+            }
+
+            // Write JSON to file
+            serializeJson(json, file);
+            file.close();
+
+            Serial.println("Configuration saved to data.json");
+            request->send(200, "text/plain",
+                          "Configuration saved successfully");
+
+            // Update the global config document
+            cdoc.clear();
+            cdoc                  = json;
+            STATUS_CONFIG_DATA_OK = true;
+        });
+    server.addHandler(handler);
+
     server.serveStatic("/", SPIFFS, "/");
+
+    // Route to get current configuration
+    server.on("/get-config", HTTP_GET, [](AsyncWebServerRequest *request) {
+        AsyncResponseStream *response =
+            request->beginResponseStream("application/json");
+
+        File file = SPIFFS.open("/data.json", FILE_READ);
+        if (file) {
+            String content = file.readString();
+            file.close();
+            response->print(content);
+        } else {
+            response->print("{}");
+        }
+
+        request->send(response);
+    });
+
     server.begin();
 }
 
