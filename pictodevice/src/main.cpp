@@ -237,6 +237,9 @@ bool initWiFi() {
 // }
 
 void init_ESPAsync_Ws() {
+    STATUS_CONFIG_DATA_OK           = false;
+    STATUS_SET_CONFIG_DATA_SPIFF_OK = false;
+
     // mount SPIFFS
     Serial.println("Mounting SPIFFS...");
     if (!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED)) {
@@ -252,6 +255,47 @@ void init_ESPAsync_Ws() {
     // Route for root / web page
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
         request->send(SPIFFS, "/index.html", "text/html", false, processor);
+    });
+
+    // Route to get list of available pictos
+    server.on("/get-pictos", HTTP_GET, [](AsyncWebServerRequest *request) {
+        AsyncResponseStream *response =
+            request->beginResponseStream("application/json");
+        JsonDocument doc;
+        JsonArray pictos = doc.to<JsonArray>();
+
+        File root = SPIFFS.open("/picto");
+        if (!root || !root.isDirectory()) {
+            response->print("[]");
+            request->send(response);
+            return;
+        }
+
+        File file = root.openNextFile();
+        while (file) {
+            if (!file.isDirectory()) {
+                String filename = file.name();
+                if (filename.endsWith(".png")) {
+                    // Remove path prefix if present
+                    int lastSlash = filename.lastIndexOf('/');
+                    if (lastSlash >= 0) {
+                        filename = filename.substring(lastSlash + 1);
+                    }
+                    // Remove .png extension for the name
+                    String pictoName =
+                        filename.substring(0, filename.length() - 4);
+
+                    JsonObject picto  = pictos.add<JsonObject>();
+                    picto["filename"] = filename;
+                    picto["name"]     = pictoName;
+                }
+            }
+            file = root.openNextFile();
+        }
+        root.close();
+
+        serializeJson(doc, *response);
+        request->send(response);
     });
 
     // Route to handle JSON configuration save
@@ -278,8 +322,9 @@ void init_ESPAsync_Ws() {
 
             // Update the global config document
             cdoc.clear();
-            cdoc                  = json;
-            STATUS_CONFIG_DATA_OK = true;
+            cdoc                            = json;
+            STATUS_CONFIG_DATA_OK           = true;
+            STATUS_SET_CONFIG_DATA_SPIFF_OK = true;
         });
     server.addHandler(handler);
 
@@ -366,19 +411,18 @@ void drawDeviceMode2() {
         set_devicemode(1);
     }
     StickCP2.Display.drawString(TXT_DM2_WS_START, 4, 28);
-    delay(2000000);
 
-    // while (!STATUS_GET_CONFIG_DATA_HTTP_OK) {
-    //     Serial.print(".");
-    //     delay(1000);
-    // }
+    while (!STATUS_SET_CONFIG_DATA_SPIFF_OK) {
+        Serial.print(".");
+        delay(1000);
+    }
 
-    // if (STATUS_SET_CONFIG_DATA_SPIFF_OK) {
-    //     StickCP2.Display.drawString(TXT_DM2_FILE_OK, 4, 64);
-    // } else {
-    //     StickCP2.Display.drawString(TXT_DM2_FILE_ERR, 4, 64);
-    // }
-    // delay(2000);
+    if (STATUS_SET_CONFIG_DATA_SPIFF_OK) {
+        StickCP2.Display.drawString(TXT_DM2_FILE_OK, 4, 64);
+    } else {
+        StickCP2.Display.drawString(TXT_DM2_FILE_ERR, 4, 64);
+    }
+    delay(2000);
 
     // shutdown wifi
     StickCP2.Display.drawString(TXT_DM2_WIFI_DISC, 4, 76);

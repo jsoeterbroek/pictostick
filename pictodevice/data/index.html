@@ -47,22 +47,21 @@
     <hr>
 
     <div class="text-center">
-      <button type="button" id="loadConfig" class="btn btn-secondary">Load Current Config</button>
-      <button type="button" id="generateJSON" class="btn btn-info">Generate & Save JSON</button>
+      <button type="button" id="loadConfig" class="btn btn-secondary">Load Config</button>
+      <button type="button" id="generateJSON" class="btn btn-info">Save Config</button>
     </div>
+    <!--
     <div class="col-md-6">
       <h4 class="text-center">JSON</h4>
       <pre id="printCode"></pre>
     </div>
+  -->
 
     <hr>
     <h3>All Pictos</h3>
     <div id="pictogrid" class="row">
       <div class="grid-square">
         <div class="activity" draggable="true" pictid="0">
-          <!-- 0 -->
-          <img src="/picto/accessibility.png" width="32" height="32" alt="access"><br>
-          <span id="name[]">accessibility</span>
         </div>
       </div>
     </div>
@@ -70,6 +69,53 @@
   <br>
   <hr />
   <script>
+    // Function to load all available pictos
+    function loadAllPictos() {
+      $.ajax({
+        url: '/get-pictos',
+        type: 'GET',
+        success: function (pictos) {
+          $('#pictogrid').empty(); // Clear existing pictos
+
+          if (pictos && pictos.length > 0) {
+            pictos.forEach(function (picto, index) {
+              var pictoHtml =
+                '<div class="grid-square">' +
+                '<div class="activity" draggable="true" pictid="' + index + '">' +
+                '<img src="/picto/' + picto.filename + '" width="32" height="32" alt="' + picto.name + '"><br>' +
+                '<span id="name[]">' + picto.name + '</span>' +
+                '</div>' +
+                '</div>';
+              $('#pictogrid').append(pictoHtml);
+            });
+
+            // Reinitialize sortable for pictogrid after adding new elements
+            Sortable.create(document.getElementById('pictogrid'), {
+              group: {
+                name: 'shared',
+                pull: 'clone',
+                put: false // Do not allow items to be put into this list
+              },
+              animation: 150,
+              ghostClass: 'blue-background-class',
+              sort: false // To disable sorting: set sort to false
+            });
+          } else {
+            $('#pictogrid').append('<p>No pictos found in /picto/ directory</p>');
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error('Error loading pictos: ' + error);
+          $('#pictogrid').append('<p>Error loading pictos: ' + error + '</p>');
+        }
+      });
+    }
+
+    // Load pictos when document is ready
+    $(document).ready(function () {
+      loadAllPictos();
+    });
+
     // generate JSON
     $('#generateJSON').click(function () {
       let data = {};
@@ -151,25 +197,8 @@
   </script>
 
   <script>
-    Sortable.create(pictogrid, {
-      group: {
-        name: 'shared',
-        pull: 'clone',
-        put: false // Do not allow items to be put into this list
-      },
-      animation: 150,
-      ghostClass: 'blue-background-class',
-      sort: false // To disable sorting: set sort to false
-    });
-
-    Sortable.create(activitylist, {
-      group: {
-        name: 'shared',
-        pull: 'clone'
-      },
-      animation: 150,
-      ghostClass: 'blue-background-class',
-    });
+    // Initialize sortables - these will be reinitialized when content is loaded
+    // Remove the static initialization and let the dynamic loading handle it
   </script>
 </body>
 
