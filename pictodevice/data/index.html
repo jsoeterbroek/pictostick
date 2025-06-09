@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>PictoStick WEB SERVER</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <!-- Latest Sortable -->
+  <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
+  <!-- jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <div class="topnav">
+    <h1>PICTOSTICK WEB SERVER</h1>
+  </div>
+
+  <div class="content">
+    <h4 class="display-2">FOO</h4>
+    <p>Try dragging from one list to another. The item you drag will be cloned and the clone
+      will stay in the original list.</p>
+    <h3 class="display-3">Pictos</h3>
+
+    <div id="activitylist" class="row">
+
+      <div class="grid-square">
+        <div class="activity" draggable="true">
+          <!--  -->
+          <img src="/picto/alarm.png" width="32" height="32" alt="alarm"><br>
+          <span id="name[]">alarm</span>
+        </div>
+      </div>
+
+      <div class="grid-square">
+        <div class="activity" draggable="true">
+          <!--  -->
+          <img src="/picto/toothbrush.png" width="32" height="32" alt="toothbrush"><br>
+          <span id="name[]">toothbrush</span>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="text-center">
+      <button type="button" id="generateJSON" class="btn btn-info">Generate JSON</button>
+    </div>
+    <div class="col-md-6">
+      <h4 class="text-center">JSON</h4>
+      <pre id="printCode"></pre>
+    </div>
+    <hr>
+    <h3>All Pictos</h3>
+    <div id="pictogrid" class="row">
+      <div class="grid-square">
+        <div class="activity" draggable="true" pictid="0">
+          <!-- 0 -->
+          <img src="/picto/accessibility.png" width="32" height="32" alt="access"><br>
+          <span id="name[]">accessibility</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <hr />
+  <script>
+    // generate JSON
+    $('#generateJSON').click(function () {
+
+      let data = {};
+
+      var pictos = $('div[id^=activitylist]').find('span[id^=name]').map(function (idx, elem) {
+        //var pictos = $('span[id^=name]').map(function(idx, elem) {
+        return $(elem).text();
+      }).get();
+
+      data['products'] = pictos;
+
+      // encode to JSON format
+      var pictos_json = JSON.stringify(data, null, '\t');
+      $('#printCode').html(pictos_json);
+    });
+  </script>
+  <script>
+
+    Sortable.create(pictogrid, {
+      group: {
+        name: 'shared',
+        pull: 'clone',
+        put: false // Do not allow items to be put into this list
+      },
+      animation: 150,
+      ghostClass: 'blue-background-class',
+      sort: false // To disable sorting: set sort to false
+    });
+
+    Sortable.create(activitylist, {
+      group: {
+        name: 'shared',
+        pull: 'clone'
+      },
+      animation: 150,
+      ghostClass: 'blue-background-class',
+    });
+  </script>
+</body>
+
+</html>

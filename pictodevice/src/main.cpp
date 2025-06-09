@@ -79,10 +79,8 @@ void configModeCallback(WiFiManager *myWiFiManager) {
     StickCP2.Display.drawString(WiFi.softAPIP().toString(), 4, 52);
     StickCP2.Display.drawString(TXT_WM_CONNECT_SSID, 4, 64);
     StickCP2.Display.drawString(myWiFiManager->getConfigPortalSSID(), 4, 76);
-    StickCP2.Display.drawString(TXT_WM_WITH_PASSWORD, 4, 88);
-    StickCP2.Display.drawString(TXT_WM_CONFIG_DEVICE, 4, 100);
-    StickCP2.Display.drawString("******************", 4, 112);
-
+    StickCP2.Display.drawString(TXT_WM_CONFIG_DEVICE, 4, 88);
+    StickCP2.Display.drawString("******************", 4, 100);
     STATUS_WIFI_MGR_CONFIG_MODE_OK = true;
 }
 
@@ -170,34 +168,92 @@ void beepOrNot() {
     }
 }
 
+// processor placeholder
+String processor(const String &var) {
+    String foo = "bar";
+    return foo;
+}
+
+bool initWiFi() {
+    WiFi.mode(WIFI_STA);
+
+    Serial.print("Connecting to WiFi network... ");
+    Serial.println(wm.getWiFiSSID());
+    WiFi.begin(wm.getWiFiSSID(), wm.getWiFiPass());
+
+    unsigned long currentMillis = millis();
+    while (WiFi.status() != WL_CONNECTED &&
+           (millis() - currentMillis) <= 5000) {
+        Serial.print(".");
+        delay(100);
+    }
+
+    if (WiFi.status() != WL_CONNECTED) {
+        Serial.println("Not connected to the WiFi network");
+        Serial.println("restarting in device mode 1");
+        set_devicemode(1);
+        ESP.restart();
+    } else {
+        Serial.println("\nConnected to the WiFi network");
+        Serial.print("Local IP: ");
+        Serial.println(WiFi.localIP());
+        String localip = WiFi.localIP().toString();
+        StickCP2.Display.drawString(localip, 120, 16);
+    }
+
+    return true;
+}
+
+// void init_ESPAsync_Ws() {
+//     // Send JSON using AsyncResponseStream
+//     //
+//     // curl -v -X POST -H 'Content-Type: application/json' -d @data.json
+//     // http://192.168.178.192/json2
+//     //
+//     server.on("/json2", HTTP_GET, [](AsyncWebServerRequest *request) {
+//         AsyncResponseStream *response =
+//             request->beginResponseStream("application/json");
+//         JsonDocument doc;
+//         JsonObject root = doc.to<JsonObject>();
+//         root["foo"]     = "bar";
+//         serializeJson(root, *response);
+//         request->send(response);
+//     });
+//     handler->setMethod(HTTP_POST | HTTP_PUT);
+//     handler->onRequest([](AsyncWebServerRequest *request, JsonVariant &json)
+//     {
+//         // serializeJson(json, Serial);
+//         AsyncJsonResponse *response = new AsyncJsonResponse();
+//         response->setLength();
+//         request->send(response);
+//         String _response = response->responseCodeToString(response->code());
+//         if (_response == "OK") {
+//             STATUS_GET_CONFIG_DATA_HTTP_OK = true;
+//             writeConfigDataSPIFF(json);
+//         }
+//     });
+//     server.addHandler(handler);
+//     server.begin();
+// }
+
 void init_ESPAsync_Ws() {
-    // Send JSON using AsyncResponseStream
-    //
-    // curl -v -X POST -H 'Content-Type: application/json' -d @data.json
-    // http://192.168.178.192/json2
-    //
-    server.on("/json2", HTTP_GET, [](AsyncWebServerRequest *request) {
-        AsyncResponseStream *response =
-            request->beginResponseStream("application/json");
-        JsonDocument doc;
-        JsonObject root = doc.to<JsonObject>();
-        root["foo"]     = "bar";
-        serializeJson(root, *response);
-        request->send(response);
+    // mount SPIFFS
+    Serial.println("Mounting SPIFFS...");
+    if (!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED)) {
+        Serial.println("SPIFFS Mount Failed");
+        return;
+    }
+    if (!SPIFFS.exists("/index.html")) {
+        Serial.println("ERROR: index.html not found in SPIFFS");
+        Serial.println("Please upload the web files to SPIFFS");
+        return;
+    }
+
+    // Route for root / web page
+    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+        request->send(SPIFFS, "/index.html", "text/html", false, processor);
     });
-    handler->setMethod(HTTP_POST | HTTP_PUT);
-    handler->onRequest([](AsyncWebServerRequest *request, JsonVariant &json) {
-        // serializeJson(json, Serial);
-        AsyncJsonResponse *response = new AsyncJsonResponse();
-        response->setLength();
-        request->send(response);
-        String _response = response->responseCodeToString(response->code());
-        if (_response == "OK") {
-            STATUS_GET_CONFIG_DATA_HTTP_OK = true;
-            writeConfigDataSPIFF(json);
-        }
-    });
-    server.addHandler(handler);
+    server.serveStatic("/", SPIFFS, "/");
     server.begin();
 }
 
@@ -208,15 +264,16 @@ void drawDeviceMode1() {
     StickCP2.Display.drawString(TXT_DM1, 4, 4);
     StickCP2.Display.drawString(TXT_WM_START, 4, 16);
 
-    // for testing
-    wm.resetSettings();
-
+    // WiFiManager
+    wm.setDebugOutput(true);
+    // wm.setShowInfoErase(false);
+    wm.resetSettings();  // for testing only, remove later
     wm.setConfigPortalTimeout(5000);
     wm.setAPCallback(configModeCallback);
-    bool res;
-    res = wm.autoConnect(wifi_mngr_networkname, wifi_mngr_password);
+    // bool res;
+    // res = wm.autoConnect(wifi_mngr_networkname, wifi_mngr_password);
 
-    if (!res) {
+    if (!wm.startConfigPortal("PictoStick")) {
         Serial.println("Failed to connect and hit timeout");
         delay(3000);
         ESP.restart();
@@ -252,48 +309,28 @@ void drawDeviceMode2() {
     StickCP2.Display.drawString(TXT_DM2, 4, 4);
     StickCP2.Display.drawString(TXT_DM2_WIFI_START, 4, 16);
 
-    WiFi.mode(WIFI_STA);
-
-    Serial.print("Connecting to WiFi network ");
-    Serial.println(wm.getWiFiSSID());
-    WiFi.begin(wm.getWiFiSSID(), wm.getWiFiPass());
-
-    unsigned long currentMillis = millis();
-    while (WiFi.status() != WL_CONNECTED &&
-           (millis() - currentMillis) <= 5000) {
-        Serial.print(".");
-        delay(100);
-    }
-
-    if (WiFi.status() != WL_CONNECTED) {
-        Serial.println("Not connected to the WiFi network");
-        Serial.println("restarting in device mode 1");
+    if (initWiFi()) {
+        init_ESPAsync_Ws();
+    } else {
+        // set devicemode 1
+        StickCP2.Display.drawString(TXT_DM_SET_1, 4, 88);
+        delay(2000);
         set_devicemode(1);
-        ESP.restart();
-    } else {
-        Serial.println("\nConnected to the WiFi network");
-        Serial.print("Local IP: ");
-        Serial.println(WiFi.localIP());
-        String localip = WiFi.localIP().toString();
-        StickCP2.Display.drawString(localip, 120, 16);
     }
-
     StickCP2.Display.drawString(TXT_DM2_WS_START, 4, 28);
-    StickCP2.Display.drawString(TXT_DM2_FILE_WAITING, 4, 40);
+    delay(2000000);
 
-    init_ESPAsync_Ws();
+    // while (!STATUS_GET_CONFIG_DATA_HTTP_OK) {
+    //     Serial.print(".");
+    //     delay(1000);
+    // }
 
-    while (!STATUS_GET_CONFIG_DATA_HTTP_OK) {
-        Serial.print(".");
-        delay(1000);
-    }
-
-    if (STATUS_SET_CONFIG_DATA_SPIFF_OK) {
-        StickCP2.Display.drawString(TXT_DM2_FILE_OK, 4, 64);
-    } else {
-        StickCP2.Display.drawString(TXT_DM2_FILE_ERR, 4, 64);
-    }
-    delay(2000);
+    // if (STATUS_SET_CONFIG_DATA_SPIFF_OK) {
+    //     StickCP2.Display.drawString(TXT_DM2_FILE_OK, 4, 64);
+    // } else {
+    //     StickCP2.Display.drawString(TXT_DM2_FILE_ERR, 4, 64);
+    // }
+    // delay(2000);
 
     // shutdown wifi
     StickCP2.Display.drawString(TXT_DM2_WIFI_DISC, 4, 76);
@@ -609,7 +646,8 @@ void drawSplash() {
     sprite.loadFont(NotoSansBold15);
     sprite.setTextColor(TFT_DARKGRAY, TFT_WHITE);
     String software = " PictoStick ";
-    // software += String("v") + pd_version_major() + "." + pd_version_minor() +
+    // software += String("v") + pd_version_major() + "." +
+    // pd_version_minor() +
     // "." + pd_version_patch();
     software += String("v") + pd_version_major() + "." + pd_version_minor() +
                 " PROTOTYPE";
@@ -644,7 +682,7 @@ void drawMarkedDone() {
 }
 
 void drawPicto(String _strname) {
-    _strname   = "/" + _strname;
+    _strname   = "/picto/" + _strname;
     int16_t rc = png.open(_strname.c_str(), pngOpen, pngClose, pngRead, pngSeek,
                           pngDraw);
     if (rc == PNG_SUCCESS) {
@@ -741,8 +779,8 @@ void drawMain() {
     config_name            = cdoc["name"];  // "Peter"
 
     int _i = 0;
-    // TODO: probably use a fancy multidimensional array with structs for this,
-    // but just use 'lists' for now
+    // TODO: probably use a fancy multidimensional array with structs for
+    // this, but just use 'lists' for now
     String _array_order[config_activities_size];
     String _array_picto[config_activities_size];
     String _array_desc[config_activities_size];
@@ -1010,8 +1048,8 @@ void setup() {
                                       // of the "already initialized" key.
 
     if (dmInit == false) {
-        // If tpInit is 'false', the key "nvsInit" does not yet exist therefore
-        // this
+        // If tpInit is 'false', the key "nvsInit" does not yet exist
+        // therefore this
         //  must be our first-time run. We need to set up our Preferences
         //  namespace keys. So...
         dmPrefs.end();               // close the namespace in RO mode and...
