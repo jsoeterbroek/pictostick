@@ -7,7 +7,6 @@
 #include <WiFi.h>
 #include <ArduinoJson.h>
 #include <HTTPClient.h>
-#include <ESP32Time.h>
 #include <TFT_eSPI.h>
 #include <FS.h>
 #include <SPIFFS.h>
@@ -24,7 +23,6 @@ using namespace fs;
 #include <ESPAsyncWebServer.h>
 #include <StreamString.h>
 
-#include <StreamUtils.h>
 #include <AsyncJson.h>
 #include <AsyncMessagePack.h>
 #include <_locale.h>
