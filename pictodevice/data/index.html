@@ -48,6 +48,11 @@
     <hr>
 
     <div class="text-center">
+      <div class="form-group">
+        <label for="configName">User Configuration Name:</label>
+        <input type="text" id="configName" class="form-control" value="Default"
+          style="max-width: 300px; margin: 0 auto;">
+      </div>
       <button type="button" id="generateJSON" class="btn btn-info">Save Config</button>
     </div>
 
@@ -155,7 +160,7 @@
     // generate JSON
     $('#generateJSON').click(function () {
       let data = {};
-      data.name = "Demo"; // You might want to make this configurable
+      data.name = $('#configName').val() || "Default"; // Use input value or default to "Default"
 
       var pictos = $('div[id^=activitylist]').find('span[id^=name]').map(function (idx, elem) {
         return $(elem).text();

@@ -5,8 +5,8 @@
 #include <vector>
 #include <Arduino.h>
 
-//#define LOCALE en_GB
-#define LOCALE nl_NL
+#define LOCALE en_GB
+//#define LOCALE nl_NL
 
 // WIFI
 extern const char *TXT_WIFI_EXCELLENT;
