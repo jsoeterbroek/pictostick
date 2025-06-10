@@ -33,8 +33,6 @@ void set_pspref_brightness(int _pspref_brightness) {
 int get_pspref_brightness(void) {
   int _rc = 0;
   _rc = psPrefs.getInt("ps_b");
-  //Serial.print("DEBUG: PSpref _rc is: "); // FIXME: debug, remove later
-  //Serial.println(_rc); // FIXME: debug, remove later
   if (_rc == 0) {
     set_pspref_brightness(64);
     _rc = 64;  // default brightness
@@ -80,12 +78,9 @@ void set_pspref_current_activity_index(int _pspref_current_activity_index) {
   psPrefs.begin(PSNS, PS_RO_MODE);
 }
 
-//uint8_t get_pspref_current_activity_index(void) {
 int get_pspref_current_activity_index(void) {
   int _rc = 0;
   _rc = psPrefs.getInt("ps_i");
-  //Serial.print("DEBUG: PSpref _rc is: "); // FIXME: debug, remove later
-  //Serial.println(_rc); // FIXME: debug, remove later
   return _rc;
 }
 
@@ -172,9 +167,5 @@ int get_pspref_activity_done(int _pspref_current_activity_index) {
     case 19: _rc = psPrefs.getInt("ps_a_19"); break;
   }
 
-  //Serial.print("DEBUG: PSpref _rc is: "); // FIXME: debug, remove later
-  //Serial.print(_rc); // FIXME: debug, remove later
-  //Serial.print(" for index ");
-  //Serial.println(_pspref_current_activity_index);
   return _rc;
 }

@@ -37,7 +37,6 @@ WiFiManager wm;
 
 // AsyncWebserver
 static AsyncWebServer server(80);
-static AsyncCallbackJsonWebHandler *handler = new AsyncCallbackJsonWebHandler("/json2");
 
 PNG png;
 
@@ -751,8 +750,8 @@ void drawUserName() {
 void drawTime() {
   // time
   struct tm timeinfo;
-  static constexpr const char *const wd_en[7] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-  static constexpr const char *const wd_nl[7] = {"Zon", "Maa", "Din", "Woe", "Don", "Vri", "Zat"};
+  static constexpr const char *const wd_en[7] = {"Sund", "Mond", "Tues", "Wedn", "Thur", "Frid", "Satu"};
+  static constexpr const char *const wd_nl[7] = {"Zond", "Maan", "Dins", "Woen", "Dond", "Vrij", "Zat"};
   auto dt = StickCP2.Rtc.getDateTime();
   // ESP32 internal timer
   auto t = time(nullptr);

@@ -25,6 +25,7 @@
     <p>Try dragging from one list to another. The item you drag will be cloned and the clone
       will stay in the original list.</p>
     <h3 class="display-3">Pictos</h3>
+    Max 20 pictos per list, drag and drop to reorder.
 
     <div id="activitylist" class="row">
 
@@ -39,23 +40,16 @@
       <div class="grid-square">
         <div class="activity" draggable="true">
           <!--  -->
-          <img src="/picto/toothbrush.png" width="32" height="32" alt="toothbrush"><br>
-          <span id="name[]">toothbrush</span>
+          <img src="/picto/bedtime.png" width="32" height="32" alt="Bedtime"><br>
+          <span id="name[]">Bedtime</span>
         </div>
       </div>
     </div>
     <hr>
 
     <div class="text-center">
-      <button type="button" id="loadConfig" class="btn btn-secondary">Load Config</button>
       <button type="button" id="generateJSON" class="btn btn-info">Save Config</button>
     </div>
-    <!--
-    <div class="col-md-6">
-      <h4 class="text-center">JSON</h4>
-      <pre id="printCode"></pre>
-    </div>
-  -->
 
     <hr>
     <h3>All Pictos</h3>
@@ -94,7 +88,7 @@
               group: {
                 name: 'shared',
                 pull: 'clone',
-                put: false // Do not allow items to be put into this list
+                put: true // Allow items to be put back into this list
               },
               animation: 150,
               ghostClass: 'blue-background-class',
@@ -114,7 +108,49 @@
     // Load pictos when document is ready
     $(document).ready(function () {
       loadAllPictos();
+      loadConfig();
     });
+
+    // Function to load current configuration
+    function loadConfig() {
+      $.ajax({
+        url: '/get-config',
+        type: 'GET',
+        success: function (data) {
+          if (data && data.activities) {
+            // Clear current activity list
+            $('#activitylist').empty();
+
+            // Add activities to the list
+            data.activities.forEach(function (activity) {
+              var pictoName = activity.picto.replace('.png', '');
+              var activityHtml =
+                '<div class="grid-square">' +
+                '<div class="activity" draggable="true">' +
+                '<img src="/picto/' + activity.picto + '" width="32" height="32" alt="' + pictoName + '"><br>' +
+                '<span id="name[]">' + pictoName + '</span>' +
+                '</div>' +
+                '</div>';
+              $('#activitylist').append(activityHtml);
+            });
+
+            // Reinitialize sortable
+            Sortable.create(document.getElementById('activitylist'), {
+              group: {
+                name: 'shared',
+                pull: true, // Allow items to be pulled (removed) without cloning
+                put: true // Allow items to be put back into this list
+              },
+              animation: 150,
+              ghostClass: 'blue-background-class',
+            });
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error('Error loading configuration: ' + error);
+        }
+      });
+    }
 
     // generate JSON
     $('#generateJSON').click(function () {
@@ -154,51 +190,6 @@
       });
     });
 
-    // Load current configuration
-    $('#loadConfig').click(function () {
-      $.ajax({
-        url: '/get-config',
-        type: 'GET',
-        success: function (data) {
-          if (data && data.activities) {
-            // Clear current activity list
-            $('#activitylist').empty();
-
-            // Add activities to the list
-            data.activities.forEach(function (activity) {
-              var pictoName = activity.picto.replace('.png', '');
-              var activityHtml =
-                '<div class="grid-square">' +
-                '<div class="activity" draggable="true">' +
-                '<img src="/picto/' + activity.picto + '" width="32" height="32" alt="' + pictoName + '"><br>' +
-                '<span id="name[]">' + pictoName + '</span>' +
-                '</div>' +
-                '</div>';
-              $('#activitylist').append(activityHtml);
-            });
-
-            // Reinitialize sortable
-            Sortable.create(document.getElementById('activitylist'), {
-              group: {
-                name: 'shared',
-                pull: 'clone'
-              },
-              animation: 150,
-              ghostClass: 'blue-background-class',
-            });
-          }
-        },
-        error: function (xhr, status, error) {
-          alert('Error loading configuration: ' + error);
-        }
-      });
-    });
-
-  </script>
-
-  <script>
-    // Initialize sortables - these will be reinitialized when content is loaded
-    // Remove the static initialization and let the dynamic loading handle it
   </script>
 </body>
 
