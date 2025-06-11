@@ -1,0 +1,84 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Joost Soeterbroek
+# This file is distributed under the same license as the PictoStick package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PictoStick\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-04-03 16:00+0200\n"
+"PO-Revision-Date: 2025-04-03 16:36+0200\n"
+"Last-Translator: \n"
+"Language-Team: nl_NL <LL@li.org>\n"
+"Language: nl_NL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Generated-By: Babel 2.17.0\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#: ../../intro/getting_started.rst:5
+msgid "Getting Started"
+msgstr "Aan De Slag"
+
+#: ../../intro/introduction.rst:5
+msgid "Introduction"
+msgstr "Introductie"
+
+#: ../../intro/introduction.rst:7
+msgid ""
+"Care givers, parents and health care professionals of people with a "
+"mental disability and/or an Autism spectrum disorder (ASD), or "
+"previously referred to as 'autism', often make use of visual pictograms "
+"to give people a clearer understanding of the world around them."
+msgstr ""
+
+#: ../../intro/introduction.rst:9
+msgid ""
+"One of the biggest advantages of using pictograms (or pictos) is that in "
+"one easy to grasp visual form the activities and their sequence that are "
+"planned for the day ahead are presented. This provides understanding and "
+"prevents stress and miscommunication."
+msgstr ""
+
+#: ../../intro/introduction.rst:11
+msgid ""
+"Often the pictos are presented on a board on the wall or simply on a "
+"wooden plank on which the pictos are added (or even removed during the "
+"day) showing the activities and the order in which these take place. "
+"While this low tech way often works fine in practice it is not portable "
+"and often only used in either the users' household or the (work) places "
+"during the day."
+msgstr ""
+
+#: ../../intro/introduction.rst:13
+msgid ""
+"The pictostick offers a method to present a scrollable sequence of "
+"pictos for the user in a portable way, either as a small device that can "
+"be carried around or a watch-like option with a wrist band. The "
+"pictostick can be referred to by the user as to the daily activities and "
+"even to check off the ones that have already been completed."
+msgstr ""
+
+#: ../../intro/introduction.rst:17
+msgid "Key features"
+msgstr "Belangrijkste kenmerken"
+
+#: ../../intro/introduction.rst:24
+msgid "Requirements"
+msgstr "Vereisten"
+
+#: ../../intro/introduction.rst:29
+msgid "License"
+msgstr "Licentie"
+
+#: ../../intro/introduction.rst:31
+msgid ""
+"The Pictostick project is licensed under the 'Creative Commons Zero v1.0 "
+"Universal' license. The picto icons used are Google Fonts Material "
+"Design icons, made available under the Apache License Version 2.0 "
+"license."
+msgstr ""
