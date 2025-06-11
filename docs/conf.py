@@ -13,6 +13,10 @@ copyright = '2025, Joost Soeterbroek'
 author = 'Joost Soeterbroek'
 release = '1.3 PROTOTYPE'
 
+# -- Locales ----------------------
+locale_dirs = ['locale/']
+gettext_compact = True
+
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
