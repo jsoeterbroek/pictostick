@@ -9,11 +9,7 @@
 project = 'PictoStick'
 copyright = '2025, Joost Soeterbroek'
 author = 'Joost Soeterbroek'
-release = '1.2 PROTOTYPE'
-
-# -- Locales ----------------------
-locale_dirs = ['locale/']   # path is example but recommended.
-gettext_compact = True     # optional.
+release = '1.3 PROTOTYPE'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -34,3 +30,5 @@ html_logo = "pictostick_logo.png"
 html_theme_options = {
     'logo_only': True,
 }
+
+html_build_dir = os.environ.get('READTHEDOCS_OUTPUT', 'docs/en/_build/html')
