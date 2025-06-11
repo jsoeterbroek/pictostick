@@ -43,4 +43,3 @@ Developers
     :maxdepth: 2
 
     developers/developers
-

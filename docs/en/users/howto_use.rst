@@ -56,8 +56,8 @@ marked done. Preferably at the end of the day, you will have marked all orange c
 circles to green.
 
 On the left you will see a picto (pictogram) of the activity and on the right side you
-can see a lable with a short description of the picto. Above this you will see the current
-day of the week and the current time in hours and minutes. Above this a lable with your
+can see a label with a short description of the picto. Above this you will see the current
+day of the week and the current time in hours and minutes. Above this is a label with your
 name. In the top right corner you will see a small icon of a battery showing you how
 much battery power you have left before recharging.
 
