@@ -44,9 +44,11 @@ struct tm timeinfo;
 
 void setTimezone(String timezone) {
   Serial.printf("  Setting Timezone to %s\n", timezone.c_str());
-  setenv("TZ", timezone.c_str(),
-         1);  //  Now adjust the TZ.  Clock settings are adjusted to show the
-              //  new local time
+  setenv(
+    "TZ", timezone.c_str(),
+    1
+  );  //  Now adjust the TZ.  Clock settings are adjusted to show the
+      //  new local time
   tzset();
 }
 
@@ -111,7 +113,7 @@ void writeConfigFile(fs::FS &fs, const char *path, JsonObject _json) {
       Serial.println(F(path));
       STATUS_SET_CONFIG_DATA_SPIFF_OK = false;
     } else {
-      Serial.print(F("Succes write to file "));
+      Serial.print(F("Success write to file "));
       Serial.println(F(path));
       STATUS_SET_CONFIG_DATA_SPIFF_OK = true;
     }
@@ -489,6 +491,8 @@ void drawDeviceMode3() {
   sprite.drawString(TXT_DM3_BRIGHTNESS, 15, 100);
   sprite.drawNumber(get_pspref_brightness(), 100, 100);
   sprite.unloadFont();
+
+  // element 5 -- reserved for future use - timeout
 
   // element 6 -- buzzer on/off
   if (cursor == 6) {
@@ -1045,7 +1049,7 @@ void setup() {
   StickCP2.Display.setBrightness(get_pspref_brightness());
 
   Serial.begin(115200);
-  Serial.println("start initialisation..");
+  Serial.println("start initialization..");
 
   dmPrefs.begin(NS, RO_MODE);  // Open our namespace (or create it
                                //  if it doesn't exist) in RO mode.
@@ -1103,7 +1107,7 @@ void setup() {
       } else {
         Serial.println("ERROR: error reading config from fs");
       }
-      Serial.println("initialisation complete");
+      Serial.println("initialization complete");
       drawSplash();
       break;
   }

@@ -15,7 +15,8 @@ release = '1.3 PROTOTYPE'
 
 # -- Locales ----------------------
 locale_dirs = ['locale/']
-gettext_compact = True
+gettext_uuid = True
+gettext_compact = "docs"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
