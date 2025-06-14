@@ -66,5 +66,6 @@ extern const char *TXT_DM3_BUZZER;
 extern const char *TXT_DM3_BRIGHTNESS;
 extern const char *TXT_DM3_ON;
 extern const char *TXT_DM3_OFF;
+extern const char *TXT_DM3_TIMEOUT;
 
 #endif

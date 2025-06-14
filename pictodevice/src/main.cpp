@@ -492,7 +492,19 @@ void drawDeviceMode3() {
   sprite.drawNumber(get_pspref_brightness(), 100, 100);
   sprite.unloadFont();
 
-  // element 5 -- reserved for future use - timeout
+  // element 5 -- timeout
+  if (cursor == 5) {
+    sprite.fillRect(136, 58, 96, 30, RGB565_GRAY_BATTLESHIP);
+    sprite.setTextColor(TFT_ORANGE, RGB565_GRAY_BATTLESHIP);
+  } else {
+    sprite.fillRect(136, 58, 96, 30, TFT_WHITE);
+    sprite.setTextColor(RGB565_GRAY_BATTLESHIP, TFT_WHITE);
+  }
+  sprite.setTextDatum(0);
+  sprite.loadFont(smallFont);
+  sprite.drawString(TXT_DM3_TIMEOUT, 140, 66);
+  sprite.drawNumber(get_pspref_timeout(), 204, 66);
+  sprite.unloadFont();
 
   // element 6 -- buzzer on/off
   if (cursor == 6) {
@@ -503,12 +515,12 @@ void drawDeviceMode3() {
     sprite.setTextColor(RGB565_GRAY_BATTLESHIP, TFT_WHITE);
   }
   sprite.loadFont(smallFont);
-  sprite.drawString(TXT_DM3_BUZZER, 146, 100);
+  sprite.drawString(TXT_DM3_BUZZER, 140, 100);
 
   if (get_pspref_buzzer()) {
-    sprite.drawString(TXT_DM3_ON, 200, 100);
+    sprite.drawString(TXT_DM3_ON, 196, 100);
   } else {
-    sprite.drawString(TXT_DM3_OFF, 200, 100);
+    sprite.drawString(TXT_DM3_OFF, 196, 100);
   }
 
   sprite.unloadFont();
@@ -531,7 +543,8 @@ void drawDeviceMode3() {
       case 1: cursor = 2; break;
       case 2: cursor = 3; break;
       case 3: cursor = 4; break;
-      case 4: cursor = 6; break;
+      case 4: cursor = 5; break;
+      case 5: cursor = 6; break;
       case 6: cursor = 1; break;
     }
   }
@@ -567,6 +580,10 @@ void drawDeviceMode3() {
     } else if (cursor == 4) {
       // increment brightness
       incr_pspref_brightness();
+      delay(200);
+    } else if (cursor == 5) {
+      // increment timeout
+      incr_pspref_timeout();
       delay(200);
     } else if (cursor == 6) {
       if (get_pspref_buzzer()) {
@@ -987,7 +1004,7 @@ void drawMain() {
   // button action
   if (devicemode = 4) {
     if (StickCP2.BtnPWR.wasPressed()) {
-      sleepTime = 25;
+      sleepTime = get_pspref_timeout();
       ps_current_activity_index = get_pspref_current_activity_index();
       if (ps_current_activity_index >= 1) {
         set_pspref_current_activity_index(ps_current_activity_index - 1);
@@ -1008,7 +1025,7 @@ void drawMain() {
     }
 
     if (StickCP2.BtnB.wasPressed()) {  // normal, shortpress
-      sleepTime = 25;
+      sleepTime = get_pspref_timeout();
       ps_current_activity_index = get_pspref_current_activity_index();
       if (ps_current_activity_index < config_activities_size - 1) {
         set_pspref_current_activity_index(ps_current_activity_index + 1);
@@ -1020,7 +1037,7 @@ void drawMain() {
     }
     if (StickCP2.BtnA.wasPressed()) {  // normal, shortpress
 
-      sleepTime = 25;
+      sleepTime = get_pspref_timeout();
       // mark activity done
       // if it was turned off, turn on
       // if it was turned on, turn off

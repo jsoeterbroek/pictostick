@@ -3,6 +3,7 @@
 Preferences psPrefs;  // preferences
 
 int pspref_current_activity_index = 0;
+int pspref_timeout = 25;
 // reserve for 20 activities max
 bool pspref_activity_done = false;
 
@@ -82,6 +83,54 @@ int get_pspref_current_activity_index(void) {
   int _rc = 0;
   _rc = psPrefs.getInt("ps_i");
   return _rc;
+}
+
+void set_pspref_timeout(int _pspref_timeout) {
+  psPrefs.end();
+  psPrefs.begin(PSNS, PS_RW_MODE);
+  psPrefs.putInt("ps_t", _pspref_timeout);
+  psPrefs.end();
+  psPrefs.begin(PSNS, PS_RO_MODE);
+}
+
+int get_pspref_timeout(void) {
+  int _rc = 0;
+  _rc = psPrefs.getInt("ps_t");
+  if (_rc == 0) {
+    set_pspref_timeout(25);
+    _rc = 25;  // default timeout 25 seconds
+  }
+  return _rc;
+}
+
+void incr_pspref_timeout(void) {
+  int _t = get_pspref_timeout();
+  switch (_t) {
+    case 10:  set_pspref_timeout(15); break;
+    case 15:  set_pspref_timeout(25); break;
+    case 25:  set_pspref_timeout(30); break;
+    case 30:  set_pspref_timeout(45); break;
+    case 45:  set_pspref_timeout(60); break;
+    case 60:  set_pspref_timeout(90); break;
+    case 90:  set_pspref_timeout(120); break;
+    case 120: set_pspref_timeout(10); break;
+    default:  set_pspref_timeout(25); break;
+  }
+}
+
+void decr_pspref_timeout(void) {
+  int _t = get_pspref_timeout();
+  switch (_t) {
+    case 10:  set_pspref_timeout(120); break;
+    case 15:  set_pspref_timeout(10); break;
+    case 25:  set_pspref_timeout(15); break;
+    case 30:  set_pspref_timeout(25); break;
+    case 45:  set_pspref_timeout(30); break;
+    case 60:  set_pspref_timeout(45); break;
+    case 90:  set_pspref_timeout(60); break;
+    case 120: set_pspref_timeout(90); break;
+    default:  set_pspref_timeout(25); break;
+  }
 }
 
 void set_pspref_activity_undone(int _pspref_current_activity_index) {

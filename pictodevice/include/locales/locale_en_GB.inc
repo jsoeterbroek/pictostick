@@ -59,3 +59,4 @@ const char *TXT_DM3_BUZZER = "BUZZER";
 const char *TXT_DM3_BRIGHTNESS = "BRIGHTNESS";
 const char *TXT_DM3_ON = "ON";
 const char *TXT_DM3_OFF = "OFF";
+const char *TXT_DM3_TIMEOUT = "TIMEOUT";

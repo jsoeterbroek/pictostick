@@ -7,4 +7,4 @@
 7. Commit your changes and open a pull request referencing the issue.
 8. Keep the issue open until the pull request is merged.
 
-The issue is github issue #
+The issue is github issue #14
