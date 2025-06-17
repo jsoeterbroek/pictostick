@@ -23,8 +23,8 @@ boolean STATUS_TIME_OK = false;
 boolean STATUS_NTP_OK = false;
 boolean STATUS_CONFIG_DATA_OK = false;
 boolean STATUS_BLE_OK = false;
-boolean STATUS_GET_CONFIG_DATA_SPIFF_OK = false;
-boolean STATUS_SET_CONFIG_DATA_SPIFF_OK = false;
+boolean STATUS_GET_CONFIG_DATA_FS_OK = false;
+boolean STATUS_SET_CONFIG_DATA_FS_OK = false;
 boolean STATUS_GET_CONFIG_DATA_HTTP_OK = false;
 
 boolean GET_CONFIG_DATA_HTTP = false;
@@ -55,10 +55,12 @@ const char *config_date_created;  // "24-03-2025"
 const char *config_date_valid;    // "23-03-2025"
 int8_t config_activities_size = 0;
 int config_activities_size_max = 19;  // hardcoded maximum of activities still able to show mini menu
+int current_activity_index = 0;
+int ps_current_activity_index = 0;
 
 // box for picto 100 x 100 pixels
-int16_t picto_box_width = 100;
-int16_t picto_box_height = 100;
+int16_t picto_box_width = 140;
+int16_t picto_box_height = 140;
 
 // 135 x 240 pixels wordt aangestuurd door de ST7789V2.
 // NOTE: LCD_HEIGHT and LCD_WIDTH are switched around
@@ -89,8 +91,6 @@ bool slp = false;
 #define MAX_IMAGE_WIDTH 100  // Adjust for your images
 int16_t xpos = 12;
 int16_t ypos = 12;
-int current_activity_index = 0;
-int ps_current_activity_index = 0;
 
 String lang = "en";  // "en" for english, "nl" for dutch
 bool marked_done = false;

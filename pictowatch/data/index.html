@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>PictoStick WEB SERVER</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <!-- Latest Sortable -->
+  <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
+  <!-- jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <div class="topnav">
+    <h1>PICTOSTICK WEB SERVER</h1>
+  </div>
+
+  <div class="content">
+    <h4 class="display-2">FOO</h4>
+    <p>Try dragging from one list to another. The item you drag will be cloned and the clone
+      will stay in the original list.</p>
+    <h3 class="display-3">Pictos</h3>
+    Max 20 pictos per list, drag and drop to reorder.
+
+    <div id="activitylist" class="row">
+
+      <div class="grid-square">
+        <div class="activity" draggable="true">
+          <!--  -->
+          <img src="/picto/alarm.png" width="32" height="32" alt="alarm"><br>
+          <span id="name[]">alarm</span>
+        </div>
+      </div>
+
+      <div class="grid-square">
+        <div class="activity" draggable="true">
+          <!--  -->
+          <img src="/picto/bedtime.png" width="32" height="32" alt="Bedtime"><br>
+          <span id="name[]">Bedtime</span>
+        </div>
+      </div>
+    </div>
+    <hr>
+
+    <div class="text-center">
+      <div class="form-group">
+        <label for="configName">User Configuration Name:</label>
+        <input type="text" id="configName" class="form-control" value="Default"
+          style="max-width: 300px; margin: 0 auto;">
+      </div>
+      <button type="button" id="generateJSON" class="btn btn-info">Save Config</button>
+    </div>
+
+    <hr>
+    <h3>All Pictos</h3>
+    <div id="pictogrid" class="row">
+      <div class="grid-square">
+        <div class="activity" draggable="true" pictid="0">
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <hr />
+  <script>
+    // Function to load all available pictos
+    function loadAllPictos() {
+      $.ajax({
+        url: '/get-pictos',
+        type: 'GET',
+        success: function (pictos) {
+          $('#pictogrid').empty(); // Clear existing pictos
+
+          if (pictos && pictos.length > 0) {
+            pictos.forEach(function (picto, index) {
+              var pictoHtml =
+                '<div class="grid-square">' +
+                '<div class="activity" draggable="true" pictid="' + index + '">' +
+                '<img src="/picto/' + picto.filename + '" width="32" height="32" alt="' + picto.name + '"><br>' +
+                '<span id="name[]">' + picto.name + '</span>' +
+                '</div>' +
+                '</div>';
+              $('#pictogrid').append(pictoHtml);
+            });
+
+            // Reinitialize sortable for pictogrid after adding new elements
+            Sortable.create(document.getElementById('pictogrid'), {
+              group: {
+                name: 'shared',
+                pull: 'clone',
+                put: true // Allow items to be put back into this list
+              },
+              animation: 150,
+              ghostClass: 'blue-background-class',
+              sort: false // To disable sorting: set sort to false
+            });
+          } else {
+            $('#pictogrid').append('<p>No pictos found in /picto/ directory</p>');
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error('Error loading pictos: ' + error);
+          $('#pictogrid').append('<p>Error loading pictos: ' + error + '</p>');
+        }
+      });
+    }
+
+    // Load pictos when document is ready
+    $(document).ready(function () {
+      loadAllPictos();
+      loadConfig();
+    });
+
+    // Function to load current configuration
+    function loadConfig() {
+      $.ajax({
+        url: '/get-config',
+        type: 'GET',
+        success: function (data) {
+          if (data && data.activities) {
+            // Clear current activity list
+            $('#activitylist').empty();
+
+            // Add activities to the list
+            data.activities.forEach(function (activity) {
+              var pictoName = activity.picto.replace('.png', '');
+              var activityHtml =
+                '<div class="grid-square">' +
+                '<div class="activity" draggable="true">' +
+                '<img src="/picto/' + activity.picto + '" width="32" height="32" alt="' + pictoName + '"><br>' +
+                '<span id="name[]">' + pictoName + '</span>' +
+                '</div>' +
+                '</div>';
+              $('#activitylist').append(activityHtml);
+            });
+
+            // Reinitialize sortable
+            Sortable.create(document.getElementById('activitylist'), {
+              group: {
+                name: 'shared',
+                pull: true, // Allow items to be pulled (removed) without cloning
+                put: true // Allow items to be put back into this list
+              },
+              animation: 150,
+              ghostClass: 'blue-background-class',
+            });
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error('Error loading configuration: ' + error);
+        }
+      });
+    }
+
+    // generate JSON
+    $('#generateJSON').click(function () {
+      let data = {};
+      data.name = $('#configName').val() || "Default"; // Use input value or default to "Default"
+
+      var pictos = $('div[id^=activitylist]').find('span[id^=name]').map(function (idx, elem) {
+        return $(elem).text();
+      }).get();
+
+      // Create activities array with proper structure
+      data.activities = [];
+      pictos.forEach(function (picto, index) {
+        data.activities.push({
+          "order": String(index + 1).padStart(3, '0'), // 001, 002, etc.
+          "picto": picto + ".png",
+          "description": picto.charAt(0).toUpperCase() + picto.slice(1) // Capitalize first letter
+        });
+      });
+
+      // encode to JSON format
+      var pictos_json = JSON.stringify(data, null, 2);
+      $('#printCode').html(pictos_json);
+
+      // Send to server
+      $.ajax({
+        url: '/save-config',
+        type: 'POST',
+        contentType: 'application/json',
+        data: pictos_json,
+        success: function (response) {
+          alert('Configuration saved successfully!');
+        },
+        error: function (xhr, status, error) {
+          alert('Error saving configuration: ' + error);
+        }
+      });
+    });
+
+  </script>
+</body>
+
+</html>
