@@ -59,7 +59,28 @@
 
 # Specific Technologies
 
-# Workflow
-
+# TODO 
 - if there is a todo.md, then check off any work you have completed.
+
+# Prompt_plan
+- Open prompt_plan.md and identify any prompts not marked as completed.
+- For each incomplete prompt:
+    - Double-check if it's truly unfinished (if uncertain, ask for clarification).
+    - If you confirm it's already done, skip it.
+    - Otherwise, implement it as described.
+    - Make sure the tests pass, and the program builds/runs
+    - Commit the changes to your repository with a clear commit message.
+    - Update prompt_plan.md to mark this prompt as completed.
+- After you finish each prompt, pause and wait for user review or feedback.
+- Repeat with the next unfinished prompt as directed by the user.
+
+# Sessions
+Create `session_{slug}_{timestamp}.md` with a complete summary of our session. Include:
+
+- A brief recap of key actions.
+- Total cost of the session.
+- Efficiency insights.
+- Possible process improvements.
+- The total number of conversation turns.
+- Any other interesting observations or highlights.
 
