@@ -2,7 +2,7 @@
 #include <LilyGoLib.h>
 #include <WiFi.h>
 #include <FS.h>
-#include <LittleFS.h>
+#include <SPIFFS.h>
 #include "ui.h"
 #include "global_flags.h"
 #include "devicemode.h"
@@ -34,7 +34,7 @@ void writeConfigFile(fs::FS &fs, const char *path, JsonObject _json) {
   Serial.printf("Writing config file: %s\r\n", path);  // FIXME, remove later
 
   // Open file for writing
-  File myfile = fs.open(path, FILE_WRITE);
+  File myfile = fs.open(path, "w");
   if (!myfile) {
     Serial.println("ERROR: failed to open config file for writing");
   } else {
@@ -59,7 +59,7 @@ void readConfigFile(fs::FS &fs, const char *path) {
   static uint8_t buf[512];
   size_t len = 0;
   Serial.printf("Reading config file: %s\r\n", path);
-  File cfile = fs.open(path);
+  File cfile = fs.open(path, "r");
   if (!cfile || cfile.isDirectory()) {
     Serial.println("ERROR: failed to open config file for reading");
   } else {
@@ -72,11 +72,13 @@ void readConfigFile(fs::FS &fs, const char *path) {
       Serial.println(error.c_str());
     }
   }
+  delay(100);    // give some time to the file system to process the read
+  delay(10000);  // FIXME: remove later, just for testing
   cfile.close();
 }
 
 void getConfigData() {
-  readConfigFile(LittleFS, cfilename);
+  readConfigFile(SPIFFS, cfilename);
 }
 
 //void drawUserName(const char *_config_name) {
@@ -106,6 +108,17 @@ void drawSplash() {
   watch.setCursor(35, 65);
   watch.println(F("Prototype"));
   delay(10000);
+}
+
+void drawError(const char *message) {
+  watch.fillScreen(RGB565_BLACK_OUTER_SPACE);
+  //watch.setTextSize(2);
+  watch.setTextColor(RGB565_RED);
+  watch.setCursor(10, 10);
+  watch.println(F("ERROR:"));
+  watch.setTextColor(RGB565_WHITE);
+  watch.setCursor(10, 40);
+  watch.println(message);
 }
 
 void drawMain() {
@@ -202,16 +215,22 @@ void setup() {
       draw_device_mode_3 = true;
       break;
     case 4:  // 4. regular mode
+
       // get config data
-      if (GET_CONFIG_DATA_SPIFF) {
+      // Initialize FS
+      if (!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED)) {
+        Serial.println("An error occurred while mounting FS");
+        return;
+      } else {
+        Serial.println("FS mounted successfully");
         getConfigData();
       }
-      // FIXME: make check for md5sum checksum of config file
+      // TODO: make check for md5sum checksum of config file
       if (STATUS_GET_CONFIG_DATA_FS_OK) {
         STATUS_CONFIG_DATA_OK = true;
-        Serial.println("config successfully read from fs");
+        Serial.println("config successfully read from FS");
       } else {
-        Serial.println("ERROR: error reading config from fs");
+        Serial.println("ERROR: error reading config from FS");
       }
       Serial.println("initialization complete");
       drawSplash();
@@ -223,7 +242,13 @@ void loop() {
 
   set_devicemode(4);  // FIXME: set devicemode to 1, for now, remove later
 
-  drawMain();
+  if (STATUS_CONFIG_DATA_OK) {
+    drawMain();
+  } else {
+    // print error message to screen
+    drawError("ERROR: config data not available");
+  }
+  delay(100000);  // wait for 100 second
 }
 
 static uint8_t conv2d(const char *p) {
