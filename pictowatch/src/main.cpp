@@ -8,13 +8,25 @@
 #include "devicemode.h"
 #include "PSpref.h"
 #include "common.h"
-#include "NotoSansBold15.h"
-
+#include <PNGdec.h>
+#include <PNG_SPIFFS_Support.h>
 #include <ArduinoJson.h>
 #include <AsyncJson.h>
 #include <AsyncMessagePack.h>
 
 JsonDocument cdoc;
+PNG png;
+
+#define GFXFF 1
+#define FF18  &FreeSans12pt7b
+// Custom are fonts added to library "TFT_eSPI\Fonts\Custom" folder
+// a #include must also be added to the "User_Custom_Fonts.h" file
+// in the "TFT_eSPI\User_Setups" folder. See example entries.
+#define CF_OL24 &Orbitron_Light_24
+#define CF_OL32 &Orbitron_Light_32
+#define CF_RT24 &Roboto_Thin_24
+#define CF_S24  &Satisfy_24
+#define CF_Y32  &Yellowtail_32
 
 float sx = 0, sy = 1, mx = 1, my = 0, hx = -1, hy = 0;  // Saved H, M, S x & y multipliers
 float sdeg = 0, mdeg = 0, hdeg = 0;
@@ -81,12 +93,23 @@ void getConfigData() {
   readConfigFile(SPIFFS, cfilename);
 }
 
-//void drawUserName(const char *_config_name) {
-//  // user name
-//  watch.fillRect(116, 20, 120, 20, RIGHT_RECT_BG_COLOR_1);
-//  watch.setTextColor(RIGHT_RECT_TEXT_COLOR_1, RIGHT_RECT_BG_COLOR_1);
-//  watch.drawString(_config_name, 118, 24);
-//}
+// Callback function to draw pixels to the display
+void pngDraw(PNGDRAW *pDraw) {
+  uint16_t lineBuffer[MAX_IMAGE_WIDTH];
+  png.getLineAsRGB565(pDraw, lineBuffer, PNG_RGB565_BIG_ENDIAN, 0xffffffff);
+  watch.pushImage(xpos, ypos + pDraw->y, pDraw->iWidth, 1, lineBuffer);
+}
+
+void drawPicto(String _strname) {
+  _strname = "/picto/" + _strname;
+  int16_t rc = png.open(_strname.c_str(), pngOpen, pngClose, pngRead, pngSeek, pngDraw);
+  if (rc == PNG_SUCCESS) {
+    watch.startWrite();
+    rc = png.decode(NULL, 0);
+    png.close();
+    watch.endWrite();
+  }
+}
 
 void drawSplash() {
   String software = " PictoWatch ";
@@ -99,14 +122,12 @@ void drawSplash() {
   String code = " github.com/jsoeterbroek/pictostick";
 
   watch.fillScreen(RGB565_BLACK_OUTER_SPACE);
-  watch.setTextSize(2);
+  watch.setTextDatum(ML_DATUM);
+  watch.setFreeFont(CF_OL24);
   watch.setTextColor(RGB565_GRAY_LIGHT);
-  watch.setCursor(35, 5);
-  watch.println(F("PictoWatch"));
-  watch.setCursor(35, 35);
-  watch.println(F("Version 1.0.0"));
-  watch.setCursor(35, 65);
-  watch.println(F("Prototype"));
+  watch.drawString("PictoWatch", 32, 80, GFXFF);
+  watch.drawString("Version 1.0.0", 32, 110, GFXFF);
+  watch.drawString("Prototype", 32, 140, GFXFF);
   delay(10000);
 }
 
@@ -122,6 +143,8 @@ void drawError(const char *message) {
 }
 
 void drawMain() {
+
+  watch.fillScreen(BG_COLOR);
 
   // extract values from config JSON object
   config_activities_size = cdoc["activities"].size();
@@ -152,15 +175,86 @@ void drawMain() {
   // } else {
   //   Serial.println("todo");
   // }
-  Serial.print(config_name);
-  Serial.println("***************");
+  //Serial.print(config_name);
+  //Serial.println("***************");
 
-  watch.fillSmoothRoundRect(50, 30, picto_box_width, picto_box_height, 5, FG_COLOR, BG_COLOR);
+  watch.setTextDatum(ML_DATUM);
+  watch.setFreeFont(CF_OL24);
 
-  //drawUserName(config_name);
-  watch.fillRect(0, 0, 120, 20, RIGHT_RECT_BG_COLOR_1);
-  watch.setTextColor(RIGHT_RECT_TEXT_COLOR_1, RIGHT_RECT_BG_COLOR_1);
-  //watch.drawString(config_name, 118, 24);
+  // top name part
+  watch.fillRect(0, 0, 80, 30, TOP_RECT_BG_COLOR_1);
+  watch.setTextColor(TOP_RECT_TEXT_COLOR_1, TOP_RECT_BG_COLOR_1);
+  watch.drawString(config_name, 4, 12);
+
+  // top time part
+  watch.fillRect(80, 0, 80, 30, TOP_RECT_BG_COLOR_1);
+  watch.setTextColor(TOP_RECT_TEXT_COLOR_1, TOP_RECT_BG_COLOR_1);
+  watch.drawString("13:00", 84, 12);
+
+  // top batt part
+  watch.fillRect(160, 0, 80, 30, TOP_RECT_BG_COLOR_1);
+  watch.setTextColor(TOP_RECT_TEXT_COLOR_1, TOP_RECT_BG_COLOR_1);
+  watch.drawString("batt", 164, 12);
+
+  // picto part
+  watch.fillSmoothRoundRect(50, 40, picto_box_width, picto_box_height, 5, FG_COLOR, BG_COLOR);
+
+  // by default, if there is no current activity, the first one will be current
+  for (int i = 0; i < config_activities_size; i++) {
+    // current
+    if (i == ps_current_activity_index) {
+      // draw the picto
+      Serial.print("Drawing current activity picto: ");  // FIXME: remove later
+      Serial.print(_array_picto[i]);                     // FIXME: remove later
+      drawPicto(_array_picto[i]);
+
+      // now check if this activity is marked done in
+      if (get_pspref_activity_done(ps_current_activity_index) == 1) {
+        Serial.print(ps_current_activity_index);  // FIXME: remove later
+        Serial.println(" is marked done");        // FIXME: remove later
+                                                  // drawMarkedDone();
+      }
+    }
+  }
+
+  // TEST, uncomment below
+  // config_activities_size = 5;
+
+  int _circle_x;
+  int _dist_between;
+  int _size_circle;
+  // Replace switch-case with array lookup and for loop for activity circle parameters
+  const int max_params = 18;
+  int circle_x_vals[max_params] = {120, 104, 82, 68, 56, 45, 37, 30, 25, 23, 20, 18, 17, 16, 15, 14, 13, 13};
+  int dist_between_vals[max_params] = {46, 43, 40, 37, 34, 31, 28, 26, 24, 22, 20, 18, 17, 16, 15, 14, 13, 12};
+  int size_circle_vals[max_params] = {6, 6, 6, 6, 6, 6, 5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 3, 3};
+
+  if (config_activities_size >= 1 && config_activities_size <= max_params) {
+    int idx = config_activities_size - 1;
+    _circle_x = circle_x_vals[idx];
+    _dist_between = dist_between_vals[idx];
+    _size_circle = size_circle_vals[idx];
+  } else {
+    // Default values for out-of-range sizes
+    _circle_x = 14;
+    _dist_between = 16;
+    _size_circle = 6;
+  }
+
+  if (config_activities_size < config_activities_size_max) {
+    for (int i = 0; i < config_activities_size; i++) {
+      // small indicator (rectangle) for the current activity
+      if (i == ps_current_activity_index) {
+        watch.fillRect(_circle_x - 8, 219, 16, 4, DAYPERIOD_CIRCLE_BG_COLOR);
+      }
+      if (get_pspref_activity_done(i) == 1) {
+        watch.fillSmoothCircle(_circle_x, 212, _size_circle, COLOR_DONE, BG_COLOR);
+      } else {
+        watch.fillSmoothCircle(_circle_x, 212, _size_circle, COLOR_TODO, BG_COLOR);
+      }
+      _circle_x = _circle_x + _dist_between;
+    }
+  }
 }
 
 void setup() {

@@ -61,13 +61,9 @@ int ps_current_activity_index = 0;
 // box for picto 100 x 100 pixels
 int16_t picto_box_width = 140;
 int16_t picto_box_height = 140;
-
-// 135 x 240 pixels wordt aangestuurd door de ST7789V2.
-// NOTE: LCD_HEIGHT and LCD_WIDTH are switched around
-// in this case m5stcik: LCD_HEIGHT=240 and LCD_WIDTH=135
-// because the screen is rotated!
-#define MY_WIDTH  TFT_HEIGHT
-#define MY_HEIGHT TFT_WIDTH
+#define MAX_IMAGE_WIDTH 140  // Adjust for your images
+int16_t xpos = 50;
+int16_t ypos = 40;
 
 //time variables
 String h, m, s;
@@ -87,10 +83,6 @@ bool slp = false;
 
 #define BUTTON_PRESSED  LOW
 #define BUTTON_RELEASED HIGH
-
-#define MAX_IMAGE_WIDTH 100  // Adjust for your images
-int16_t xpos = 12;
-int16_t ypos = 12;
 
 String lang = "en";  // "en" for english, "nl" for dutch
 bool marked_done = false;
