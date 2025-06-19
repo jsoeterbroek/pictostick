@@ -14,14 +14,18 @@
 #include <AsyncJson.h>
 #include <AsyncMessagePack.h>
 
+//#include <Wire.h>
+//#include <SPI.h>
+//#include "TouchDrvFT6X36.hpp"
+
 JsonDocument cdoc;
 PNG png;
+
+bool isPmuIRQ = false;
 
 #define GFXFF 1
 #define FF18  &FreeSans12pt7b
 // Custom are fonts added to library "TFT_eSPI\Fonts\Custom" folder
-// a #include must also be added to the "User_Custom_Fonts.h" file
-// in the "TFT_eSPI\User_Setups" folder. See example entries.
 #define CF_OL24 &Orbitron_Light_24
 #define CF_OL32 &Orbitron_Light_32
 #define CF_RT24 &Roboto_Thin_24
@@ -223,7 +227,7 @@ void drawMain() {
   int _circle_x;
   int _dist_between;
   int _size_circle;
-  // Replace switch-case with array lookup and for loop for activity circle parameters
+  // Activity circle parameters
   const int max_params = 18;
   int circle_x_vals[max_params] = {120, 104, 82, 68, 56, 45, 37, 30, 25, 23, 20, 18, 17, 16, 15, 14, 13, 13};
   int dist_between_vals[max_params] = {46, 43, 40, 37, 34, 31, 28, 26, 24, 22, 20, 18, 17, 16, 15, 14, 13, 12};
@@ -245,7 +249,7 @@ void drawMain() {
     for (int i = 0; i < config_activities_size; i++) {
       // small indicator (rectangle) for the current activity
       if (i == ps_current_activity_index) {
-        watch.fillRect(_circle_x - 8, 219, 16, 4, DAYPERIOD_CIRCLE_BG_COLOR);
+        watch.fillRect(_circle_x - 8, 219, 16, 6, DAYPERIOD_CIRCLE_BG_COLOR);
       }
       if (get_pspref_activity_done(i) == 1) {
         watch.fillSmoothCircle(_circle_x, 212, _size_circle, COLOR_DONE, BG_COLOR);
@@ -255,6 +259,31 @@ void drawMain() {
       _circle_x = _circle_x + _dist_between;
     }
   }
+
+  // touch screen actions
+  if (isPmuIRQ) {
+    isPmuIRQ = false;
+    watch.readPMU();
+    // if touchscreen is wiped from right to left, go to next activity
+    if (watch.isPekeyPositiveIrq()) {
+      sleepTime = get_pspref_timeout();
+      ps_current_activity_index = get_pspref_current_activity_index();
+      if (ps_current_activity_index < config_activities_size - 1) {
+        set_pspref_current_activity_index(ps_current_activity_index + 1);
+      } else {
+        // buzzer haptic feedback
+        //if (get_pspref_buzzer()) {
+        //  watch.buzzerBeep(100, 1000);  // beep for 100 ms at 1000 Hz
+        //}
+        watch.setWaveform(0, 1000);  // play effect
+        // play the effect!
+        watch.run();
+      }
+    }
+    watch.clearPMU();
+  }
+
+  // button acctions
 }
 
 void setup() {
@@ -283,6 +312,9 @@ void setup() {
   Serial.println(devicemode);
 
   watch.begin();
+  watch.attachPMU([]() {
+    isPmuIRQ = true;
+  });
   watch.setRotation(2);
 
   watch.fillScreen(RGB565_BLACK_OUTER_SPACE);
