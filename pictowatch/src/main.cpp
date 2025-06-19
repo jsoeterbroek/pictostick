@@ -181,10 +181,10 @@ void drawMain() {
   watch.setTextDatum(ML_DATUM);
   watch.setFreeFont(CF_OL24);
 
-  // top name part
+  // top day part
   watch.fillRect(0, 0, 80, 30, TOP_RECT_BG_COLOR_1);
   watch.setTextColor(TOP_RECT_TEXT_COLOR_1, TOP_RECT_BG_COLOR_1);
-  watch.drawString(config_name, 4, 12);
+  watch.drawString("Mon", 4, 12);
 
   // top time part
   watch.fillRect(80, 0, 80, 30, TOP_RECT_BG_COLOR_1);
@@ -194,10 +194,10 @@ void drawMain() {
   // top batt part
   watch.fillRect(160, 0, 80, 30, TOP_RECT_BG_COLOR_1);
   watch.setTextColor(TOP_RECT_TEXT_COLOR_1, TOP_RECT_BG_COLOR_1);
-  watch.drawString("batt", 164, 12);
+  watch.drawString("  batt", 164, 12);
 
   // picto part
-  watch.fillSmoothRoundRect(50, 40, picto_box_width, picto_box_height, 5, FG_COLOR, BG_COLOR);
+  watch.fillSmoothRoundRect(48, 48, picto_box_width, picto_box_height, 5, FG_COLOR, BG_COLOR);
 
   // by default, if there is no current activity, the first one will be current
   for (int i = 0; i < config_activities_size; i++) {

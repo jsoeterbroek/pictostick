@@ -59,11 +59,11 @@ int current_activity_index = 0;
 int ps_current_activity_index = 0;
 
 // box for picto 100 x 100 pixels
-int16_t picto_box_width = 140;
-int16_t picto_box_height = 140;
+int16_t picto_box_width = 144;
+int16_t picto_box_height = 144;
 #define MAX_IMAGE_WIDTH 140  // Adjust for your images
 int16_t xpos = 50;
-int16_t ypos = 40;
+int16_t ypos = 50;
 
 //time variables
 String h, m, s;
