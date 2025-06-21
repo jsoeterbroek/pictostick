@@ -58,6 +58,9 @@
 - Repeat the cycle for each new feature or bugfix
 
 # Specific Technologies
+- All libraries and frameworks should be used as they are intended to be used, without trying to force them into a different paradigm or usage pattern.
+- We use PlatformIO for building and testing our code.
+- The libraries are located in .pio/libdeps/twatch-s3/ dicrectory.
 
 # TODO 
 - if there is a todo.md, then check off any work you have completed.
