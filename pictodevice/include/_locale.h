@@ -1,3 +1,5 @@
+// ABOUTME: This file contains all the text strings for localization.
+// ABOUTME: It allows for easy translation of the user interface.
 // adapted from https://github.com/lmarzen/esp32-weather-epd/blob/main/platformio/include/_locale.h
 #ifndef ___LOCALE_H__
 #define ___LOCALE_H__

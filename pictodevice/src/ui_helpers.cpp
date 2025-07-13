@@ -18,6 +18,9 @@ extern int volE;
 extern const char *config_name;
 extern PNG png;
 
+static uint32_t last_batt_update = 0;
+static int last_batt_percent = -1;
+
 void *pngOpen(const char *filename, int32_t *size) {
   pngfile = SPIFFS.open(filename, "r");
   *size = pngfile.size();
@@ -79,16 +82,25 @@ void drawPicto(String _strname) {
 }
 
 void drawBatt() {
-  vol = StickCP2.Power.getBatteryVoltage();
+  int batteryPercent;
+  unsigned long currentMillis = millis();
+
+  if (currentMillis - last_batt_update > 60000 || last_batt_percent == -1) {
+    last_batt_update = currentMillis;
+    vol = StickCP2.Power.getBatteryVoltage();
+    batteryPercent = map(vol, 3000, 4200, 0, 100);
+    if (batteryPercent > 100) {
+      batteryPercent = 100;
+    }
+    if (batteryPercent < 0) {
+      batteryPercent = 0;
+    }
+    last_batt_percent = batteryPercent;
+  } else {
+    batteryPercent = last_batt_percent;
+  }
+
   volE = map(vol, 3000, 4180, 0, 5);
-  String batteryPercentString;
-  int batteryPercent = map(vol, 3000, 4200, 0, 100);
-  if (batteryPercent > 100) {
-    batteryPercent = 100;
-  }
-  if (batteryPercent < 0) {
-    batteryPercent = 0;
-  }
 
   sprite.fillRect(116, 0, 120, 20, RIGHT_RECT_BG_COLOR_2);
   sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_2, RIGHT_RECT_BG_COLOR_2);
