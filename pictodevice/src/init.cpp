@@ -6,12 +6,10 @@
 #include "common.h"
 #include "ui_helpers.h"
 #include "status.h"
+#include "uisetup.h"
+#include "fs_helpers.h"
 
-// Forward declarations for functions in main.cpp that we might need.
-extern void drawDeviceMode1();
-extern void drawDeviceMode2();
-extern void drawDeviceMode3();
-extern void getConfigDataSPIFF();
+
 
 void init_device() {
     auto cfg = M5.config();

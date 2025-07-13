@@ -7,13 +7,112 @@
 #include "smallFont.h"
 #include "secFont.h"
 #include "_locale.h"
+#include "system.h"
+#include "status.h"
 
 // Forward declarations from main.cpp
 extern TFT_eSprite sprite;
-extern int cursor;
-extern int8_t hour;
-extern int8_t minute;
-extern int8_t second;
+extern WiFiManager wm;
+extern AppStatus app_status;
+extern struct tm timeinfo;
+extern String timezone;
+
+
+void drawDeviceMode1() {
+  Serial.println("DEBUG: drawDeviceMode1 active");  // FIXME, remove later
+  // set_devicemode(3);
+  StickCP2.Display.clear();
+  StickCP2.Display.drawString(TXT_DM1, 4, 4);
+  StickCP2.Display.drawString(TXT_WM_START, 4, 16);
+
+  // WiFiManager
+  wm.setDebugOutput(true);
+  // wm.setShowInfoErase(false);
+  wm.resetSettings();  // for testing only, remove later
+  wm.setConfigPortalTimeout(5000);
+  wm.setAPCallback(configModeCallback);
+
+  if (!wm.startConfigPortal("PictoStick")) {
+    Serial.println("Failed to connect and hit timeout");
+    delay(3000);
+    ESP.restart();
+  } else {
+    app_status.wifi_mgr_ok = true;
+    Serial.println("WiFi connected.");
+  }
+
+  // set NTP time
+  initTime(timezone);
+
+  // set NTP time to rtc clock
+  if (app_status.ntp_ok) {
+    Serial.println("set rtc clock from NTP");
+    while (!getLocalTime(&timeinfo, 1000)) {
+      Serial.print('.');
+    };
+    time_t t = time(nullptr) + 1;  // Advance one second.
+    while (t > time(nullptr));     /// Synchronization in seconds
+    StickCP2.Rtc.setDateTime(gmtime(&t));
+  } else {
+    Serial.println("ERROR: rtc clock not set");
+  }
+  if (app_status.ntp_ok) {
+    // set devicemode 3
+    set_devicemode(3);
+  }
+}
+
+void drawDeviceMode2() {
+  Serial.println("DEBUG: drawDeviceMode2 active");  // FIXME, remove later
+  StickCP2.Display.clear();
+  StickCP2.Display.drawString(TXT_DM2, 4, 4);
+  StickCP2.Display.drawString(TXT_DM2_WIFI_START, 4, 16);
+
+  if (initWiFi()) {
+    init_ESPAsync_Ws();
+  } else {
+    // set devicemode 1
+    StickCP2.Display.drawString(TXT_DM_SET_1, 4, 88);
+    delay(2000);
+    set_devicemode(1);
+  }
+  StickCP2.Display.drawString(TXT_DM2_WS_START, 4, 28);
+
+  while (!app_status.set_config_data_spiff_ok) {
+    Serial.print(".");
+    delay(1000);
+  }
+
+  if (app_status.set_config_data_spiff_ok) {
+    Serial.println("DEBUG: drawDeviceMode2 active; set config data spiff OK");  // FIXME, remove later
+    StickCP2.Display.drawString(TXT_DM2_FILE_OK, 4, 64);
+  } else {
+    Serial.println("DEBUG: drawDeviceMode2 active; set config data spiff ERROR");  // FIXME, remove later
+    StickCP2.Display.drawString(TXT_DM2_FILE_ERR, 4, 64);
+  }
+
+  // shutdown wifi
+  StickCP2.Display.drawString(TXT_DM2_WIFI_DISC, 4, 76);
+  delay(2000);
+  WiFi.disconnect(true);
+
+  if (app_status.set_config_data_spiff_ok) {
+    // set devicemode 4
+    StickCP2.Display.drawString(TXT_DM_SET_4, 4, 88);
+    delay(2000);
+    set_devicemode(4);
+  } else {
+    // set devicemode 2
+    StickCP2.Display.drawString(TXT_DM_SET_2, 4, 88);
+    delay(2000);
+    set_devicemode(2);
+  }
+
+  // restart
+  StickCP2.Display.drawString(TXT_DM_RESTART, 4, 100);
+  delay(2000);
+  ESP.restart();
+}
 
 void drawDeviceMode3() {
   // time
