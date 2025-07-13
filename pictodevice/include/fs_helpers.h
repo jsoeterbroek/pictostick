@@ -1,3 +1,5 @@
+// ABOUTME: This file contains declarations for filesystem helper functions.
+// ABOUTME: These functions are used for reading, writing, and deleting configuration files.
 #pragma once
 
 #include <ArduinoJson.h>
