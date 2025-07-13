@@ -89,8 +89,6 @@ JsonDocument cdoc;
 
 struct tm timeinfo;
 
-
-
 // Callback function to draw pixels to the display
 void pngDraw(PNGDRAW *pDraw) {
   uint16_t lineBuffer[MAX_IMAGE_WIDTH];
@@ -98,25 +96,16 @@ void pngDraw(PNGDRAW *pDraw) {
   sprite.pushImage(xpos, ypos + pDraw->y, pDraw->iWidth, 1, lineBuffer);
 }
 
-
-
-
-
 void beepOrNot() {
   if (get_pspref_buzzer()) {
     StickCP2.Speaker.tone(6000, 100);
   }
 }
 
-
-  String processor(const String &var) {
+String processor(const String &var) {
   String foo = "bar";
   return foo;
 }
-
-
-
-
 
 void setup() {
   init_device();
