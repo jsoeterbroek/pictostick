@@ -83,11 +83,15 @@ void drawPicto(String _strname) {
 
 void drawBatt() {
   int batteryPercent;
+  bool isCharging;
   unsigned long currentMillis = millis();
 
   if (currentMillis - last_batt_update > 60000 || last_batt_percent == -1) {
     last_batt_update = currentMillis;
     vol = StickCP2.Power.getBatteryVoltage();
+    isCharging = StickCP2.Power.isCharging();  // Seems to be not working...
+    StickCP2.Power.isCharging();
+
     batteryPercent = map(vol, 3000, 4200, 0, 100);
     if (batteryPercent > 100) {
       batteryPercent = 100;
@@ -102,8 +106,15 @@ void drawBatt() {
 
   volE = map(vol, 3000, 4180, 0, 5);
 
+  //Serial.print("DEBUG: Battery charging ");
+  //Serial.println(isCharging);
+
   sprite.fillRect(116, 0, 120, 20, RIGHT_RECT_BG_COLOR_2);
-  sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_2, RIGHT_RECT_BG_COLOR_2);
+  if (isCharging) {
+    sprite.setTextColor(RGB565_GREEN_DARKSEA, RIGHT_RECT_BG_COLOR_2);
+  } else {
+    sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_2, RIGHT_RECT_BG_COLOR_2);
+  }
   sprite.loadFont(NotoSansBold15);
   sprite.setCursor(160, 3);
   sprite.printf("%d%%", batteryPercent);
@@ -125,8 +136,8 @@ void drawUserName() {
 
 void drawTime() {
   struct tm timeinfo;
-  static constexpr const char *const wd_en[7] = {"Sund", "Mond", "Tues", "Wedn", "Thur", "Frid", "Satu"};
-  static constexpr const char *const wd_nl[7] = {"Zond", "Maan", "Dins", "Woen", "Dond", "Vrij", "Zat"};
+  static constexpr const char *const wd_en[7] = {"Sunday", "Monday", "Tuesday", "Wedn", "Thursday", "Friday", "Saturday"};
+  static constexpr const char *const wd_nl[7] = {"Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"};
   auto dt = StickCP2.Rtc.getDateTime();
   auto t = time(nullptr);
   auto tm = localtime(&t);
