@@ -32,6 +32,10 @@ void drawDeviceMode1() {
   wm.setConfigPortalTimeout(5000);
   wm.setAPCallback(configModeCallback);
 
+  WiFiManagerParameter custom_timezone("timezone", "Timezone", get_pspref_timezone().c_str(), 100);
+  wm.addParameter(&custom_timezone);
+
+
   if (!wm.startConfigPortal("PictoStick")) {
     Serial.println("Failed to connect and hit timeout");
     delay(3000);
@@ -39,10 +43,11 @@ void drawDeviceMode1() {
   } else {
     app_status.wifi_mgr_ok = true;
     Serial.println("WiFi connected.");
+    set_pspref_timezone(custom_timezone.getValue());
   }
 
   // set NTP time
-  initTime(timezone);
+  initTime(get_pspref_timezone());
 
   // set NTP time to rtc clock
   if (app_status.ntp_ok) {

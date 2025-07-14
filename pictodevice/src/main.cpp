@@ -41,7 +41,6 @@ AppStatus app_status;
 boolean GET_CONFIG_DATA_HTTP = false;
 boolean GET_CONFIG_DATA_SPIFF = true;
 const char *ntpServer = "europe.pool.ntp.org";
-String timezone = "CET-1CEST,M3.5.0,M10.5.0/3";
 const char *wifi_mngr_networkname = "pictostick";
 const char *wifi_mngr_password = "password";
 String serverName = "http://192.168.178.148:8001";
