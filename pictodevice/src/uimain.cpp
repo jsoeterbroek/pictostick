@@ -22,7 +22,7 @@ void drawMain() {
   StickCP2.Display.powerSaveOff();
   StickCP2.Display.setBrightness(get_pspref_brightness());
   sprite.createSprite(MY_WIDTH, MY_HEIGHT);
-  sprite.fillSprite(BG_COLOR);
+  sprite.fillSprite(currentTheme.bgColor);
 
   // extract values from config JSON object
   config_activities_size = cdoc["activities"].size();
@@ -43,9 +43,9 @@ void drawMain() {
   ps_current_activity_index = get_pspref_current_activity_index();
 
   sprite.unloadFont();
-  sprite.setTextColor(TFT_WHITE, RIGHT_RECT_BG_COLOR_1);
+  sprite.setTextColor(TFT_WHITE, currentTheme.rightRectBgColor1);
 
-  sprite.fillSmoothRoundRect(10, 10, picto_box_width, picto_box_height, 5, FG_COLOR, BG_COLOR);
+  sprite.fillSmoothRoundRect(10, 10, picto_box_width, picto_box_height, 5, currentTheme.fgColor, currentTheme.bgColor);
 
   drawTime();
   drawUserName();
@@ -90,17 +90,17 @@ void drawMain() {
     default: _circle_x = 14; _dist_between = 16; _size_circle = 6; break;
   }
 
-  sprite.fillRect(0, 128, 240, 5, BG_COLOR);
+  sprite.fillRect(0, 128, 240, 5, currentTheme.bgColor);
 
   if (config_activities_size < config_activities_size_max) {
     for (int i = 0; i < config_activities_size; i++) {
       if (i == ps_current_activity_index) {
-        sprite.fillRect(_circle_x - 8, 129, 16, 4, DAYPERIOD_CIRCLE_BG_COLOR);
+        sprite.fillRect(_circle_x - 8, 129, 16, 4, currentTheme.dayPeriodCircleBgColor);
       }
       if (get_pspref_activity_done(i) == 1) {
-        sprite.fillSmoothCircle(_circle_x, 122, _size_circle, COLOR_DONE, BG_COLOR);
+        sprite.fillSmoothCircle(_circle_x, 122, _size_circle, currentTheme.colorDone, currentTheme.bgColor);
       } else {
-        sprite.fillSmoothCircle(_circle_x, 122, _size_circle, COLOR_TODO, BG_COLOR);
+        sprite.fillSmoothCircle(_circle_x, 122, _size_circle, currentTheme.colorTodo, currentTheme.bgColor);
       }
       _circle_x = _circle_x + _dist_between;
     }

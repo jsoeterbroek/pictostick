@@ -109,11 +109,11 @@ void drawBatt() {
   //Serial.print("DEBUG: Battery charging ");
   //Serial.println(isCharging);
 
-  sprite.fillRect(116, 0, 120, 20, RIGHT_RECT_BG_COLOR_2);
+  sprite.fillRect(116, 0, 120, 20, currentTheme.rightRectBgColor2);
   if (isCharging) {
-    sprite.setTextColor(RGB565_GREEN_DARKSEA, RIGHT_RECT_BG_COLOR_2);
+    sprite.setTextColor(RGB565_GREEN_DARKSEA, currentTheme.rightRectBgColor2);
   } else {
-    sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_2, RIGHT_RECT_BG_COLOR_2);
+    sprite.setTextColor(currentTheme.rightRectTextColor2, currentTheme.rightRectBgColor2);
   }
   sprite.loadFont(NotoSansBold15);
   sprite.setCursor(160, 3);
@@ -128,8 +128,8 @@ void drawBatt() {
 
 void drawUserName() {
   sprite.loadFont(NotoSansBold15);
-  sprite.fillRect(116, 20, 120, 20, RIGHT_RECT_BG_COLOR_1);
-  sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_1, RIGHT_RECT_BG_COLOR_1);
+  sprite.fillRect(116, 20, 120, 20, currentTheme.rightRectBgColor1);
+  sprite.setTextColor(currentTheme.rightRectTextColor1, currentTheme.rightRectBgColor1);
   sprite.drawString(config_name, 118, 24);
   sprite.unloadFont();
 }
@@ -151,8 +151,8 @@ void drawTime() {
   snprintf(timebuffer, sizeof(timebuffer), "%02d:%02d", dt.time.hours, dt.time.minutes);
 
   sprite.loadFont(NotoSansBold15);
-  sprite.fillRect(116, 40, 120, 20, RIGHT_RECT_BG_COLOR_2);
-  sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_2, RIGHT_RECT_BG_COLOR_2);
+  sprite.fillRect(116, 40, 120, 20, currentTheme.rightRectBgColor2);
+  sprite.setTextColor(currentTheme.rightRectTextColor2, currentTheme.rightRectBgColor2);
   sprite.drawString(daybuffer, 118, 44);
   sprite.drawString(timebuffer, 196, 44);
   sprite.unloadFont();
@@ -161,11 +161,11 @@ void drawTime() {
 void drawName(String _strname, int _marked_done) {
   sprite.loadFont(NotoSansBold15);
   if (_marked_done == 1) {
-    sprite.fillRect(116, 70, 120, 40, COLOR_DONE);
-    sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_1, COLOR_DONE);
+    sprite.fillRect(116, 70, 120, 40, currentTheme.colorDone);
+    sprite.setTextColor(currentTheme.rightRectTextColor1, currentTheme.colorDone);
   } else {
-    sprite.fillRect(116, 70, 120, 40, COLOR_TODO);
-    sprite.setTextColor(RIGHT_RECT_TEXT_COLOR_1, COLOR_TODO);
+    sprite.fillRect(116, 70, 120, 40, currentTheme.colorTodo);
+    sprite.setTextColor(currentTheme.rightRectTextColor1, currentTheme.colorTodo);
   }
   sprite.drawString(_strname, 118, 84);
   sprite.unloadFont();
@@ -173,7 +173,7 @@ void drawName(String _strname, int _marked_done) {
 
 void drawMarkedDone() {
   sprite.loadFont(NotoSansBold15);
-  sprite.setTextColor(TFT_BLACK, RIGHT_RECT_BG_COLOR_1);
+  sprite.setTextColor(TFT_BLACK, currentTheme.rightRectBgColor1);
   sprite.drawString("X", 20, 100);
   sprite.unloadFont();
 }

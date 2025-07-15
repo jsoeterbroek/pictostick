@@ -162,7 +162,55 @@ String get_pspref_timezone(void) {
   _rc = psPrefs.getString("ps_tz");
   if (_rc == "") {
     set_pspref_timezone("CET-1CEST,M3.5.0,M10.5.0/3");
-    _rc = "CET-1CEST,M3.5.0,M10.5.0/3";  // default timezone
+    _rc = "CET-1CEST,M3.5.0,M10.5.0/3";  // default timezone: Europe/Amsterdam
   }
   return _rc;
+}
+
+void set_pspref_color_theme(int _pspref_color_theme) {
+  psPrefs.end();
+  psPrefs.begin(PSNS, PS_RW_MODE);
+  psPrefs.putInt("ps_ct", _pspref_color_theme);
+  psPrefs.end();
+  psPrefs.begin(PSNS, PS_RO_MODE);
+}
+
+int get_pspref_color_theme(void) {
+  int _rc = 0;
+  _rc = psPrefs.getInt("ps_ct");
+  return _rc;
+}
+
+String get_pspref_color_theme_by_name(void) {
+  String _theme_name;
+  int _rc = 0;
+  _rc = psPrefs.getInt("ps_ct");
+  if (_rc == 1) {
+    _theme_name = "DARK";
+  } else if (_rc == 2) {
+    _theme_name = "BLUE";
+  } else {
+    _theme_name = "DEFAULT";
+  }
+  return _theme_name;
+}
+
+void incr_pspref_color_theme(void) {
+  int _ct = get_pspref_color_theme();
+  if (_ct >= 2) {
+    _ct = 0;
+  } else {
+    _ct++;
+  }
+  set_pspref_color_theme(_ct);
+}
+
+void decr_pspref_color_theme(void) {
+  int _ct = get_pspref_color_theme();
+  if (_ct <= 0) {
+    _ct = 2;
+  } else {
+    _ct--;
+  }
+  set_pspref_color_theme(_ct);
 }

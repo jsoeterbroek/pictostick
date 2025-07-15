@@ -1,5 +1,6 @@
 #include <ArduinoJson.h>
 #include <colors.h>
+#include <themes.h>
 
 #define PD_VERSION_MAJOR 1
 #define PD_VERSION_MINOR 4

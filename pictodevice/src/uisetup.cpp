@@ -17,7 +17,6 @@ extern AppStatus app_status;
 extern struct tm timeinfo;
 extern String timezone;
 
-
 void drawDeviceMode1() {
   Serial.println("DEBUG: drawDeviceMode1 active");  // FIXME, remove later
   // set_devicemode(3);
@@ -34,7 +33,6 @@ void drawDeviceMode1() {
 
   WiFiManagerParameter custom_timezone("timezone", "Timezone", get_pspref_timezone().c_str(), 100);
   wm.addParameter(&custom_timezone);
-
 
   if (!wm.startConfigPortal("PictoStick")) {
     Serial.println("Failed to connect and hit timeout");
@@ -137,106 +135,119 @@ void drawDeviceMode3() {
   StickCP2.Display.setBrightness(get_pspref_brightness());
 
   sprite.createSprite(MY_WIDTH, MY_HEIGHT);
-  sprite.fillSprite(RGB565_GRAY_LIGHT);
+  sprite.fillSprite(currentTheme.bgColor);
   sprite.setTextDatum(4);
 
+  // setup
   sprite.loadFont(smallFont);
-  sprite.setTextColor(TFT_ORANGE, RGB565_GRAY_LIGHT);
-  sprite.drawString(TXT_DM3_SETUP, 28, 14);
+  sprite.setTextColor(currentTheme.warnNok, currentTheme.bgColor);
+  sprite.drawString(TXT_DM3_SETUP, 180, 14);
   sprite.unloadFont();
 
   // element 1  -- hours
   sprite.loadFont(smallFont);
-  sprite.setTextColor(RGB565_GRAY_BATTLESHIP, RGB565_GRAY_LIGHT);
-  sprite.drawString(TXT_DM3_HOUR, 28, 36);
+  sprite.setTextColor(currentTheme.textColor, currentTheme.bgColor);
+  sprite.drawString(TXT_DM3_HOUR, 28, 14);
   sprite.unloadFont();
   sprite.loadFont(secFont);
   if (cursor == 1) {
-    sprite.fillRect(10, 48, 36, 40, RGB565_GRAY_BATTLESHIP);
-    sprite.setTextColor(TFT_ORANGE, RGB565_GRAY_BATTLESHIP);
+    sprite.fillRect(10, 26, 36, 40, currentTheme.textColor);
+    sprite.setTextColor(currentTheme.warnNok, currentTheme.textColor);
   } else {
-    sprite.fillRect(10, 48, 36, 40, TFT_WHITE);
-    sprite.setTextColor(RGB565_GRAY_BATTLESHIP, TFT_WHITE);
+    sprite.fillRect(10, 26, 36, 40, currentTheme.fgColor);
+    sprite.setTextColor(currentTheme.textColor, currentTheme.fgColor);
   }
-  sprite.drawString(hourbuffer, 27, 70);
+  sprite.drawString(hourbuffer, 27, 48);
   sprite.unloadFont();
 
   // element 2  -- minutes
   sprite.loadFont(smallFont);
-  sprite.setTextColor(RGB565_GRAY_BATTLESHIP, RGB565_GRAY_LIGHT);
-  sprite.drawString(TXT_DM3_MIN, 68, 36);
+  sprite.setTextColor(currentTheme.textColor, currentTheme.bgColor);
+  sprite.drawString(TXT_DM3_MIN, 68, 14);
   sprite.unloadFont();
   sprite.loadFont(secFont);
   if (cursor == 2) {
-    sprite.fillRect(51, 48, 36, 40, RGB565_GRAY_BATTLESHIP);
-    sprite.setTextColor(TFT_ORANGE, RGB565_GRAY_BATTLESHIP);
+    sprite.fillRect(51, 26, 36, 40, currentTheme.textColor);
+    sprite.setTextColor(currentTheme.warnNok, currentTheme.textColor);
   } else {
-    sprite.fillRect(51, 48, 36, 40, TFT_WHITE);
-    sprite.setTextColor(RGB565_GRAY_BATTLESHIP, TFT_WHITE);
+    sprite.fillRect(51, 26, 36, 40, currentTheme.fgColor);
+    sprite.setTextColor(currentTheme.textColor, currentTheme.fgColor);
   }
-  sprite.drawString(minutebuffer, 68, 70);
+  sprite.drawString(minutebuffer, 68, 48);
   sprite.unloadFont();
 
   // element 3  -- seconds
   sprite.loadFont(smallFont);
-  sprite.setTextColor(RGB565_GRAY_BATTLESHIP, RGB565_GRAY_LIGHT);
-  sprite.drawString(TXT_DM3_SEC, 108, 36);
+  sprite.setTextColor(currentTheme.textColor, currentTheme.bgColor);
+  sprite.drawString(TXT_DM3_SEC, 108, 14);
   sprite.unloadFont();
   sprite.loadFont(secFont);
   if (cursor == 3) {
-    sprite.fillRect(92, 48, 36, 40, RGB565_GRAY_BATTLESHIP);
-    sprite.setTextColor(TFT_ORANGE, RGB565_GRAY_BATTLESHIP);
+    sprite.fillRect(92, 26, 36, 40, currentTheme.textColor);
+    sprite.setTextColor(currentTheme.warnNok, currentTheme.textColor);
   } else {
-    sprite.fillRect(92, 48, 36, 40, TFT_WHITE);
-    sprite.setTextColor(RGB565_GRAY_BATTLESHIP, TFT_WHITE);
+    sprite.fillRect(92, 26, 36, 40, currentTheme.fgColor);
+    sprite.setTextColor(currentTheme.textColor, currentTheme.fgColor);
   }
-  sprite.drawString(secondbuffer, 108, 70);
+  sprite.drawString(secondbuffer, 108, 48);
   sprite.unloadFont();
 
   // element 4 -- brightness
   if (cursor == 4) {
-    sprite.fillRect(10, 92, 120, 30, RGB565_GRAY_BATTLESHIP);
-    sprite.setTextColor(TFT_ORANGE, RGB565_GRAY_BATTLESHIP);
+    sprite.fillRect(10, 70, 120, 30, currentTheme.textColor);
+    sprite.setTextColor(currentTheme.warnNok, currentTheme.textColor);
   } else {
-    sprite.fillRect(10, 92, 120, 30, TFT_WHITE);
-    sprite.setTextColor(RGB565_GRAY_BATTLESHIP, TFT_WHITE);
+    sprite.fillRect(10, 70, 120, 30, currentTheme.fgColor);
+    sprite.setTextColor(currentTheme.textColor, currentTheme.fgColor);
   }
   sprite.setTextDatum(0);
   sprite.loadFont(smallFont);
-  sprite.drawString(TXT_DM3_BRIGHTNESS, 15, 100);
-  sprite.drawNumber(get_pspref_brightness(), 100, 100);
+  sprite.drawString(TXT_DM3_BRIGHTNESS, 15, 78);
+  sprite.drawNumber(get_pspref_brightness(), 100, 78);
   sprite.unloadFont();
 
   // element 5 -- timeout
   if (cursor == 5) {
-    sprite.fillRect(136, 58, 96, 30, RGB565_GRAY_BATTLESHIP);
-    sprite.setTextColor(TFT_ORANGE, RGB565_GRAY_BATTLESHIP);
+    sprite.fillRect(136, 36, 96, 30, currentTheme.textColor);
+    sprite.setTextColor(currentTheme.warnNok, currentTheme.textColor);
   } else {
-    sprite.fillRect(136, 58, 96, 30, TFT_WHITE);
-    sprite.setTextColor(RGB565_GRAY_BATTLESHIP, TFT_WHITE);
+    sprite.fillRect(136, 36, 96, 30, currentTheme.fgColor);
+    sprite.setTextColor(currentTheme.textColor, currentTheme.fgColor);
   }
   sprite.setTextDatum(0);
   sprite.loadFont(smallFont);
-  sprite.drawString(TXT_DM3_TIMEOUT, 140, 66);
-  sprite.drawNumber(get_pspref_timeout(), 204, 66);
+  sprite.drawString(TXT_DM3_TIMEOUT, 140, 44);
+  sprite.drawNumber(get_pspref_timeout(), 204, 44);
   sprite.unloadFont();
 
   // element 6 -- buzzer on/off
   if (cursor == 6) {
-    sprite.fillRect(136, 92, 96, 30, RGB565_GRAY_BATTLESHIP);
-    sprite.setTextColor(TFT_ORANGE, RGB565_GRAY_BATTLESHIP);
+    sprite.fillRect(136, 70, 96, 30, currentTheme.textColor);
+    sprite.setTextColor(currentTheme.warnNok, currentTheme.textColor);
   } else {
-    sprite.fillRect(136, 92, 96, 30, TFT_WHITE);
-    sprite.setTextColor(RGB565_GRAY_BATTLESHIP, TFT_WHITE);
+    sprite.fillRect(136, 70, 96, 30, currentTheme.fgColor);
+    sprite.setTextColor(currentTheme.textColor, currentTheme.fgColor);
   }
   sprite.loadFont(smallFont);
-  sprite.drawString(TXT_DM3_BUZZER, 140, 100);
+  sprite.drawString(TXT_DM3_BUZZER, 140, 78);
 
   if (get_pspref_buzzer()) {
-    sprite.drawString(TXT_DM3_ON, 196, 100);
+    sprite.drawString(TXT_DM3_ON, 196, 78);
   } else {
-    sprite.drawString(TXT_DM3_OFF, 196, 100);
+    sprite.drawString(TXT_DM3_OFF, 196, 78);
   }
+
+  // element 7 -- color theme
+  if (cursor == 7) {
+    sprite.fillRect(10, 104, 220, 30, currentTheme.textColor);
+    sprite.setTextColor(currentTheme.warnNok, currentTheme.textColor);
+  } else {
+    sprite.fillRect(10, 104, 220, 30, currentTheme.fgColor);
+    sprite.setTextColor(currentTheme.textColor, currentTheme.fgColor);
+  }
+  sprite.loadFont(smallFont);
+  sprite.drawString("THEME", 15, 112);
+  sprite.drawString(get_pspref_color_theme_by_name(), 146, 112);
 
   sprite.unloadFont();
   StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t *)sprite.getPointer());
@@ -254,13 +265,14 @@ void drawDeviceMode3() {
       StickCP2.Speaker.tone(6000, 100);
     }
     switch (cursor) {
-      case 0: cursor = 6; break;
+      case 0: cursor = 7; break;
       case 1: cursor = 2; break;
       case 2: cursor = 3; break;
       case 3: cursor = 4; break;
       case 4: cursor = 5; break;
       case 5: cursor = 6; break;
-      case 6: cursor = 1; break;
+      case 6: cursor = 7; break;
+      case 7: cursor = 1; break;
     }
   }
 
@@ -306,6 +318,11 @@ void drawDeviceMode3() {
       } else {
         set_pspref_buzzer(true);
       }
+    } else if (cursor == 7) {
+      // increment color theme
+      incr_pspref_color_theme();
+      setTheme((ThemeName)get_pspref_color_theme());
+      delay(200);
     }
   }
 }

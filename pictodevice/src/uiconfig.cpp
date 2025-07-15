@@ -15,54 +15,54 @@ extern bool draw_device_mode_config;
 
 void drawDeviceModeConfig(uint8_t _desired_devicemode) {
   sprite.createSprite(MY_WIDTH, MY_HEIGHT);
-  sprite.fillSprite(RGB565_GRAY_LIGHT);
+  sprite.fillSprite(currentTheme.bgColor);
   sprite.loadFont(NotoSansBold15);
-  sprite.setTextColor(RGB565_GRAY_BATTLESHIP, RGB565_GRAY_LIGHT);
+  sprite.setTextColor(currentTheme.textColor, currentTheme.bgColor);
   sprite.drawString(TXT_DM_SELECT, 2, 4);
   devicemode = get_devicemode();
 
-  unsigned short _color1 = RGB565_GRAY_BATTLESHIP;
-  unsigned short _color2 = TFT_WHITE;
+  unsigned short _color1 = currentTheme.textColor;
+  unsigned short _color2 = currentTheme.fgColor;
 
   if (_desired_devicemode == 1) {
-    _color1 = TFT_ORANGE;
-    _color2 = RGB565_GRAY_BATTLESHIP;
+    _color1 = currentTheme.warnNok;
+    _color2 = currentTheme.textColor;
   } else {
-    _color1 = RGB565_GRAY_BATTLESHIP;
-    _color2 = TFT_WHITE;
+    _color1 = currentTheme.textColor;
+    _color2 = currentTheme.fgColor;
   }
   sprite.fillRect(0, 24, 220, 24, _color2);
   sprite.setTextColor(_color1, _color2);
   sprite.drawString(TXT_DM_NET_CONF, 4, 32);
 
   if (_desired_devicemode == 2) {
-    _color1 = TFT_ORANGE;
-    _color2 = RGB565_GRAY_BATTLESHIP;
+    _color1 = currentTheme.warnNok;
+    _color2 = currentTheme.textColor;
   } else {
-    _color1 = RGB565_GRAY_BATTLESHIP;
-    _color2 = TFT_WHITE;
+    _color1 = currentTheme.textColor;
+    _color2 = currentTheme.fgColor;
   }
   sprite.fillRect(0, 52, 220, 24, _color2);
   sprite.setTextColor(_color1, _color2);
   sprite.drawString(TXT_DM_PICTO_UPD, 4, 60);
 
   if (_desired_devicemode == 3) {
-    _color1 = TFT_ORANGE;
-    _color2 = RGB565_GRAY_BATTLESHIP;
+    _color1 = currentTheme.warnNok;
+    _color2 = currentTheme.textColor;
   } else {
-    _color1 = RGB565_GRAY_BATTLESHIP;
-    _color2 = TFT_WHITE;
+    _color1 = currentTheme.textColor;
+    _color2 = currentTheme.fgColor;
   }
   sprite.fillRect(0, 80, 220, 24, _color2);
   sprite.setTextColor(_color1, _color2);
   sprite.drawString(TXT_DM_SETUP, 4, 88);
 
   if (_desired_devicemode == 4) {
-    _color1 = TFT_ORANGE;
-    _color2 = RGB565_GRAY_BATTLESHIP;
+    _color1 = currentTheme.warnNok;
+    _color2 = currentTheme.textColor;
   } else {
-    _color1 = RGB565_GRAY_BATTLESHIP;
-    _color2 = TFT_WHITE;
+    _color1 = currentTheme.textColor;
+    _color2 = currentTheme.fgColor;
   }
   sprite.fillRect(0, 108, 220, 24, _color2);
   sprite.setTextColor(_color1, _color2);

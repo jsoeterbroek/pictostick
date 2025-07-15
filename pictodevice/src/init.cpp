@@ -8,6 +8,7 @@
 #include "status.h"
 #include "uisetup.h"
 #include "fs_helpers.h"
+#include "themes.h"
 
 void init_device() {
   auto cfg = M5.config();
@@ -18,6 +19,8 @@ void init_device() {
   Serial.begin(115200);
   Serial.println("start initialization..");
 }
+
+#include "themes.h"
 
 void init_preferences() {
   psPrefs.begin(PSNS, PS_RO_MODE);
@@ -31,6 +34,9 @@ void init_preferences() {
     dmPrefs.end();
     dmPrefs.begin(NS, RO_MODE);
   }
+
+  int color_theme = get_pspref_color_theme();
+  setTheme((ThemeName)color_theme);
 }
 
 void init_filesystem() {
