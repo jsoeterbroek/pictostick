@@ -8,9 +8,8 @@ Based on GitHub issues from https://github.com/jsoeterbroek/pictostick/issues
 
 ## Completed Items ✅
 
-### Create Display color themes (issue #19) ✅
-Should be configurable by user. Three themes, current color scheme should be the default.
 ### esp wifimanager timezone (issue #18) ✅
+### Create Display color themes (issue #19) ✅
 
 
 ## Notes
