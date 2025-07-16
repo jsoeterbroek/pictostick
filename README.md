@@ -87,7 +87,9 @@ Design Guidelines:
 * cuddling/snoozleing
 * ~~female hygiene products (tampons, etc.)~~
 
-### Attribution
-Special thanks to VolosR (https://github.com/VolosR) for many, many code examples and ideas,
-some of which are used in this project. I could not have finished this project without his
-youtube videos and code examples. By him a coffee: https://ko-fi.com/volosprojects
+## Attribution
+* Special thanks to VolosR (https://github.com/VolosR) for many, many code examples and ideas,
+  some of which are used in this project. I could not have finished this project without his
+  youtube videos and code examples.
+* The Rugged Case for the M5Stick by [https://makerworld.com/en/models/573271-m5stack-m5stickc-plus-2-rugged-case#profileId-493964](Dissident).
+* Part of this code is generated with Google Gemini AI.
