@@ -41,3 +41,4 @@ void decr_pspref_color_theme();
 // reserve for 20 activities max
 void set_pspref_activity_done(int pspref_current_activity_index, bool is_done);
 bool get_pspref_activity_done(int _pspref_current_activity_index);
+void set_pspref_all_activity_undone(void);

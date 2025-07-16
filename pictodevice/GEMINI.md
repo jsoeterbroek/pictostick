@@ -36,6 +36,8 @@ Pictostick: esp32 small device for displaying daily activities with picto’s, s
   - Possible process improvements.
   - The total number of conversation turns.
   - Any other interesting observations or highlights.
+- At the start of each session, read the previously created `session_{slug}_{timestamp}.md` files to understand
+  earlier implementations.
 
 ## Our relationship
 

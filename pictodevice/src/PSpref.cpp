@@ -149,6 +149,18 @@ bool get_pspref_activity_done(int _pspref_current_activity_index) {
   return psPrefs.getBool(key, false);
 }
 
+void set_pspref_all_activity_undone(void) {
+  psPrefs.end();
+  psPrefs.begin(PSNS, PS_RW_MODE);
+  for (int i = 0; i < 20; i++) {
+    char key[8];
+    snprintf(key, sizeof(key), "ps_a_%d", i);
+    psPrefs.putBool(key, false);
+  }
+  psPrefs.end();
+  psPrefs.begin(PSNS, PS_RO_MODE);
+}
+
 void set_pspref_timezone(String _pspref_timezone) {
   psPrefs.end();
   psPrefs.begin(PSNS, PS_RW_MODE);

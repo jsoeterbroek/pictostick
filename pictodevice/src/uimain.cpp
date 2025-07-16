@@ -69,25 +69,101 @@ void drawMain() {
   int _dist_between;
   int _size_circle;
   switch (config_activities_size) {
-    case 1: _circle_x = 120; _dist_between = 46; _size_circle = 6; break;
-    case 2: _circle_x = 104; _dist_between = 43; _size_circle = 6; break;
-    case 3: _circle_x = 82; _dist_between = 40; _size_circle = 6; break;
-    case 4: _circle_x = 68; _dist_between = 37; _size_circle = 6; break;
-    case 5: _circle_x = 56; _dist_between = 34; _size_circle = 6; break;
-    case 6: _circle_x = 45; _dist_between = 31; _size_circle = 6; break;
-    case 7: _circle_x = 37; _dist_between = 28; _size_circle = 5; break;
-    case 8: _circle_x = 30; _dist_between = 26; _size_circle = 5; break;
-    case 9: _circle_x = 25; _dist_between = 24; _size_circle = 5; break;
-    case 10: _circle_x = 23; _dist_between = 22; _size_circle = 5; break;
-    case 11: _circle_x = 20; _dist_between = 20; _size_circle = 5; break;
-    case 12: _circle_x = 18; _dist_between = 18; _size_circle = 4; break;
-    case 13: _circle_x = 17; _dist_between = 17; _size_circle = 4; break;
-    case 14: _circle_x = 16; _dist_between = 16; _size_circle = 4; break;
-    case 15: _circle_x = 15; _dist_between = 15; _size_circle = 4; break;
-    case 16: _circle_x = 14; _dist_between = 14; _size_circle = 4; break;
-    case 17: _circle_x = 13; _dist_between = 13; _size_circle = 3; break;
-    case 18: _circle_x = 13; _dist_between = 12; _size_circle = 3; break;
-    default: _circle_x = 14; _dist_between = 16; _size_circle = 6; break;
+    case 1:
+      _circle_x = 120;
+      _dist_between = 46;
+      _size_circle = 6;
+      break;
+    case 2:
+      _circle_x = 104;
+      _dist_between = 43;
+      _size_circle = 6;
+      break;
+    case 3:
+      _circle_x = 82;
+      _dist_between = 40;
+      _size_circle = 6;
+      break;
+    case 4:
+      _circle_x = 68;
+      _dist_between = 37;
+      _size_circle = 6;
+      break;
+    case 5:
+      _circle_x = 56;
+      _dist_between = 34;
+      _size_circle = 6;
+      break;
+    case 6:
+      _circle_x = 45;
+      _dist_between = 31;
+      _size_circle = 6;
+      break;
+    case 7:
+      _circle_x = 37;
+      _dist_between = 28;
+      _size_circle = 5;
+      break;
+    case 8:
+      _circle_x = 30;
+      _dist_between = 26;
+      _size_circle = 5;
+      break;
+    case 9:
+      _circle_x = 25;
+      _dist_between = 24;
+      _size_circle = 5;
+      break;
+    case 10:
+      _circle_x = 23;
+      _dist_between = 22;
+      _size_circle = 5;
+      break;
+    case 11:
+      _circle_x = 20;
+      _dist_between = 20;
+      _size_circle = 5;
+      break;
+    case 12:
+      _circle_x = 18;
+      _dist_between = 18;
+      _size_circle = 4;
+      break;
+    case 13:
+      _circle_x = 17;
+      _dist_between = 17;
+      _size_circle = 4;
+      break;
+    case 14:
+      _circle_x = 16;
+      _dist_between = 16;
+      _size_circle = 4;
+      break;
+    case 15:
+      _circle_x = 15;
+      _dist_between = 15;
+      _size_circle = 4;
+      break;
+    case 16:
+      _circle_x = 14;
+      _dist_between = 14;
+      _size_circle = 4;
+      break;
+    case 17:
+      _circle_x = 13;
+      _dist_between = 13;
+      _size_circle = 3;
+      break;
+    case 18:
+      _circle_x = 13;
+      _dist_between = 12;
+      _size_circle = 3;
+      break;
+    default:
+      _circle_x = 14;
+      _dist_between = 16;
+      _size_circle = 6;
+      break;
   }
 
   sprite.fillRect(0, 128, 240, 5, currentTheme.bgColor);
@@ -111,6 +187,8 @@ void drawMain() {
 
   // button action
   if (devicemode = 4) {
+
+    // decrement activity index
     if (StickCP2.BtnPWR.wasPressed()) {
       sleepTime = get_pspref_timeout();
       ps_current_activity_index = get_pspref_current_activity_index();
@@ -123,6 +201,7 @@ void drawMain() {
       }
     }
 
+    // got to device config mode
     if (StickCP2.BtnB.pressedFor(5000)) {
       if (get_pspref_buzzer()) {
         StickCP2.Speaker.tone(4000, 20);
@@ -131,6 +210,7 @@ void drawMain() {
       draw_device_mode_config = true;
     }
 
+    // increment activity index
     if (StickCP2.BtnB.wasPressed()) {
       sleepTime = get_pspref_timeout();
       ps_current_activity_index = get_pspref_current_activity_index();
@@ -142,6 +222,16 @@ void drawMain() {
         }
       }
     }
+
+    // mark all activities undone
+    if (StickCP2.BtnA.pressedFor(5000)) {
+      set_pspref_all_activity_undone();
+      if (get_pspref_buzzer()) {
+        StickCP2.Speaker.tone(6000, 100);
+      }
+    }
+
+    // toggle mark activity done/undone
     if (StickCP2.BtnA.wasPressed()) {
       sleepTime = get_pspref_timeout();
       if (get_pspref_activity_done(ps_current_activity_index)) {
