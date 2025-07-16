@@ -83,27 +83,9 @@ Design Guidelines:
 * petdog.png
 * toothbrush.png
 
-
 ### Missing pictos
 * cuddling/snoozleing
 * ~~female hygiene products (tampons, etc.)~~
-
-### Conceptual
-A caregiver or parent of the pictostick user configures the picto's on the device in
-a correct time-based order and updates the device via a Web Browser interface over
-WiFi.
-
-## WiFi
-The pictostick device is connected to the outside world via WiFi. This is needed for
-periodical time synchronisation of the devices' internal clock with a public
-Internet NTP clock server. Secondly, the WiFi connection is needed to allow for
-caregivers and/or parents of the device user to remotely configure the device and
-specifically the picto sequences stored on the device for the specific user.
-
-
-### WiFi secure credentials
-See the Documentation for specific details of this procedure.
-
 
 ### Attribution
 Special thanks to VolosR (https://github.com/VolosR) for many, many code examples and ideas,
