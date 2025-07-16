@@ -136,8 +136,8 @@ void drawUserName() {
 
 void drawTime() {
   struct tm timeinfo;
-  static constexpr const char *const wd_en[7] = {"Sunday", "Monday", "Tuesday", "Wedn", "Thursday", "Friday", "Saturday"};
-  static constexpr const char *const wd_nl[7] = {"Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"};
+  static constexpr const char *const wd_en[7] = {"Su", "Mo", "Tu", "Wed", "Th", "Fr", "Sa"};
+  static constexpr const char *const wd_nl[7] = {"Zo", "Ma", "Di", "Woe", "Do", "Vr", "Za"};
   auto dt = StickCP2.Rtc.getDateTime();
   auto t = time(nullptr);
   auto tm = localtime(&t);
