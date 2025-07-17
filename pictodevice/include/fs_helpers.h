@@ -8,5 +8,5 @@
 void deleteConfigFile(fs::FS &fs, const char *path);
 void writeConfigFile(fs::FS &fs, const char *path, JsonObject _json);
 void readConfigFile(fs::FS &fs, const char *path);
-void writeConfigDataSPIFF(JsonObject _json);
-void getConfigDataSPIFF();
+void writeConfigDataSPIFF(JsonObject _json, const char *filename);
+void getConfigDataSPIFF(const char *filename);

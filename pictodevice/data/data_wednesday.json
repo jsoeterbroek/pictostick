@@ -1,0 +1,75 @@
+{
+    "name": "Demo",
+    "activities": [
+        {
+            "order": "001",
+            "picto": "alarm.png",
+            "description": "Wake up"
+        },
+        {
+            "order": "002",
+            "picto": "toothbrush.png",
+            "description": "Brush teeth"
+        },
+        {
+            "order": "003",
+            "picto": "selfcare.png",
+            "description": "Self care"
+        },
+        {
+            "order": "004",
+            "picto": "breakfast.png",
+            "description": "Breakfast"
+        },
+        {
+            "order": "005",
+            "picto": "book.png",
+            "description": "Reading"
+        },
+        {
+            "order": "006",
+            "picto": "lunch.png",
+            "description": "Lunch"
+        },
+        {
+            "order": "007",
+            "picto": "shoppingcart.png",
+            "description": "Shopping"
+        },
+        {
+            "order": "008",
+            "picto": "tennis.png",
+            "description": "Tennis"
+        },
+        {
+            "order": "009",
+            "picto": "dinner.png",
+            "description": "Dinner"
+        },
+        {
+            "order": "010",
+            "picto": "hospital.png",
+            "description": "Hospital visit"
+        },
+        {
+            "order": "011",
+            "picto": "tv.png",
+            "description": "Watch tv"
+        },
+        {
+            "order": "012",
+            "picto": "taxi.png",
+            "description": "Taxi"
+        },
+        {
+            "order": "013",
+            "picto": "femalehygiene.png",
+            "description": "Change pad"
+        },
+        {
+            "order": "014",
+            "picto": "bedtime.png",
+            "description": "Bedtime"
+        }
+    ]
+}

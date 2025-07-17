@@ -36,12 +36,12 @@ extern String serverName;
 extern const char *cfilename;
 
 // store values from JSON config file
-extern const char *config_comment;       // nullptr
-extern const char *config_version;       // "1.0.1"
-extern const char *config_name;          // "Peter"
-extern const char *config_device_ip;     // "128.8.2.123"
-extern const char *config_date_created;  // "24-03-2025"
-extern const char *config_date_valid;    // "23-03-2025"
+extern String config_comment;       // nullptr
+extern String config_version;       // "1.0.1"
+extern String config_name;          // "Peter"
+extern String config_device_ip;     // "128.8.2.123"
+extern String config_date_created;  // "24-03-2025"
+extern String config_date_valid;    // "23-03-2025"
 extern int8_t config_activities_size;
 extern int config_activities_size_max;  // hardcoded maximum of activities still able to show mini menu
 

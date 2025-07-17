@@ -21,6 +21,7 @@ extern WiFiManager wm;
 extern AsyncWebServer server;
 extern String processor(const String &var);
 
+
 void setTimezone(String timezone) {
   Serial.printf("  Setting Timezone to %s\n", timezone.c_str());
   setenv("TZ", timezone.c_str(),
@@ -152,30 +153,45 @@ void init_ESPAsync_Ws() {
   AsyncCallbackJsonWebHandler *handler = new AsyncCallbackJsonWebHandler("/save-config", [](AsyncWebServerRequest *request, JsonVariant &json) {
     Serial.println("Received JSON configuration");
 
-    // Write the JSON to data.json file
-    File file = SPIFFS.open("/data.json", FILE_WRITE);
+    // Extract the day name from the JSON payload
+    String dayName = "";
+    if (json["weekdays"].is<JsonObject>()) {
+      JsonObject weekdays = json["weekdays"].as<JsonObject>();
+      for (JsonPair day : weekdays) {
+        dayName = day.key().c_str();
+        break; // Assuming only one day's data is sent at a time
+      }
+    }
+
+    if (dayName.isEmpty()) {
+      Serial.println("Day name not found in JSON payload");
+      request->send(400, "text/plain", "Bad Request: Day name missing");
+      return;
+    }
+
+    // Construct the filename based on the day name
+    String filename = "/data_" + dayName + ".json";
+
+    // Write the JSON for the specific day to its file
+    File file = SPIFFS.open(filename, FILE_WRITE);
     if (!file) {
-      Serial.println("Failed to open data.json for writing");
+      Serial.printf("Failed to open %s for writing\n", filename.c_str());
       request->send(500, "text/plain", "Failed to save configuration 1");
       return;
     } else {
-      Serial.println("Success opened data.json for writing");
+      Serial.printf("Success opened %s for writing\n", filename.c_str());
     }
 
-    // Write JSON to file
-    //serializeJson(json, file);
-    if (serializeJson(json, file) == 0) {
+    // Serialize only the activities for the current day
+    if (serializeJson(json["weekdays"][dayName], file) == 0) {
       Serial.print(F("Failed write to file "));
       request->send(500, "text/plain", "Failed to save configuration 2");
       app_status.set_config_data_spiff_ok = false;
     } else {
-      Serial.println("Configuration saved to data.json");
+      Serial.printf("Configuration saved to %s\n", filename.c_str());
       request->send(200, "text/plain", "Configuration saved successfully");
-      // Update the global config document
       app_status.config_data_ok = true;
       app_status.set_config_data_spiff_ok = true;
-      //cdoc.clear();
-      //cdoc = json;
     }
     file.close();
   });
@@ -187,17 +203,69 @@ void init_ESPAsync_Ws() {
   server.on("/get-config", HTTP_GET, [](AsyncWebServerRequest *request) {
     AsyncResponseStream *response = request->beginResponseStream("application/json");
 
-    File file = SPIFFS.open("/data.json", FILE_READ);
+    String dayName = request->arg("day");
+    if (dayName.isEmpty()) {
+      Serial.println("Day parameter missing for /get-config");
+      request->send(400, "text/plain", "Bad Request: Day parameter missing");
+      return;
+    }
+
+    String filename = "/data_" + dayName + ".json";
+    File file = SPIFFS.open(filename, FILE_READ);
     if (file) {
       String content = file.readString();
       file.close();
       response->print(content);
     } else {
-      response->print("{}");
+      Serial.printf("File %s not found, sending empty JSON\n", filename.c_str());
+      response->print("{}"); // Send empty JSON if file not found
     }
 
     request->send(response);
   });
 
   server.begin();
+}
+
+
+void reset_all_activities_undone() {
+  String daysOfWeek[] = {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"};
+
+  for (int d = 0; d < 7; d++) {
+    String dayName = daysOfWeek[d];
+    String filename = "/data_" + dayName + ".json";
+
+    File file = SPIFFS.open(filename, FILE_READ);
+    if (!file) {
+      Serial.printf("Failed to open %s for reading, skipping\n", filename.c_str());
+      continue;
+    }
+
+    JsonDocument doc;
+    DeserializationError error = deserializeJson(doc, file);
+    file.close();
+
+    if (error) {
+      Serial.printf("deserializeJson() failed for %s: %s\n", filename.c_str(), error.c_str());
+      continue;
+    }
+
+    JsonArray activities = doc["activities"].as<JsonArray>();
+    for (JsonObject activity : activities) {
+      activity["done"] = false;
+    }
+
+    file = SPIFFS.open(filename, FILE_WRITE);
+    if (!file) {
+      Serial.printf("Failed to open %s for writing\n", filename.c_str());
+      return;
+    }
+
+    if (serializeJson(doc, file) == 0) {
+      Serial.printf("Failed to write to file %s\n", filename.c_str());
+    } else {
+      Serial.printf("Activities in %s reset to undone.\n", filename.c_str());
+    }
+    file.close();
+  }
 }

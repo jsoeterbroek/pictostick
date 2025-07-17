@@ -38,19 +38,21 @@ using namespace fs;
 // Global variable definitions
 AppStatus app_status;
 
+String config_comment = "";
+String config_version = "";
+String config_name = "";
+String config_device_ip = "";
+String config_date_created = "";
+String config_date_valid = "";
+
 boolean GET_CONFIG_DATA_HTTP = false;
 boolean GET_CONFIG_DATA_SPIFF = true;
 const char *ntpServer = "europe.pool.ntp.org";
 const char *wifi_mngr_networkname = "pictostick";
 const char *wifi_mngr_password = "password";
 String serverName = "http://192.168.178.148:8001";
-const char *cfilename = "/data.json";
-const char *config_comment;
-const char *config_version;
-const char *config_name;
-const char *config_device_ip;
-const char *config_date_created;
-const char *config_date_valid;
+
+
 int8_t config_activities_size = 0;
 int config_activities_size_max = 19;
 int16_t picto_box_width = 100;
@@ -110,6 +112,7 @@ void setup() {
   init_device();
   init_preferences();
   init_filesystem();
+  initTime(get_pspref_timezone()); // Initialize time from NTP
   init_devicemode();
 }
 
@@ -131,6 +134,12 @@ void loop() {
   } else {
     drawMain();
     delay(100);
+    // Update timeinfo from NTP periodically
+    static unsigned long lastTimeUpdate = 0;
+    if (millis() - lastTimeUpdate > 60000) { // Update every 60 seconds
+      getLocalTime(&timeinfo);
+      lastTimeUpdate = millis();
+    }
     auto dt = StickCP2.Rtc.getDateTime();
     if (dt.time.seconds < 10) {
       s = "0" + String(dt.time.seconds);

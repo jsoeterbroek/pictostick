@@ -8,7 +8,6 @@
 // extern declarations for global variables defined in main.cpp
 extern AppStatus app_status;
 extern JsonDocument cdoc;
-extern const char *cfilename;
 
 void deleteConfigFile(fs::FS &fs, const char *path) {
   Serial.printf("Deleting file: %s\r\n", path);
@@ -72,18 +71,18 @@ void readConfigFile(fs::FS &fs, const char *path) {
   cfile.close();
 }
 
-void writeConfigDataSPIFF(JsonObject _json) {
+void writeConfigDataSPIFF(JsonObject _json, const char *filename) {
   if (!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED)) {
     Serial.println("SPIFFS Mount Failed");
     return;
   }
-  writeConfigFile(SPIFFS, cfilename, _json);
+  writeConfigFile(SPIFFS, filename, _json);
 }
 
-void getConfigDataSPIFF() {
+void getConfigDataSPIFF(const char *filename) {
   if (!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED)) {
     Serial.println("SPIFFS Mount Failed");
     return;
   }
-  readConfigFile(SPIFFS, cfilename);
+  readConfigFile(SPIFFS, filename);
 }

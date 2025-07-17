@@ -7,8 +7,10 @@
 #include "ui_helpers.h"
 #include "status.h"
 #include "uisetup.h"
-#include "fs_helpers.h"
 #include "themes.h"
+#include "fs_helpers.h"
+#include <time.h>
+#include "uimain.h"
 
 void init_device() {
   auto cfg = M5.config();
@@ -81,7 +83,11 @@ void handle_devicemode_3() {
 void handle_devicemode_4() {
   Serial.println("mode 4");
   if (GET_CONFIG_DATA_SPIFF) {
-    getConfigDataSPIFF();
+    // Get current day name using the global timeinfo
+    String currentDay = getCurrentDayName();
+
+    String filename = "/data_" + currentDay + ".json";
+    getConfigDataSPIFF(filename.c_str());
   }
   if (app_status.get_config_data_spiff_ok) {
     app_status.config_data_ok = true;

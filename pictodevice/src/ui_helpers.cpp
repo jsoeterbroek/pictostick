@@ -15,7 +15,7 @@ extern int16_t ypos;
 extern String lang;
 extern int vol;
 extern int volE;
-extern const char *config_name;
+extern String config_name;
 extern PNG png;
 
 static uint32_t last_batt_update = 0;
@@ -136,8 +136,8 @@ void drawUserName() {
 
 void drawTime() {
   struct tm timeinfo;
-  static constexpr const char *const wd_en[7] = {"Su", "Mo", "Tu", "Wed", "Th", "Fr", "Sa"};
-  static constexpr const char *const wd_nl[7] = {"Zo", "Ma", "Di", "Woe", "Do", "Vr", "Za"};
+  static constexpr const char *const wd_en[7] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+  static constexpr const char *const wd_nl[7] = {"Zon", "Maa", "Din", "Woe", "Don", "Vri", "Zat"};
   auto dt = StickCP2.Rtc.getDateTime();
   auto t = time(nullptr);
   auto tm = localtime(&t);

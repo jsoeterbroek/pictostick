@@ -1,4 +1,7 @@
 #include "PSpref.h"
+#include <FS.h>
+#include <SPIFFS.h>
+#include <ArduinoJson.h>
 
 Preferences psPrefs;  // preferences
 
@@ -133,9 +136,9 @@ void decr_pspref_timeout(void) {
   }
 }
 
-void set_pspref_activity_done(int _pspref_current_activity_index, bool is_done) {
-  char key[8];
-  snprintf(key, sizeof(key), "ps_a_%d", _pspref_current_activity_index);
+void set_pspref_activity_done(String dayName, int _pspref_current_activity_index, bool is_done) {
+  char key[16]; // Increased size to accommodate day name
+  snprintf(key, sizeof(key), "ps_a_%s_%d", dayName.c_str(), _pspref_current_activity_index);
   psPrefs.end();
   psPrefs.begin(PSNS, PS_RW_MODE);
   psPrefs.putBool(key, is_done);
@@ -143,22 +146,53 @@ void set_pspref_activity_done(int _pspref_current_activity_index, bool is_done) 
   psPrefs.begin(PSNS, PS_RO_MODE);
 }
 
-bool get_pspref_activity_done(int _pspref_current_activity_index) {
-  char key[8];
-  snprintf(key, sizeof(key), "ps_a_%d", _pspref_current_activity_index);
+bool get_pspref_activity_done(String dayName, int _pspref_current_activity_index) {
+  char key[16]; // Increased size to accommodate day name
+  snprintf(key, sizeof(key), "ps_a_%s_%d", dayName.c_str(), _pspref_current_activity_index);
   return psPrefs.getBool(key, false);
 }
 
 void set_pspref_all_activity_undone(void) {
-  psPrefs.end();
-  psPrefs.begin(PSNS, PS_RW_MODE);
-  for (int i = 0; i < 20; i++) {
-    char key[8];
-    snprintf(key, sizeof(key), "ps_a_%d", i);
-    psPrefs.putBool(key, false);
+  String daysOfWeek[] = {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"};
+
+  for (int d = 0; d < 7; d++) {
+    String dayName = daysOfWeek[d];
+    String filename = "/data_" + dayName + ".json";
+
+    File file = SPIFFS.open(filename, FILE_READ);
+    if (!file) {
+      Serial.printf("Failed to open %s for reading, skipping\n", filename.c_str());
+      continue;
+    }
+
+    JsonDocument doc;
+    DeserializationError error = deserializeJson(doc, file);
+    file.close();
+
+    if (error) {
+      Serial.printf("deserializeJson() failed for %s: %s\n", filename.c_str(), error.c_str());
+      continue;
+    }
+
+    JsonArray activities = doc["activities"].as<JsonArray>();
+    for (JsonObject activity : activities) {
+      activity["done"] = false;
+    }
+
+    file = SPIFFS.open(filename, FILE_WRITE);
+    if (!file) {
+      Serial.printf("Failed to open %s for writing\n", filename.c_str());
+      continue;
+    }
+
+    if (serializeJson(doc, file) == 0) {
+      Serial.printf("Failed to write to file %s\n", filename.c_str());
+    } else {
+      Serial.printf("Activities in %s reset to undone.\n", filename.c_str());
+    }
+    file.close();
   }
-  psPrefs.end();
-  psPrefs.begin(PSNS, PS_RO_MODE);
+  // No need to use psPrefs.begin/end here as we are directly manipulating files
 }
 
 void set_pspref_timezone(String _pspref_timezone) {

@@ -7,6 +7,7 @@
 #include "NotoSansBold15.h"
 #include "smallFont.h"
 #include "ui_helpers.h"
+#include "fs_helpers.h"
 
 // Forward declarations from main.cpp
 extern TFT_eSprite sprite;
@@ -17,6 +18,26 @@ extern int ps_current_activity_index;
 extern String lang;
 extern int devicemode;
 extern bool draw_device_mode_config;
+extern struct tm timeinfo;
+
+// Static variables for caching config data
+static String lastLoadedDay = "";
+static bool configLoadedForCurrentDay = false;
+
+String getCurrentDayName() {
+  char dayName[10];
+  strftime(dayName, sizeof(dayName), "%A", &timeinfo);
+  String dayNameStr = String(dayName);
+  dayNameStr.toLowerCase();
+  if (dayNameStr == "monday") return "monday";
+  if (dayNameStr == "tuesday") return "tuesday";
+  if (dayNameStr == "wednesday") return "wednesday";
+  if (dayNameStr == "thursday") return "thursday";
+  if (dayNameStr == "friday") return "friday";
+  if (dayNameStr == "saturday") return "saturday";
+  if (dayNameStr == "sunday") return "sunday";
+  return "monday";
+}
 
 void drawMain() {
   StickCP2.Display.powerSaveOff();
@@ -24,16 +45,28 @@ void drawMain() {
   sprite.createSprite(MY_WIDTH, MY_HEIGHT);
   sprite.fillSprite(currentTheme.bgColor);
 
+  String currentDay = getCurrentDayName();
+
+  // Only load config if the day has changed or it hasn't been loaded yet for the current day
+  if (currentDay != lastLoadedDay || !configLoadedForCurrentDay) {
+    String filename = "/data_" + currentDay + ".json";
+    getConfigDataSPIFF(filename.c_str());
+    lastLoadedDay = currentDay;
+    configLoadedForCurrentDay = true;
+  }
+
+  JsonArray activities = cdoc["activities"];
+
   // extract values from config JSON object
-  config_activities_size = cdoc["activities"].size();
-  config_name = cdoc["name"];  // "Peter"
+  config_activities_size = activities.size();
+  config_name = cdoc["name"].as<String>();
 
   int _i = 0;
   String _array_order[config_activities_size];
   String _array_picto[config_activities_size];
   String _array_desc[config_activities_size];
   int _array_activity_marked_done[config_activities_size];
-  for (JsonObject activity : cdoc["activities"].as<JsonArray>()) {
+  for (JsonObject activity : activities) {
     _array_order[_i] = String(activity["order"].as<int>());
     _array_picto[_i] = String(activity["picto"].as<String>());
     _array_desc[_i] = String(activity["description"].as<String>());
@@ -54,12 +87,12 @@ void drawMain() {
   for (int i = 0; i < config_activities_size; i++) {
     if (i == ps_current_activity_index) {
       drawPicto(_array_picto[i]);
-      if (get_pspref_activity_done(ps_current_activity_index)) {
+      if (get_pspref_activity_done(currentDay, ps_current_activity_index)) {
         drawName(_array_desc[i], 1);
       } else {
         drawName(_array_desc[i], 0);
       }
-      if (get_pspref_activity_done(ps_current_activity_index)) {
+      if (get_pspref_activity_done(currentDay, ps_current_activity_index)) {
         // drawMarkedDone(); // This function draws a large X, might not be what you want here
       }
     }
@@ -173,7 +206,7 @@ void drawMain() {
       if (i == ps_current_activity_index) {
         sprite.fillRect(_circle_x - 8, 129, 16, 4, currentTheme.dayPeriodCircleBgColor);
       }
-      if (get_pspref_activity_done(i) == 1) {
+      if (get_pspref_activity_done(currentDay, i) == 1) {
         sprite.fillSmoothCircle(_circle_x, 122, _size_circle, currentTheme.colorDone, currentTheme.bgColor);
       } else {
         sprite.fillSmoothCircle(_circle_x, 122, _size_circle, currentTheme.colorTodo, currentTheme.bgColor);
@@ -234,10 +267,10 @@ void drawMain() {
     // toggle mark activity done/undone
     if (StickCP2.BtnA.wasPressed()) {
       sleepTime = get_pspref_timeout();
-      if (get_pspref_activity_done(ps_current_activity_index)) {
-        set_pspref_activity_done(ps_current_activity_index, false);
+      if (get_pspref_activity_done(currentDay, ps_current_activity_index)) {
+        set_pspref_activity_done(currentDay, ps_current_activity_index, false);
       } else {
-        set_pspref_activity_done(ps_current_activity_index, true);
+        set_pspref_activity_done(currentDay, ps_current_activity_index, true);
       }
       if (get_pspref_buzzer()) {
         StickCP2.Speaker.tone(6000, 100);
