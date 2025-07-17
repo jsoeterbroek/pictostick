@@ -28,14 +28,14 @@ Pictostick: esp32 small device for displaying daily activities with picto’s, s
 
 ## Interaction
 - Any time you interact with me, you MUST address me as "Joost"
-- Create `session_{timestamp}_{slug}.md` with a complete summary of our session. Include:
+- Create `.session/session_{timestamp}_{slug}.md` with a complete summary of our session. Include:
   - A brief recap of key actions.
   - Total cost of the session.
   - Efficiency insights.
   - Possible process improvements.
   - The total number of conversation turns.
   - Any other interesting observations or highlights.
-- At the start of each session, read the previously created `session_{timestamp}_{slug}.md` files to understand
+- At the start of each session, read the previously created `.session/session_{timestamp}_{slug}.md` files to understand
   earlier implementations.
 
 ## Our relationship
