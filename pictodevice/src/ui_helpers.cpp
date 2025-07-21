@@ -4,6 +4,7 @@
 #include "common.h"
 #include "NotoSansBold15.h"
 #include "smallFont.h"
+#include "bigFont.h"
 #include <PNGdec.h>
 #include "PNG_SPIFFS_Support.h"
 
@@ -83,14 +84,12 @@ void drawPicto(String _strname) {
 
 void drawBatt() {
   int batteryPercent;
-  bool isCharging;
+  auto charging_status = M5.Power.isCharging();
   unsigned long currentMillis = millis();
 
   if (currentMillis - last_batt_update > 60000 || last_batt_percent == -1) {
     last_batt_update = currentMillis;
     vol = StickCP2.Power.getBatteryVoltage();
-    isCharging = StickCP2.Power.isCharging();  // Seems to be not working...
-    StickCP2.Power.isCharging();
 
     batteryPercent = map(vol, 3000, 4200, 0, 100);
     if (batteryPercent > 100) {
@@ -106,17 +105,15 @@ void drawBatt() {
 
   volE = map(vol, 3000, 4180, 0, 5);
 
-  //Serial.print("DEBUG: Battery charging ");
-  //Serial.println(isCharging);
-
   sprite.fillRect(116, 0, 120, 20, currentTheme.rightRectBgColor2);
-  if (isCharging) {
+  if (charging_status == 1) {
     sprite.setTextColor(RGB565_GREEN_DARKSEA, currentTheme.rightRectBgColor2);
   } else {
     sprite.setTextColor(currentTheme.rightRectTextColor2, currentTheme.rightRectBgColor2);
   }
-  sprite.loadFont(NotoSansBold15);
+
   sprite.setCursor(160, 3);
+  sprite.loadFont(NotoSansBold15);
   sprite.printf("%d%%", batteryPercent);
   sprite.drawRect(200, 3, 28, 14, RGB565_GRAY_STONE);
   sprite.fillRect(229, 7, 3, 6, RGB565_GRAY_STONE);

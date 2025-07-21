@@ -32,6 +32,7 @@
     </div>
     <h3 class="display-3">Pictos</h3>
     Max 20 pictos per list, drag and drop to reorder.
+    <div id="activitylist-message" class="alert alert-warning" style="display: none;"></div>
 
     <div id="activitylist" class="row">
 
@@ -76,6 +77,25 @@
   <script>
     let currentDay = 'monday'; // Default to Monday
     let weekData = {};
+    const MAX_ACTIVITIES = 20;
+
+    // Function to check and update the activity limit
+    function checkActivityLimit() {
+      var activityCount = $('#activitylist .grid-square').length;
+      var pictogrid = document.getElementById('pictogrid');
+      var activitylist = document.getElementById('activitylist');
+
+      if (activityCount >= MAX_ACTIVITIES) {
+        // Disable dropping from pictogrid to activitylist
+        Sortable.get(pictogrid).option('group').put = false;
+        // Optionally, provide visual feedback
+        $('#activitylist-message').text('Maximum number of activities (20) reached.').show();
+      } else {
+        // Enable dropping from pictogrid to activitylist
+        Sortable.get(pictogrid).option('group').put = true;
+        $('#activitylist-message').hide();
+      }
+    }
 
     // Function to load all available pictos
     function loadAllPictos() {
@@ -141,18 +161,24 @@
                 '</div>';
               $('#activitylist').append(activityHtml);
             });
-
-            // Reinitialize sortable
-            Sortable.create(document.getElementById('activitylist'), {
-              group: {
-                name: 'shared',
-                pull: true, // Allow items to be pulled (removed) without cloning
-                put: true // Allow items to be put back into this list
-              },
-              animation: 150,
-              ghostClass: 'blue-background-class',
-            });
           }
+          // Reinitialize sortable for activitylist
+          Sortable.create(document.getElementById('activitylist'), {
+            group: {
+              name: 'shared',
+              pull: true, // Allow items to be pulled (removed) without cloning
+              put: true // Allow items to be put back into this list
+            },
+            animation: 150,
+            ghostClass: 'blue-background-class',
+            onAdd: function (evt) {
+              checkActivityLimit();
+            },
+            onRemove: function (evt) {
+              checkActivityLimit();
+            }
+          });
+          checkActivityLimit(); // Initial check
         },
         error: function (xhr, status, error) {
           console.error('Error loading configuration: ' + error);
