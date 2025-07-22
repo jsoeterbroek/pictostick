@@ -33,7 +33,7 @@ Caretakers
 
 .. toctree::
    :maxdepth: 2
-   :caption: 'Caretakers'
+   :caption: Caretakers
 
    caretakers/initial_setup
    caretakers/managing_activities
@@ -44,7 +44,7 @@ Developers
 
 .. toctree::
    :maxdepth: 2
-   :caption: 'Developers'
+   :caption: Developers
 
    developers/setup
    developers/building
