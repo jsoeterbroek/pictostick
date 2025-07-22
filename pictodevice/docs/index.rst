@@ -32,14 +32,21 @@ Caretakers
 ----------
 
 .. toctree::
-    :maxdepth: 2
+   :maxdepth: 2
+   :caption: 'Caretakers'
 
-    caretakers/caretakers
+   caretakers/initial_setup
+   caretakers/managing_activities
+   caretakers/device_settings
 
 Developers
 ----------
 
 .. toctree::
-    :maxdepth: 2
+   :maxdepth: 2
+   :caption: 'Developers'
 
-    developers/developers
+   developers/setup
+   developers/building
+   developers/architecture
+   developers/contributing

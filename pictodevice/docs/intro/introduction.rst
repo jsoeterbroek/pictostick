@@ -16,6 +16,14 @@ The pictostick offers a method to present a scrollable sequence of pictos for th
 Key features
 ************
 
+*   **Portable & Wearable**: Small enough to be carried or worn on a wristband.
+*   **Weekly Schedule**: Displays a unique sequence of activities for each day of the week.
+*   **Interactive Checklist**: Users can mark activities as "done", providing a sense of accomplishment.
+*   **Easy Web Configuration**: Caretakers can easily update the weekly schedule via a simple web interface on a phone or computer.
+*   **Customizable Themes**: Supports different color themes to suit user preferences.
+*   **Power Efficient**: Disables WiFi and sleeps automatically to maximize battery life.
+*   **Open Source**: The software is fully open source, allowing for community contributions and customization.
+
 
 
 .. _requirements:
@@ -30,7 +38,7 @@ Hardware
   (https://shop.m5stack.com/products/m5stickc-plus2-esp32-mini-iot-development-kit)
 * M5-Watch wristband for M5 StickC Plus2 (optional)
 
-.. image:: images/hardware.jpg
+.. image:: /_static/images/hardware.jpg
    :width: 310
 
 Software

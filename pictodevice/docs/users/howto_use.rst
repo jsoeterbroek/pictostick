@@ -6,59 +6,76 @@ How to use the PictoStick
 
 .. note::
    **Intended Audience**
-   This documentent is intended for PictoStick everyday users. It also
+   This document is intended for PictoStick everyday users. It also
    holds relevant information for Caretakers, Health Professionals and
    Parents of users.
 
 Introduction
 ============
-This document will show you how to use the PictoStick. This device
-will be pre-configured for your use and will show you your activities
-for the day (or week) in the correct order.
-Every activity is displayed on the screen with a picto  and a small
-text describing the activity.
+This document will show you how to use your PictoStick. The device
+is pre-configured to show you your activities for the entire week in the correct order.
+Every activity is displayed on the screen with a picture (a "picto") and a short
+description.
 
 The Buttons
 ===========
-The PictoStick has three buttons that you can use. They are shown in the
-image below:
+The PictoStick has three buttons that you can use, as shown in the image below:
 
-.. image:: images/schematic_buttons.jpg
+.. image:: /_static/images/schematic_buttons.jpg
    :width: 329
+   :alt: Diagram of the PictoStick buttons
 
-Button A is located on the side of the Pictostick. It can be used to navigate.
-This button is also the main power button.
-Button B is located on the other side of the Pictostick. It can be used to navigate.
-Button C is the big button on top, marked M5. It can be used to mark an activity as
-done.
+*   **Button A (Side Button)**: Use this to scroll **up** through your activities. This is also the main power button.
+*   **Button B (Side Button)**: Use this to scroll **down** through your activities.
+*   **Button C (Large M5 Button)**: Press this to mark an activity as **done**.
 
-Powering On
-===========
-When the screen is black, the pictostick is either turned of completely
-or has gone in powersaving mode to conserve battery power. Most likely
-it is in powersaving mode and not turned off completely unless you have
-done so deliberately.
+Waking Up the Device
+====================
+To save battery, the screen will automatically turn off after a few seconds. This is sleep mode.
 
-To turn the PictoStick on from powersaving mode, you can shortpress button A.
-To turn the Pictostick on when it is completely turned off, you can
-longpress button A.
+*   **To wake the device up**: Briefly press **Button A**. The screen will light up, showing your current activity.
+
+The Main Screen
+===============
+The screen shows you everything you need to know for your day.
+
+.. image:: /_static/images/IMG_0918.jpg
+   :width: 300
+   :alt: The main screen of the PictoStick
+
+*   **Your Name**: At the very top, you will see your name.
+*   **Day and Time**: Below your name, the current day of the week and the time are displayed.
+*   **Activity**: The main part of the screen shows your current activity, with a large picto on the left and a description on the right.
+*   **Progress Dots**: The row of circles at the bottom shows your progress for the day. Each circle is one activity.
+    *   An **orange** circle means the activity is not yet completed.
+    *   A **green** circle means the activity has been marked as done.
+*   **Battery Level**: The small battery icon in the top-right corner shows how much power is left.
+
+Navigating Your Day
+===================
+You can look at all of your activities for the current day.
+
+*   Press **Button B** to see the **next** activity.
+*   Press **Button A** to go back to the **previous** activity.
+
+The device automatically shows the correct list of activities for the current day of the week (Monday, Tuesday, etc.).
+
+Marking an Activity as Done
+===========================
+When you finish an activity, you can mark it as complete.
+
+*   Navigate to the activity you have finished.
+*   Briefly press the large **M5 Button (Button C)**.
+*   The progress dot for that activity at the bottom of the screen will turn from **orange** to **green**.
+
+If you make a mistake, you can press Button C again to change the dot back to orange.
+
+Powering Off Completely
+=======================
+You do not normally need to turn the PictoStick off completely. Sleep mode is usually best for saving power. However, if you need to turn it off entirely:
+
+*   **To Power Off**: Press and hold **Button A** for about 6 seconds. The screen will go blank.
+*   **To Power On**: Press and hold **Button A** again for 6 seconds.
 
 .. note::
-   'shortpress' means holding the button for about one second. 'longpress' means
-   holding the button for a few seconds longer.
-
-The Screen
-==========
-On the bottom of the screen you will see a row of little circles. The number of circles
-shows you how many activities there are scheduled for you today. An orange color
-means the activity has not been marked done yet. A green color means the activity is
-marked done. Preferably at the end of the day, you will have marked all orange color
-circles to green.
-
-On the left you will see a picto (pictogram) of the activity and on the right side you
-can see a label with a short description of the picto. Above this you will see the current
-day of the week and the current time in hours and minutes. Above this is a label with your
-name. In the top right corner you will see a small icon of a battery showing you how
-much battery power you have left before recharging.
-
-TBA
+   When the device is off completely, it cannot show your activities. It's best to let it go to sleep on its own and wake it by pressing Button A when you need it.

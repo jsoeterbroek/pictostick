@@ -1,0 +1,929 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Joost Soeterbroek
+# This file is distributed under the same license as the PictoStick package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PictoStick \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-07-22 15:23+0200\n"
+"PO-Revision-Date: 2025-07-22 15:28+0200\n"
+"Last-Translator: Gemini <gemini@google.com>\n"
+"Language: nl\n"
+"Language-Team: nl <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../caretakers/device_settings.rst:5 4ef7e74af1c344ef97ada47ca2f00067
+msgid "Device Settings"
+msgstr "Apparaatinstellingen"
+
+#: ../../caretakers/device_settings.rst:7 f65cbd9af81149439f57b8ea979a1a73
+msgid "The PictoStick has a hidden on-device menu for caretakers to adjust core settings without needing a computer."
+msgstr "De PictoStick heeft een verborgen menu op het apparaat waarmee zorgverleners de kerninstellingen kunnen aanpassen zonder een computer nodig te hebben."
+
+#: ../../caretakers/device_settings.rst:10 da3ad21788c3472e88080f6be13df23c
+msgid "Accessing the Configuration Menu"
+msgstr "Toegang tot het Configuratiemenu"
+
+#: ../../caretakers/device_settings.rst:12 5bf5d7b2867245d6934c210cbc3b1f8a
+msgid "To open the main configuration menu, press and hold **Button B** (the lower side button) for about 5 seconds while the device is on."
+msgstr "Om het hoofdconfiguratiemenu te openen, houdt u **Knop B** (de onderste zijknop) ongeveer 5 seconden ingedrukt terwijl het apparaat aan is."
+
+#: ../../caretakers/device_settings.rst:14 bf7387c4495c43c2abce37a11f40680a
+msgid "This will bring up a menu with several options. Use **Button A** and **Button B** to navigate up and down the list, and **Button C** (the large M5 button) to select an option."
+msgstr "Dit opent een menu met verschillende opties. Gebruik **Knop A** en **Knop B** om door de lijst omhoog en omlaag te navigeren, en **Knop C** (de grote M5-knop) om een optie te selecteren."
+
+#: ../../caretakers/device_settings.rst:16 43a7bd2a5d1d4d49b6b92796965ce866
+msgid "The main configuration menu"
+msgstr "Het hoofdconfiguratiemenu"
+
+#: ../../caretakers/device_settings.rst:21 5c9cd638a49b4a938378bfbebd40a5d0
+msgid "Menu Options"
+msgstr "Menu-opties"
+
+#: ../../caretakers/device_settings.rst:24 1432168f45c24d69bdfba1528d4b4c20
+msgid "WiFi Configuration"
+msgstr "WiFi-configuratie"
+
+#: ../../caretakers/device_settings.rst:25 399d0128f3c142eaa338037562a2d8c7
+msgid "This option forces the device back into **WiFi Configuration Mode**. This is useful if you need to change the WiFi network the device is connected to (e.g., you've changed your home router)."
+msgstr "Deze optie dwingt het apparaat terug naar de **WiFi-configuratiemodus**. Dit is handig als u het WiFi-netwerk waarmee het apparaat is verbonden, moet wijzigen (bijv. als u uw thuisrouter hebt vervangen)."
+
+#: ../../caretakers/device_settings.rst:27 03941902635346dcaf6a599f484ac8dc
+msgid "See the :ref:`initial_setup` guide for details on this process."
+msgstr "Zie de :ref:`initial_setup` handleiding voor details over dit proces."
+
+#: ../../caretakers/device_settings.rst:30 8a0542be45994a66adc36d87990f3f67
+msgid "Picto Sequence Update"
+msgstr "Picto-volgorde bijwerken"
+
+#: ../../caretakers/device_settings.rst:31 291e1b49381d40e6b6ac3cfbda0af684
+msgid "This is the most common mode you will use. Selecting this puts the device into **Web Administration Mode**, allowing you to manage the user's weekly activity schedule."
+msgstr "Dit is de modus die u het meest zult gebruiken. Als u dit selecteert, wordt het apparaat in de **Webbeheermodus** gezet, zodat u het wekelijkse activiteitenschema van de gebruiker kunt beheren."
+
+#: ../../caretakers/device_settings.rst:33 bf164d2237d6403dba6e2ac3008358dd
+msgid "For a complete guide on this, see :ref:`managing_activities`."
+msgstr "Voor een volledige handleiding hierover, zie :ref:`managing_activities`."
+
+#: ../../caretakers/device_settings.rst:36 91fe644b92c3401d865353c5f3bda7de
+msgid "Setup"
+msgstr "Instellingen"
+
+#: ../../caretakers/device_settings.rst:37 58abbbcbf1b24c66b6236226a76d200f
+msgid "This opens a sub-menu for adjusting basic hardware settings."
+msgstr "Dit opent een submenu voor het aanpassen van de basis hardware-instellingen."
+
+#: ../../caretakers/device_settings.rst:39 4e86f8076d924be0b5283fc45a752041
+msgid "**Time**: Manually adjust the hours, minutes, and seconds. Note: The time should sync automatically if WiFi is configured, so this is for offline adjustments."
+msgstr "**Tijd**: Pas handmatig de uren, minuten en seconden aan. Let op: de tijd zou automatisch moeten synchroniseren als WiFi is geconfigureerd, dus dit is voor offline aanpassingen."
+
+#: ../../caretakers/device_settings.rst:40 d48a68b3fd614336a7fe7058af18ed9b
+msgid "**Brightness**: Change the screen brightness level."
+msgstr "**Helderheid**: Wijzig het helderheidsniveau van het scherm."
+
+#: ../../caretakers/device_settings.rst:41 f903aec918d54fc2ba47eb2e99ff4b0d
+msgid "**Buzzer**: Turn the internal buzzer on or off for audible alerts."
+msgstr "**Zoemer**: Schakel de interne zoemer in of uit voor hoorbare waarschuwingen."
+
+#: ../../caretakers/device_settings.rst:42 6b3c12696f2847fab310d0af0bf3d95a
+msgid "**Theme**: Cycle through different pre-set color themes for the display."
+msgstr "**Thema**: Blader door verschillende vooraf ingestelde kleurenthema's voor het display."
+
+#: ../../caretakers/device_settings.rst:44 ba828afcab1d4b9b9dd4845cfdf912c8
+msgid "Use Button A and B to highlight a setting, and Button C to select and change it."
+msgstr "Gebruik Knop A en B om een instelling te markeren, en Knop C om deze te selecteren en te wijzigen."
+
+#: ../../caretakers/device_settings.rst:47 216bf14d6b0143199c4a4b6864004399
+msgid "Normal Mode"
+msgstr "Normale Modus"
+
+#: ../../caretakers/device_settings.rst:48 9b331dcbea124fb8bfd22871f5cf07b8
+msgid "Select this option to exit the configuration menu and return the device to its normal, everyday operating mode."
+msgstr "Selecteer deze optie om het configuratiemenu te verlaten en het apparaat terug te zetten naar de normale, dagelijkse bedrijfsmodus."
+
+#: ../../caretakers/initial_setup.rst:5 033c57b8d58f4dafaad018eea848ac2a
+msgid "Initial Setup"
+msgstr "Eerste Installatie"
+
+#: ../../caretakers/initial_setup.rst:8 b7314b83860d46049d73e7262a39f3b8
+msgid "This guide is for the one-time setup of a new PictoStick device."
+msgstr "Deze handleiding is voor de eenmalige installatie van een nieuw PictoStick-apparaat."
+
+#: ../../caretakers/initial_setup.rst:10 2bbcf0a7d561464299ba5429f0c17af9
+msgid "The first time the PictoStick is powered on, it must be connected to a local WiFi network. This allows it to sync the correct time and date from the internet, which is essential for displaying the correct daily schedules."
+msgstr "De eerste keer dat de PictoStick wordt ingeschakeld, moet deze worden verbonden met een lokaal WiFi-netwerk. Hierdoor kan het de juiste tijd en datum synchroniseren via internet, wat essentieel is voor het weergeven van de juiste dagschema's."
+
+#: ../../caretakers/initial_setup.rst:12 13b7fda541f94709b563222ba67d12d8
+msgid "This process uses a feature called **WiFiManager**. It creates a temporary WiFi access point that you can connect to with a phone or computer to enter your network credentials."
+msgstr "Dit proces maakt gebruik van een functie genaamd **WiFiManager**. Het creëert een tijdelijk WiFi-toegangspunt waarmee u verbinding kunt maken met een telefoon of computer om uw netwerkgegevens in te voeren."
+
+#: ../../caretakers/initial_setup.rst:15 7f22fdc7c7b2468ebe1636c3709c9580
+msgid "Step-by-Step Guide"
+msgstr "Stapsgewijze Handleiding"
+
+#: ../../caretakers/initial_setup.rst:17 0ffe6ebe4baf4a118961c7058a070713
+msgid "**Power on the PictoStick.** Press and hold the side power button (Button A) for about 6 seconds. The device will boot up and, since it has no saved WiFi credentials, it will automatically enter WiFi configuration mode. The screen will display a message indicating it has started a WiFi Access Point."
+msgstr "**Schakel de PictoStick in.** Houd de aan/uit-knop aan de zijkant (Knop A) ongeveer 6 seconden ingedrukt. Het apparaat start op en, omdat er geen WiFi-gegevens zijn opgeslagen, gaat het automatisch naar de WiFi-configuratiemodus. Het scherm toont een bericht dat aangeeft dat er een WiFi-toegangspunt is gestart."
+
+#: ../../caretakers/initial_setup.rst:20 682b5163064642ff842b45b62c190936
+msgid "PictoStick in WiFi configuration mode"
+msgstr "PictoStick in WiFi-configuratiemodus"
+
+#: ../../caretakers/initial_setup.rst:24 8a87153b6e7140c78e4045373ef9ec23
+msgid "**Connect to the \"pictodevice\" Network.** On a smartphone, tablet, or computer, open your WiFi settings and look for a new network named **pictodevice**. Connect to it."
+msgstr "**Maak verbinding met het \"pictodevice\"-netwerk.** Open op een smartphone, tablet of computer uw WiFi-instellingen en zoek naar een nieuw netwerk met de naam **pictodevice**. Maak er verbinding mee."
+
+#: ../../caretakers/initial_setup.rst:27 86ff5a3ebfa44524b89ff53b466fffb6
+msgid "**Open the Configuration Portal.** Once connected, a captive portal page should open automatically in your web browser. If it doesn't, open a browser and navigate to ``http://192.168.4.1``."
+msgstr "**Open de Configuratieportal.** Eenmaal verbonden, zou er automatisch een captive portal-pagina moeten openen in uw webbrowser. Als dit niet gebeurt, opent u een browser en navigeert u naar ``http://192.168.4.1``."
+
+#: ../../caretakers/initial_setup.rst:30 142470553357423481ffda10bea4a8ab
+msgid "**Configure WiFi.** In the portal, you will see a few options. *   Click on **\"Configure WiFi\"**. *   A list of nearby WiFi networks will be displayed. Select your local network (e.g., \"MyHomeWiFi\"). *   Enter the password for your WiFi network in the password field. *   Select the correct **Timezone** from the dropdown list. This is crucial for ensuring the time is correct for your location. *   Click **\"Save\"**."
+msgstr "**Configureer WiFi.** In de portal ziet u een paar opties. *   Klik op **\"Configureer WiFi\"**. *   Er wordt een lijst met nabijgelegen WiFi-netwerken weergegeven. Selecteer uw lokale netwerk (bijv. \"MijnThuisWiFi\"). *   Voer het wachtwoord voor uw WiFi-netwerk in het wachtwoordveld in. *   Selecteer de juiste **Tijdzone** in de vervolgkeuzelijst. Dit is cruciaal om ervoor te zorgen dat de tijd correct is voor uw locatie. *   Klik op **\"Opslaan\"**."
+
+#: ../../caretakers/initial_setup.rst:38 7bf14af313724cc0ad66e3112c4dd191
+msgid "WiFiManager configuration screen"
+msgstr "WiFiManager configuratiescherm"
+
+#: ../../caretakers/initial_setup.rst:42 27c58564afb64939970faebd9c079aa0
+msgid "**Setup Complete.** The PictoStick will now save your credentials, disconnect the temporary access point, and connect to your selected WiFi network. It will sync the time, and then reboot into its normal operating mode."
+msgstr "**Installatie voltooid.** De PictoStick slaat nu uw gegevens op, verbreekt de verbinding met het tijdelijke toegangspunt en maakt verbinding met het door u geselecteerde WiFi-netwerk. Het synchroniseert de tijd en start vervolgens opnieuw op in de normale bedrijfsmodus."
+
+#: ../../caretakers/initial_setup.rst:45 d7b2d9e7d9c44b6380e0771c9790becf
+msgid "The device will not use WiFi during normal operation to conserve battery. It will only briefly reconnect when it needs to sync the time or when you enter the web administration mode to manage activities."
+msgstr "Het apparaat gebruikt geen WiFi tijdens normaal gebruik om de batterij te sparen. Het maakt alleen kort opnieuw verbinding wanneer het de tijd moet synchroniseren of wanneer u de webbeheermodus opent om activiteiten te beheren."
+
+#: ../../caretakers/managing_activities.rst:5 ce927a4cd6c94b89b83dd39e63a5e89f
+msgid "Managing Activities"
+msgstr "Activiteiten Beheren"
+
+#: ../../caretakers/managing_activities.rst:7 09dc5856159f466e94b384f1829576f4
+msgid "The core of the PictoStick's configuration is managing the user's weekly activity schedule. This is done through a simple web interface that you can access from a computer, tablet, or smartphone."
+msgstr "De kern van de configuratie van de PictoStick is het beheren van het wekelijkse activiteitenschema van de gebruiker. Dit gebeurt via een eenvoudige webinterface die u kunt openen vanaf een computer, tablet of smartphone."
+
+#: ../../caretakers/managing_activities.rst:10 7633432de9304cd28e3a6747fae61448
+msgid "Before you begin, ensure the PictoStick has been configured to connect to your local WiFi network as described in the :ref:`initial_setup` guide."
+msgstr "Voordat u begint, moet u ervoor zorgen dat de PictoStick is geconfigureerd om verbinding te maken met uw lokale WiFi-netwerk, zoals beschreven in de :ref:`initial_setup` handleiding."
+
+#: ../../caretakers/managing_activities.rst:13 649e65b9009b483893484b4f3bd3d5e1
+msgid "Entering Web Administration Mode"
+msgstr "Webbeheermodus openen"
+
+#: ../../caretakers/managing_activities.rst:15 51b03f3ff0404673b3e86f2dba61a4eb
+msgid "On the PictoStick, press and hold **Button B** for 5 seconds to open the configuration menu."
+msgstr "Houd op de PictoStick **Knop B** 5 seconden ingedrukt om het configuratiemenu te openen."
+
+#: ../../caretakers/managing_activities.rst:16 fce154b860fc43a2a8884be0a71ed341
+msgid "Use the side buttons to navigate to **\"Picto Sequence Update\"** and press **Button C** to select it."
+msgstr "Gebruik de zijknoppen om naar **\"Picto-volgorde bijwerken\"** te navigeren en druk op **Knop C** om dit te selecteren."
+
+#: ../../caretakers/managing_activities.rst:17 cba5c3f6324d48f08ea8d462cf573047
+msgid "The device will connect to WiFi and start a web server. The screen will display the IP address you need to connect to (e.g., ``http://192.168.1.123``)."
+msgstr "Het apparaat maakt verbinding met WiFi en start een webserver. Het scherm toont het IP-adres waarmee u verbinding moet maken (bijv. ``http://192.168.1.123``)."
+
+#: ../../caretakers/managing_activities.rst:19 93bc5a19d8f44427b8f32b2b016ef94c
+msgid "The PictoStick screen showing the web server IP address."
+msgstr "Het PictoStick-scherm toont het IP-adres van de webserver."
+
+#: ../../caretakers/managing_activities.rst:23 36ab1d639cd147f4b30f63bec5ea7d7c
+msgid "On a device connected to the **same WiFi network**, open a web browser and type in the IP address shown on the PictoStick screen."
+msgstr "Open op een apparaat dat met **hetzelfde WiFi-netwerk** is verbonden een webbrowser en typ het IP-adres in dat op het PictoStick-scherm wordt weergegeven."
+
+#: ../../caretakers/managing_activities.rst:26 2d0c2e325672493089b9c6e92178d7f3
+msgid "The Web Interface"
+msgstr "De Webinterface"
+
+#: ../../caretakers/managing_activities.rst:28 8fcfcdb8f48c4babbdf0985e72ff79e2
+msgid "The web interface allows you to set a unique schedule for every day of the week."
+msgstr "Met de webinterface kunt u voor elke dag van de week een uniek schema instellen."
+
+#: ../../caretakers/managing_activities.rst:30 9adf11c2782c43afa4c2663515397a66
+msgid "The web interface for managing activities."
+msgstr "De webinterface voor het beheren van activiteiten."
+
+#: ../../caretakers/managing_activities.rst:34 e0c389cd32b14cd58ab3e79e411be1da
+msgid "**User Name**: At the top, you can set the name of the user, which will be displayed on the PictoStick's main screen."
+msgstr "**Gebruikersnaam**: Bovenaan kunt u de naam van de gebruiker instellen, die op het hoofdscherm van de PictoStick wordt weergegeven."
+
+#: ../../caretakers/managing_activities.rst:36 6c7265262a0e480da65118e170a2456b
+msgid "**Day Tabs**: Click on the tabs for **Monday, Tuesday, Wednesday, etc.**, to switch between the schedules for each day."
+msgstr "**Dag-tabbladen**: Klik op de tabbladen voor **Maandag, Dinsdag, Woensdag, etc.**, om te schakelen tussen de schema's voor elke dag."
+
+#: ../../caretakers/managing_activities.rst:38 ba5b6c1eaa9d4a4493d9d806ad442a48
+msgid "**Activity Schedule (Top Section)**: This area shows the current sequence of activities for the selected day. *   **To reorder activities**: Click and drag an activity to a new position in the list. *   **To remove an activity**: Click the red 'delete' icon next to an activity."
+msgstr "**Activiteitenschema (Bovenste gedeelte)**: Dit gebied toont de huidige volgorde van activiteiten voor de geselecteerde dag. *   **Om activiteiten opnieuw te ordenen**: Klik en sleep een activiteit naar een nieuwe positie in de lijst. *   **Om een activiteit te verwijderen**: Klik op het rode 'verwijder'-pictogram naast een activiteit."
+
+#: ../../caretakers/managing_activities.rst:42 efd7f0eaf1604e118599137ee5821207
+msgid "**Available Pictos (Bottom Section)**: This is your library of all available pictos on the device. *   **To add an activity to the schedule**: Find the picto you want in the library and click the green 'add' icon. It will be added to the end of the schedule for the currently selected day."
+msgstr "**Beschikbare Picto's (Onderste gedeelte)**: Dit is uw bibliotheek met alle beschikbare picto's op het apparaat. *   **Om een activiteit aan het schema toe te voegen**: Zoek de gewenste picto in de bibliotheek en klik op het groene 'voeg toe'-pictogram. Het wordt toegevoegd aan het einde van het schema voor de momenteel geselecteerde dag."
+
+#: ../../caretakers/managing_activities.rst:45 bc4c1ef9e1444feebd35adc37c5a17b3
+msgid "**Saving Changes**: After you have arranged the schedules for all the days, click the blue **\"Save Configuration\"** button at the bottom."
+msgstr "**Wijzigingen opslaan**: Nadat u de schema's voor alle dagen hebt ingedeeld, klikt u op de blauwe knop **\"Configuratie opslaan\"** onderaan."
+
+#: ../../caretakers/managing_activities.rst:47 be9092c2bc3f4c74ae76a080f56aec8f
+msgid "The PictoStick will save the new schedules and automatically reboot into its normal mode, ready for the user."
+msgstr "De PictoStick slaat de nieuwe schema's op en start automatisch opnieuw op in de normale modus, klaar voor de gebruiker."
+
+#: ../../caretakers/managing_activities.rst:50 33428b37b07645789fd86e0e06e36fd0
+msgid "Each day can have a maximum of 20 activities. The available pictos are stored on the device itself. For information on adding new custom pictos, see the :ref:`setup` guide."
+msgstr "Elke dag kan maximaal 20 activiteiten hebben. De beschikbare picto's worden op het apparaat zelf opgeslagen. Voor informatie over het toevoegen van nieuwe aangepaste picto's, zie de :ref:`setup` handleiding."
+
+#: ../../developers/architecture.rst:5 d461b45a6d5f4caeb90a86473fadb5e6
+msgid "Codebase Architecture"
+msgstr "Architectuur van de Codebase"
+
+#: ../../developers/architecture.rst:7 17d742d6d2de43e98273f83f3c0bc3f6
+msgid "This document provides a high-level overview of the PictoStick source code structure."
+msgstr "Dit document geeft een overzicht op hoog niveau van de structuur van de PictoStick-broncode."
+
+#: ../../developers/architecture.rst:10 dad63915236c48928cc20be545bc2d56
+msgid "Directory Structure"
+msgstr "Mappenstructuur"
+
+#: ../../developers/architecture.rst:12 ca5c374e5ae5445cb679747982623db2
+msgid "``src/``: Contains all the C++ source code for the firmware. *   ``main.cpp``: The main entry point of the application. Handles initialization and the main loop. *   ``ui*.cpp``: Source files related to the user interface, built with the LVGL library. *   ``system.cpp``: Manages system-level functions like time, battery, and WiFi. *   ``fs_helpers.cpp``: Helper functions for interacting with the SPIFFS filesystem. *   ``PSpref.cpp``: Manages persistent storage of settings in NVS (Non-Volatile Storage)."
+msgstr "``src/``: Bevat alle C++ broncode voor de firmware. *   ``main.cpp``: Het hoofdingangspunt van de applicatie. Verwerkt initialisatie en de hoofdloop. *   ``ui*.cpp``: Bronbestanden gerelateerd aan de gebruikersinterface, gebouwd met de LVGL-bibliotheek. *   ``system.cpp``: Beheert systeembrede functies zoals tijd, batterij en WiFi. *   ``fs_helpers.cpp``: Hulpfuncties voor interactie met het SPIFFS-bestandssysteem. *   ``PSpref.cpp``: Beheert persistente opslag van instellingen in NVS (Non-Volatile Storage)."
+
+#: ../../developers/architecture.rst:18 9316b80ad39847019bc28731c86313bc
+msgid "``include/``: Contains all the header files (`.h`) corresponding to the source files in `src/`."
+msgstr "``include/``: Bevat alle headerbestanden (`.h`) die overeenkomen met de bronbestanden in `src/`."
+
+#: ../../developers/architecture.rst:19 69f67c8ea5c94b13a0ea3708f468a850
+msgid "``data/``: Contains all files that will be uploaded to the device's filesystem (SPIFFS). *   ``picto/``: The library of all available PNG picto images. *   ``index.html``, ``style.css``: The web interface for managing activities. *   ``data_*.json``: The JSON files where the weekly activity schedules are stored."
+msgstr "``data/``: Bevat alle bestanden die naar het bestandssysteem van het apparaat (SPIFFS) worden geüpload. *   ``picto/``: De bibliotheek met alle beschikbare PNG-picto-afbeeldingen. *   ``index.html``, ``style.css``: De webinterface voor het beheren van activiteiten. *   ``data_*.json``: De JSON-bestanden waarin de wekelijkse activiteitenschema's worden opgeslagen."
+
+#: ../../developers/architecture.rst:23 e5aa4aff4c3a4969be131cec9e5bcc52
+msgid "``lib/``: This directory is managed by PlatformIO and contains all the external libraries the project depends on."
+msgstr "``lib/``: Deze map wordt beheerd door PlatformIO en bevat alle externe bibliotheken waarvan het project afhankelijk is."
+
+#: ../../developers/architecture.rst:24 fd5ca705b58b40b5b612dc9fac5da149
+msgid "``platformio.ini``: The main configuration file for PlatformIO. It defines the board, framework, libraries, and build flags."
+msgstr "``platformio.ini``: Het hoofdconfiguratiebestand voor PlatformIO. Het definieert het bord, het framework, de bibliotheken en de build-vlaggen."
+
+#: ../../developers/architecture.rst:27 acc95c94c420488eafb9766b0370fc26
+msgid "Core Components"
+msgstr "Kerncomponenten"
+
+#: ../../developers/architecture.rst:30 963aa2a2d469449389cf3039e7330ecf
+msgid "Main Loop"
+msgstr "Hoofdloop"
+
+#: ../../developers/architecture.rst:31 15270bcd03d144b691e2d8394dfe0c31
+msgid "The ``main.cpp`` file contains the ``setup()`` and ``loop()`` functions, which are standard in the Arduino framework."
+msgstr "Het ``main.cpp``-bestand bevat de ``setup()``- en ``loop()``-functies, die standaard zijn in het Arduino-framework."
+
+#: ../../developers/architecture.rst:33 a1b3f8a94ac7459f9f2aa439be4e0ec1
+msgid "``setup()``: Initializes hardware (display, buttons), filesystems, WiFi, and the user interface. It determines which mode the device should boot into (Normal, WiFi Config, Web Admin)."
+msgstr "``setup()``: Initialiseert hardware (display, knoppen), bestandssystemen, WiFi en de gebruikersinterface. Het bepaalt in welke modus het apparaat moet opstarten (Normaal, WiFi Config, Web Admin)."
+
+#: ../../developers/architecture.rst:34 47a4930aa23b457380543ba3d46bb840
+msgid "``loop()``: The main application loop. It primarily calls the LVGL task handler (``lv_timer_handler()``) which manages all UI rendering and interaction. It also handles button presses and power management."
+msgstr "``loop()``: De hoofdlus van de applicatie. Het roept voornamelijk de LVGL-taakhandler aan (``lv_timer_handler()``) die alle UI-rendering en -interactie beheert. Het verwerkt ook knopdrukken en energiebeheer."
+
+#: ../../developers/architecture.rst:37 9d658e6e773c4ca3b802b395d36e48ee
+msgid "User Interface (LVGL)"
+msgstr "Gebruikersinterface (LVGL)"
+
+#: ../../developers/architecture.rst:38 c38b4e9f2e2249c9af80f9736a070dd4
+msgid "The user interface is built using the **LVGL (Light and Versatile Graphics Library)**."
+msgstr "De gebruikersinterface is gebouwd met de **LVGL (Light and Versatile Graphics Library)**."
+
+#: ../../developers/architecture.rst:40 2b08aba6b6cb45b3bf9b8d676b3efa50
+msgid "``uimain.cpp`` is responsible for creating and managing the main screen, including the picto display, labels, and progress dots."
+msgstr "``uimain.cpp`` is verantwoordelijk voor het maken en beheren van het hoofdscherm, inclusief de picto-weergave, labels en voortgangsbolletjes."
+
+#: ../../developers/architecture.rst:41 0d87d1d304c94c1289ab9464555bd4ab
+msgid "``uisetup.cpp`` handles the on-device setup menu."
+msgstr "``uisetup.cpp`` verwerkt het setup-menu op het apparaat."
+
+#: ../../developers/architecture.rst:42 8efe506a491947a1b92a90eca1e508d1
+msgid "``uiconfig.cpp`` manages the WiFi and Web Admin mode screens."
+msgstr "``uiconfig.cpp`` beheert de schermen voor de WiFi- en Web Admin-modus."
+
+#: ../../developers/architecture.rst:45 a1be18b61db846b599494ec81b1c79ad
+msgid "Data Flow"
+msgstr "Gegevensstroom"
+
+#: ../../developers/architecture.rst:46 7b30df44fe594e84a911db4e59f7317f
+msgid "The activity schedules are stored as JSON files in the ``data/`` directory."
+msgstr "De activiteitenschema's worden opgeslagen als JSON-bestanden in de ``data/``-map."
+
+#: ../../developers/architecture.rst:48 153ac7659f7b42f7be6276cf686e7622
+msgid "When in Web Administration mode, the web server (ESPAsyncWebServer) serves the ``index.html`` and ``style.css`` files."
+msgstr "In de webbeheermodus levert de webserver (ESPAsyncWebServer) de bestanden ``index.html`` en ``style.css``."
+
+#: ../../developers/architecture.rst:49 7f97597292814433989846fd8bb11886
+msgid "The web interface fetches the ``data_*.json`` files to display the current schedules."
+msgstr "De webinterface haalt de ``data_*.json``-bestanden op om de huidige schema's weer te geven."
+
+#: ../../developers/architecture.rst:50 3109140e83034519879104943ff7299b
+msgid "When the caretaker saves the configuration, the web interface sends the new schedule data back to the device, which overwrites the corresponding ``data_*.json`` files on the filesystem."
+msgstr "Wanneer de zorgverlener de configuratie opslaat, stuurt de webinterface de nieuwe schemagegevens terug naar het apparaat, dat de overeenkomstige ``data_*.json``-bestanden op het bestandssysteem overschrijft."
+
+#: ../../developers/architecture.rst:51 95bf3de003d542e5967ae6c45af61b77
+msgid "In normal mode, the device reads the appropriate ``data_*.json`` file for the current day to load and display the activities."
+msgstr "In de normale modus leest het apparaat het juiste ``data_*.json``-bestand voor de huidige dag om de activiteiten te laden en weer te geven."
+
+#: ../../developers/architecture.rst:54 3488d0eb2189420ba4a47b7563a9c6a7
+msgid "Power Management"
+msgstr "Energiebeheer"
+
+#: ../../developers/architecture.rst:55 72f7fa916c6541fda29ed932b73e2c70
+msgid "To conserve battery, the device makes use of several strategies:"
+msgstr "Om de batterij te sparen, maakt het apparaat gebruik van verschillende strategieën:"
+
+#: ../../developers/architecture.rst:57 fb53c94228b5470cbd7e9856837316a7
+msgid "**Light Sleep**: The ESP32 enters a light sleep mode when the screen is off."
+msgstr "**Lichte slaapstand**: De ESP32 gaat in een lichte slaapstand wanneer het scherm uit is."
+
+#: ../../developers/architecture.rst:58 cc4998727d9c4803a07e2e6d41a03752
+msgid "**WiFi Off**: WiFi is only enabled when actively needed (initial time sync, web admin mode) and is turned off otherwise."
+msgstr "**WiFi uit**: WiFi wordt alleen ingeschakeld wanneer het actief nodig is (initiële tijdsynchronisatie, webbeheermodus) en wordt anders uitgeschakeld."
+
+#: ../../developers/architecture.rst:59 ecd772a85af5472cb2e0dbeeed874496
+msgid "**Screen Timeout**: The screen backlight is turned off after a short period of inactivity."
+msgstr "**Scherm-time-out**: De achtergrondverlichting van het scherm wordt uitgeschakeld na een korte periode van inactiviteit."
+
+#: ../../developers/building.rst:5 bff29f44bc484ed7b68dd4a47199672f
+msgid "Building and Uploading"
+msgstr "Bouwen en Uploaden"
+
+#: ../../developers/building.rst:7 a28a202660354a5a921ae54d69685529
+msgid "Once your :ref:`setup` is complete, you can compile the firmware and upload it to the PictoStick device."
+msgstr "Zodra uw :ref:`setup` is voltooid, kunt u de firmware compileren en uploaden naar het PictoStick-apparaat."
+
+#: ../../developers/building.rst:9 4356a698ad384a9e884f642a20f7c60c
+msgid "You can perform these actions using the PlatformIO toolbar in the VS Code status bar (at the bottom of the window) or by running the commands in the VS Code terminal."
+msgstr "U kunt deze acties uitvoeren met de PlatformIO-werkbalk in de VS Code-statusbalk (onderaan het venster) of door de opdrachten in de VS Code-terminal uit te voeren."
+
+#: ../../developers/building.rst:12 b878dff427f64841bb7c108ed2ee0c2b
+msgid "Using the VS Code Terminal"
+msgstr "De VS Code Terminal gebruiken"
+
+#: ../../developers/building.rst:14 955d127d68714b809d7d545d9e2a3528
+msgid "The project is configured to use a local Python virtual environment (`penv`) for the PlatformIO CLI to ensure version consistency."
+msgstr "Het project is geconfigureerd om een lokale Python virtuele omgeving (`penv`) te gebruiken voor de PlatformIO CLI om versieconsistentie te garanderen."
+
+#: ../../developers/building.rst:16 85ed381074484810a6e501ebe9c319c4
+msgid "**On Linux/macOS**: ``penv/bin/pio``"
+msgstr "**Op Linux/macOS**: ``penv/bin/pio``"
+
+#: ../../developers/building.rst:17 c6a1054a9add4309b78ca8464a91f789
+msgid "**On Windows**: ``penv\\Scripts\\pio``"
+msgstr "**Op Windows**: ``penv\\Scripts\\pio``"
+
+#: ../../developers/building.rst:19 a804dd73e5bf4ba18eec838df1efabdc
+msgid "All commands below will use the Linux/macOS syntax."
+msgstr "Alle onderstaande commando's gebruiken de Linux/macOS-syntaxis."
+
+#: ../../developers/building.rst:22 1d44e0a2f52a47f1a4371f461e761328
+msgid "Compiling the Firmware"
+msgstr "De Firmware Compileren"
+
+#: ../../developers/building.rst:24 36f9b0ffbeac448184636df9edbfad58
+msgid "To build the project and compile the firmware, run the following command:"
+msgstr "Voer de volgende opdracht uit om het project te bouwen en de firmware te compileren:"
+
+#: ../../developers/building.rst:30 13de05080d18402eb3eea7198b907e12
+msgid "This command compiles all source code and links the firmware. If successful, it will create a ``firmware.bin`` file in the project's ``.pio/build/<environment>/`` directory."
+msgstr "Dit commando compileert alle broncode en linkt de firmware. Als dit lukt, wordt er een ``firmware.bin``-bestand gemaakt in de ``.pio/build/<environment>/``-map van het project."
+
+#: ../../developers/building.rst:33 ecb5dac676f848749a9930b48fc8cd1e
+msgid "Uploading the Firmware"
+msgstr "De Firmware Uploaden"
+
+#: ../../developers/building.rst:35 133d6089cfb14f03a8ebf2843064d5f9
+msgid "To compile the firmware and upload it to a connected PictoStick device:"
+msgstr "Om de firmware te compileren en te uploaden naar een aangesloten PictoStick-apparaat:"
+
+#: ../../developers/building.rst:37 e7282bc9152b4dc195896328c4b1ae8d
+msgid "Connect the PictoStick to your computer using the USB-C cable."
+msgstr "Sluit de PictoStick aan op uw computer met de USB-C-kabel."
+
+#: ../../developers/building.rst:38 8c22128ae78243849afb6e240b059fba
+msgid "Run the following command:"
+msgstr "Voer het volgende commando uit:"
+
+#: ../../developers/building.rst:44 5cfe80b30c184db690a91f1f8bb69678
+msgid "PlatformIO will automatically detect the port the device is connected to and flash the new firmware."
+msgstr "PlatformIO detecteert automatisch de poort waarop het apparaat is aangesloten en flasht de nieuwe firmware."
+
+#: ../../developers/building.rst:47 d67d838765d14cd7afd99c52aede5267
+msgid "Uploading the Filesystem Image"
+msgstr "De Bestandssysteem-image Uploaden"
+
+#: ../../developers/building.rst:49 fa7127f0008541bc80d96e82213df7a6
+msgid "The PictoStick stores assets like pictos, web interface files (HTML, CSS), and configuration files in a separate SPIFFS (SPI Flash File System) partition on the device."
+msgstr "De PictoStick slaat middelen zoals picto's, webinterfacebestanden (HTML, CSS) en configuratiebestanden op in een afzonderlijke SPIFFS (SPI Flash File System)-partitie op het apparaat."
+
+#: ../../developers/building.rst:51 0c0f02a8fb1947878d3de27b3a7ab671
+msgid "The contents of this filesystem are located in the ``data/`` directory of the project."
+msgstr "De inhoud van dit bestandssysteem bevindt zich in de ``data/``-map van het project."
+
+#: ../../developers/building.rst:53 8b5aab69b7464142b837994826e6e65d
+msgid "If you make any changes to the files in the ``data/`` directory (e.g., adding a new picto), you must rebuild and upload the filesystem image."
+msgstr "Als u wijzigingen aanbrengt in de bestanden in de ``data/``-map (bijv. een nieuwe picto toevoegen), moet u de bestandssysteem-image opnieuw bouwen en uploaden."
+
+#: ../../developers/building.rst:59 c41d6f521532473e87a7cbc221477664
+msgid "This will create a new filesystem image from the contents of the ``data/`` directory and flash it to the device."
+msgstr "Dit maakt een nieuwe bestandssysteem-image van de inhoud van de ``data/``-map en flasht deze naar het apparaat."
+
+#: ../../developers/building.rst:62 767d28934fc54e1bb13848533014f2f1
+msgid "All-in-One Command"
+msgstr "Alles-in-één Commando"
+
+#: ../../developers/building.rst:64 21d6e1e776cf464ba5b46649040c1007
+msgid "To clean the build, compile the firmware, and upload both the firmware and the filesystem in one go, you can run:"
+msgstr "Om de build op te schonen, de firmware te compileren en zowel de firmware als het bestandssysteem in één keer te uploaden, kunt u het volgende uitvoeren:"
+
+#: ../../developers/building.rst:70 5733a12af98a45c3bf9cd39ead3ca935
+msgid "This is often the most convenient command to use when you want to deploy a full update to the device."
+msgstr "Dit is vaak het handigste commando om te gebruiken wanneer u een volledige update op het apparaat wilt implementeren."
+
+#: ../../developers/contributing.rst:5 1b01bdd4d69f40fe9ba28dbfacb3e574
+msgid "Contributing"
+msgstr "Bijdragen"
+
+#: ../../developers/contributing.rst:7 ae68668d629444709acfb2b9242cfced
+msgid "We welcome contributions to the PictoStick project! This document outlines the standards and procedures for contributing."
+msgstr "We verwelkomen bijdragen aan het PictoStick-project! Dit document schetst de normen en procedures voor het leveren van bijdragen."
+
+#: ../../developers/contributing.rst:10 3a2c38c1d56d4ec3b6eecc9d230bdeae
+msgid "Coding Style"
+msgstr "Codeerstijl"
+
+#: ../../developers/contributing.rst:12 179eba80eb714c0980b148ff2dbeea53
+msgid "The project uses a consistent C++ coding style enforced by **ClangFormat**. The configuration for this is defined in the ``.clang-format`` file in the root of the repository."
+msgstr "Het project gebruikt een consistente C++-codeerstijl die wordt afgedwongen door **ClangFormat**. De configuratie hiervoor is gedefinieerd in het ``.clang-format``-bestand in de hoofdmap van de repository."
+
+#: ../../developers/contributing.rst:14 a685c5f9447b4aaaa5f238f84c043222
+msgid "Before submitting any code changes, please ensure you have formatted your code by running ClangFormat. Many IDEs, including VS Code, have extensions that can do this automatically on save."
+msgstr "Voordat u codewijzigingen indient, moet u ervoor zorgen dat u uw code hebt geformatteerd door ClangFormat uit te voeren. Veel IDE's, waaronder VS Code, hebben extensies die dit automatisch kunnen doen bij het opslaan."
+
+#: ../../developers/contributing.rst:17 ba7ee251ce1a43288ce8fa35808b1150
+msgid "Adding New Pictos"
+msgstr "Nieuwe Picto's Toevoegen"
+
+#: ../../developers/contributing.rst:19 03ce03dfdb474e8f9b508343de21aac6
+msgid "Adding a new picto to the library is a straightforward process:"
+msgstr "Het toevoegen van een nieuwe picto aan de bibliotheek is een eenvoudig proces:"
+
+#: ../../developers/contributing.rst:21 4870c2e181d141ed81255349bca70786
+msgid "**Prepare the Image**: *   The image must be in **PNG** format. *   It should have a transparent background. *   The recommended size is **100x100 pixels**. *   The filename should be lowercase, descriptive, and use underscores instead of spaces (e.g., ``swimming_pool.png``)."
+msgstr "**Afbeelding voorbereiden**: *   De afbeelding moet in **PNG**-formaat zijn. *   Het moet een transparante achtergrond hebben. *   De aanbevolen grootte is **100x100 pixels**. *   De bestandsnaam moet in kleine letters zijn, beschrijvend en underscores gebruiken in plaats van spaties (bijv. ``zwembad.png``)."
+
+#: ../../developers/contributing.rst:27 fb7c573968034599abae1e01d88090a0
+msgid "**Add to Filesystem**: *   Place the new PNG file into the ``data/picto/`` directory."
+msgstr "**Toevoegen aan bestandssysteem**: *   Plaats het nieuwe PNG-bestand in de ``data/picto/``-map."
+
+#: ../../developers/contributing.rst:30 b2cd52e5d9b84cca9b45c059bc67c4b3
+msgid "**Update Filesystem Image**: *   You must now :ref:`rebuild and upload the filesystem <building>` to the device for the new picto to be available in the web interface. Run the following PlatformIO command:"
+msgstr "**Bestandssysteem-image bijwerken**: *   U moet nu :ref:`het bestandssysteem opnieuw bouwen en uploaden <building>` naar het apparaat zodat de nieuwe picto beschikbaar is in de webinterface. Voer het volgende PlatformIO-commando uit:"
+
+#: ../../developers/contributing.rst:37 9ed2917e1a624a6e916cf5fd69d9e032
+msgid "The new picto will now appear in the \"Available Pictos\" library in the web administration interface."
+msgstr "De nieuwe picto verschijnt nu in de \"Beschikbare Picto's\"-bibliotheek in de webbeheerinterface."
+
+#: ../../developers/contributing.rst:40 6d7055edd8f54ece8812132f256b7c7b
+msgid "Submitting Changes"
+msgstr "Wijzigingen Indienen"
+
+#: ../../developers/contributing.rst:42 8736c7a4311447eda554d283899fc4d6
+msgid "All changes should be submitted via **Pull Requests** to the `main` branch of the GitHub repository."
+msgstr "Alle wijzigingen moeten worden ingediend via **Pull Requests** naar de `main`-branch van de GitHub-repository."
+
+#: ../../developers/contributing.rst:44 29ec16572b554736b294ab716fb11cc3
+msgid "**Fork the repository** on GitHub."
+msgstr "**Fork de repository** op GitHub."
+
+#: ../../developers/contributing.rst:45 6dee41a2edf9498ca2cf21038ce11111
+msgid "**Create a new branch** for your feature or bug fix."
+msgstr "**Maak een nieuwe branch** voor uw functie of bugfix."
+
+#: ../../developers/contributing.rst:46 6ce25f2ae2564aa397dbb8d8d387dd1b
+msgid "**Commit your changes** to your branch."
+msgstr "**Commit uw wijzigingen** naar uw branch."
+
+#: ../../developers/contributing.rst:47 e1cba8c8bf13449598a80f641d9200c7
+msgid "**Push your branch** to your fork."
+msgstr "**Push uw branch** naar uw fork."
+
+#: ../../developers/contributing.rst:48 f8e1f4e6484d4267b84848b139743357
+msgid "**Open a Pull Request** from your branch to the `main` branch of the original repository."
+msgstr "**Open een Pull Request** van uw branch naar de `main`-branch van de oorspronkelijke repository."
+
+#: ../../developers/contributing.rst:50 0a350efe619f49a8b81a40c1117a907d
+msgid "Please provide a clear description of the changes you have made in the Pull Request."
+msgstr "Geef een duidelijke beschrijving van de wijzigingen die u hebt aangebracht in de Pull Request."
+
+#: ../../developers/setup.rst:5 da424ac09ce442bbbbccada092f27ecb
+msgid "Developer Setup"
+msgstr "Ontwikkelaarsinstellingen"
+
+#: ../../developers/setup.rst:8 3b14b7a825d24ff287ac6d42569f5cff
+msgid "**Intended Audience**: This document is for developers who want to modify, build, and flash the PictoStick firmware."
+msgstr "**Doelgroep**: Dit document is voor ontwikkelaars die de PictoStick-firmware willen wijzigen, bouwen en flashen."
+
+#: ../../developers/setup.rst:10 3d3fe0db820742cb91cd269ed7885253
+msgid "The PictoStick project is built using PlatformIO, a professional ecosystem for embedded development."
+msgstr "Het PictoStick-project is gebouwd met PlatformIO, een professioneel ecosysteem voor embedded ontwikkeling."
+
+#: ../../developers/setup.rst:13 ba4fb8c03d0e4a8993cf84a3d2577eaf
+msgid "Github Repository"
+msgstr "Github Repository"
+
+#: ../../developers/setup.rst:15 263ff2ac9ce244e9a7be4cbb4cf6b354
+msgid "The primary source code repository is hosted on GitHub:"
+msgstr "De primaire broncode-repository wordt gehost op GitHub:"
+
+#: ../../developers/setup.rst:17 b3c9d688d668420792fafa1bc4634e6d
+msgid "https://github.com/jsoeterbroek/pictostick"
+msgstr "https://github.com/jsoeterbroek/pictostick"
+
+#: ../../developers/setup.rst:20 a69f3c08a187433db073276f5dda7553
+msgid "Prerequisites"
+msgstr "Vereisten"
+
+#: ../../developers/setup.rst:22 db8c538323ea4701806f48e698957a8a
+msgid "You will need the following tools installed on your development machine:"
+msgstr "U moet de volgende tools op uw ontwikkelmachine hebben geïnstalleerd:"
+
+#: ../../developers/setup.rst:24 ad56980a959c45158f421990916b4bcd
+msgid "**Visual Studio Code**: The recommended IDE for this project. *   Download at: https://code.visualstudio.com/"
+msgstr "**Visual Studio Code**: De aanbevolen IDE voor dit project. *   Download op: https://code.visualstudio.com/"
+
+#: ../../developers/setup.rst:26 0712643366d54d47907291011af44039
+msgid "**PlatformIO IDE Extension**: The extension for VS Code that provides the PlatformIO toolchain. *   Install from the Visual Studio Code Marketplace: https://marketplace.visualstudio.com/items?itemName=platformio.platformio-ide"
+msgstr "**PlatformIO IDE-extensie**: De extensie voor VS Code die de PlatformIO-toolchain biedt. *   Installeer vanuit de Visual Studio Code Marketplace: https://marketplace.visualstudio.com/items?itemName=platformio.platformio-ide"
+
+#: ../../developers/setup.rst:28 194ee22684734e608f55f491d72b0c0f
+msgid "**Git**: For cloning the repository and managing source control. *   Download at: https://git-scm.com/"
+msgstr "**Git**: Voor het klonen van de repository en het beheren van broncodebeheer. *   Download op: https://git-scm.com/"
+
+#: ../../developers/setup.rst:32 1d0e58e66aa24eb797c7c2565368c34a
+msgid "Cloning the Repository"
+msgstr "De Repository Klonen"
+
+#: ../../developers/setup.rst:34 c9f91821d00e46cea48943d42117ab37
+msgid "First, clone the repository from GitHub to your local machine. Open a terminal and run:"
+msgstr "Kloon eerst de repository van GitHub naar uw lokale machine. Open een terminal en voer het volgende uit:"
+
+#: ../../developers/setup.rst:42 b4add392705140a29e544c6eba9d47db
+msgid "Project Initialization"
+msgstr "Project Initialisatie"
+
+#: ../../developers/setup.rst:44 d2f50e901e7a40ad8b0c02e77f12e0a1
+msgid "The project includes a Python virtual environment (`penv`) which contains the specific version of the PlatformIO command-line tool used for this project. While using the VS Code extension is recommended for most tasks, you can also perform all actions from the command line."
+msgstr "Het project bevat een Python virtuele omgeving (`penv`) die de specifieke versie van de PlatformIO-opdrachtregeltool bevat die voor dit project wordt gebruikt. Hoewel het gebruik van de VS Code-extensie voor de meeste taken wordt aanbevolen, kunt u ook alle acties vanaf de opdrachtregel uitvoeren."
+
+#: ../../developers/setup.rst:46 1468a0d0d20f4d69bc7e9f4258dea350
+msgid "No special initialization is required. When you open the `pictodevice` folder in VS Code with the PlatformIO extension installed, it should automatically recognize it as a PlatformIO project. It will then download the required toolchains and library dependencies as defined in the ``platformio.ini`` file."
+msgstr "Er is geen speciale initialisatie vereist. Wanneer u de `pictodevice`-map opent in VS Code met de PlatformIO-extensie geïnstalleerd, zou deze deze automatisch moeten herkennen als een PlatformIO-project. Het downloadt dan de vereiste toolchains en bibliotheekafhankelijkheden zoals gedefinieerd in het ``platformio.ini``-bestand."
+
+#: ../../developers/setup.rst:48 4568a69e3d2e4f91a9d60f901825ae72
+msgid "This includes: *   The ESP32 board support package. *   All necessary libraries, such as WiFiManager, LVGL, and others."
+msgstr "Dit omvat: *   Het ESP32 board support package. *   Alle benodigde bibliotheken, zoals WiFiManager, LVGL en andere."
+
+#: ../../developers/setup.rst:52 2e8520253e604a93a0f1d9425fe24579
+msgid "You are now ready to move on to :ref:`building` the firmware."
+msgstr "U bent nu klaar om verder te gaan met het :ref:`building` van de firmware."
+
+#: ../../index.rst:34
+msgid "'Caretakers'"
+msgstr "'Zorgverleners'"
+
+#: ../../index.rst:45
+msgid "'Developers'"
+msgstr "'Ontwikkelaars'"
+
+#: ../../index.rst:7 06be26aa20944f70aa0dc2358968bea4
+msgid "PictoStick documentation"
+msgstr "PictoStick documentatie"
+
+#: ../../index.rst:16 ../../intro/introduction.rst:5
+#: ../../users/howto_use.rst:14 0648a39d7fe749c0a2b1840c59230fb9
+#: 34dd6298f1d343bc89873212973bf59b 74a51420cb5c43f9bcd782bcedd5b8f7
+msgid "Introduction"
+msgstr "Introductie"
+
+#: ../../index.rst:25 a9cb1f64941a42a08f203434b8913948
+msgid "Users"
+msgstr "Gebruikers"
+
+#: ../../index.rst:32 113ba79011e74c1c8277433f11e37a54
+msgid "Caretakers"
+msgstr "Zorgverleners"
+
+#: ../../index.rst:43 29f27d14096c4adaa11e0831b17887d2
+msgid "Developers"
+msgstr "Ontwikkelaars"
+
+#: ../../intro/getting_started.rst:5 2625f47014044f57a38f6594ec75a160
+msgid "Getting Started"
+msgstr "Aan de slag"
+
+#: ../../intro/getting_started.rst:7 1051984761ad4dcab784e386d7447ce6
+msgid "This guide will help you get your PictoStick up and running for the first time."
+msgstr "Deze handleiding helpt u om uw PictoStick voor de eerste keer in gebruik te nemen."
+
+#: ../../intro/getting_started.rst:10 9203f0a532f54f18a7049994a190b666
+msgid "What's in the Box"
+msgstr "Inhoud van de doos"
+
+#: ../../intro/getting_started.rst:12 749436e1582846c18430576e4a90c0f9
+msgid "When you acquire the PictoStick, you should have the following items:"
+msgstr "Wanneer u de PictoStick aanschaft, zou u de volgende items moeten hebben:"
+
+#: ../../intro/getting_started.rst:14 04a1a741e86e4c7dbe81f511586bf91e
+msgid "The **M5Stack StickC Plus2** device, which is the core of the PictoStick."
+msgstr "Het **M5Stack StickC Plus2**-apparaat, de kern van de PictoStick."
+
+#: ../../intro/getting_started.rst:15 809646266af94e51ac2fbc01e78b4204
+msgid "A **USB-C cable** for charging and programming the device."
+msgstr "Een **USB-C-kabel** voor het opladen en programmeren van het apparaat."
+
+#: ../../intro/getting_started.rst:16 047fa96d6b9047b5819df4a5ae4f0d19
+msgid "An optional **wristband**, allowing the device to be worn like a watch."
+msgstr "Een optionele **polsband**, waarmee het apparaat als een horloge kan worden gedragen."
+
+#: ../../intro/getting_started.rst:18 b1038940cff345ca9c0b8ce3d05729aa
+msgid "The PictoStick hardware"
+msgstr "De PictoStick-hardware"
+
+#: ../../intro/getting_started.rst:23 2527e3ce0ec94774a50e7b1ed41b8508
+msgid "First-Time Use"
+msgstr "Eerste Gebruik"
+
+#: ../../intro/getting_started.rst:25 94b727d1d49849ba8c39ba6be166f4bc
+msgid "The first time you turn on the PictoStick, it will need to be configured to connect to your local WiFi network. This is a one-time setup process that allows the device to synchronize the correct time and date, which is crucial for displaying the daily schedules correctly."
+msgstr "De eerste keer dat u de PictoStick inschakelt, moet deze worden geconfigureerd om verbinding te maken met uw lokale WiFi-netwerk. Dit is een eenmalig installatieproces waarmee het apparaat de juiste tijd en datum kan synchroniseren, wat cruciaal is voor het correct weergeven van de dagschema's."
+
+#: ../../intro/getting_started.rst:27 346a43bc32f24a5cb15cb76d8842c4bb
+msgid "**Power On**: Press and hold the side power button (Button A) for about 6 seconds to turn the device on."
+msgstr "**Inschakelen**: Houd de aan/uit-knop aan de zijkant (Knop A) ongeveer 6 seconden ingedrukt om het apparaat in te schakelen."
+
+#: ../../intro/getting_started.rst:28 124f4c1d48f345e2bed4d7d6b1194309
+msgid "**Enter WiFi Setup**: The device should automatically start in WiFi Configuration mode. If it doesn't, a caretaker can manually enter this mode."
+msgstr "**WiFi-installatie openen**: Het apparaat zou automatisch moeten opstarten in de WiFi-configuratiemodus. Als dit niet gebeurt, kan een zorgverlener deze modus handmatig openen."
+
+#: ../../intro/getting_started.rst:29 1384dbb215fc45eb824051e6462142d6
+msgid "**Connect from Phone/Computer**: Follow the on-screen instructions to connect your phone or computer to the \"pictodevice\" WiFi network."
+msgstr "**Verbinden vanaf telefoon/computer**: Volg de instructies op het scherm om uw telefoon of computer te verbinden met het \"pictodevice\" WiFi-netwerk."
+
+#: ../../intro/getting_started.rst:30 fd67591fa1f44ec7844c749675bf166b
+msgid "**Configure**: Once connected, a configuration portal will appear in your web browser. Select your home WiFi network (SSID) and enter its password."
+msgstr "**Configureren**: Eenmaal verbonden, verschijnt er een configuratieportal in uw webbrowser. Selecteer uw thuis-WiFi-netwerk (SSID) en voer het wachtwoord in."
+
+#: ../../intro/getting_started.rst:32 124f9e2012504114b6152595e73020cc
+msgid "For a detailed walkthrough of this process, please see the :ref:`initial_setup` manual."
+msgstr "Voor een gedetailleerde uitleg van dit proces, zie de :ref:`initial_setup` handleiding."
+
+#: ../../intro/getting_started.rst:35 addbad5868cc4afba50018c6bfec2633
+msgid "Charging the Device"
+msgstr "Het Apparaat Opladen"
+
+#: ../../intro/getting_started.rst:37 5e2d96a761da4e5382a425dd120f719b
+msgid "The PictoStick is powered by an internal rechargeable battery."
+msgstr "De PictoStick wordt gevoed door een interne oplaadbare batterij."
+
+#: ../../intro/getting_started.rst:39 04f87ed034f54b2481773df59bb4bbc1
+msgid "**To charge the device**, connect the provided USB-C cable to the port at the bottom of the device and plug the other end into a standard USB power adapter or a computer."
+msgstr "**Om het apparaat op te laden**, sluit u de meegeleverde USB-C-kabel aan op de poort aan de onderkant van het apparaat en steekt u het andere uiteinde in een standaard USB-lichtnetadapter of een computer."
+
+#: ../../intro/getting_started.rst:40 2e4645f33faf438d83df0c860026c990
+msgid "A **battery indicator** is visible in the top-right corner of the screen during normal operation, showing the current charge level."
+msgstr "Een **batterij-indicator** is zichtbaar in de rechterbovenhoek van het scherm tijdens normaal gebruik en toont het huidige oplaadniveau."
+
+#: ../../intro/getting_started.rst:41 b001d2fe32374dd7a9a7398746de9741
+msgid "A full charge will typically take 1-2 hours. To conserve power, the device screen will automatically turn off after a short period of inactivity. Press Button A to wake it up."
+msgstr "Een volledige lading duurt doorgaans 1-2 uur. Om stroom te besparen, wordt het scherm van het apparaat automatisch uitgeschakeld na een korte periode van inactiviteit. Druk op Knop A om het weer te activeren."
+
+#: ../../intro/introduction.rst:7 694b98d9ee664dd5a35dcf8882c84c59
+msgid "Care givers, parents and health care professionals of people with a mental disability and/or an Autism spectrum disorder (ASD), or previously referred to as 'autism', often make use of visual pictograms to give people a clearer understanding of the world around them."
+msgstr "Zorgverleners, ouders en gezondheidsprofessionals van mensen met een verstandelijke beperking en/of een autismespectrumstoornis (ASS), of voorheen 'autisme' genoemd, maken vaak gebruik van visuele pictogrammen om mensen een duidelijker begrip van de wereld om hen heen te geven."
+
+#: ../../intro/introduction.rst:9 dfe14a21a0b941af91ce3f41977dd972
+msgid "One of the biggest advantages of using pictograms (or pictos) is that in one easy to grasp visual form the activities and their sequence that are planned for the day ahead are presented. This provides understanding and prevents stress and miscommunication."
+msgstr "Een van de grootste voordelen van het gebruik van pictogrammen (of picto's) is dat in één gemakkelijk te begrijpen visuele vorm de activiteiten en hun volgorde die voor de komende dag gepland zijn, worden gepresenteerd. Dit zorgt voor begrip en voorkomt stress en miscommunicatie."
+
+#: ../../intro/introduction.rst:11 102b703bd64046948b8b08c793d6a87f
+msgid "Often the pictos are presented on a board on the wall or simply on a wooden plank on which the pictos are added (or even removed during the day) showing the activities and the order in which these take place. While this low tech way often works fine in practice it is not portable and often only used in either the users' household or the (work) places during the day."
+msgstr "Vaak worden de picto's gepresenteerd op een bord aan de muur of gewoon op een houten plank waarop de picto's worden toegevoegd (of zelfs gedurende de dag worden verwijderd) om de activiteiten en de volgorde waarin deze plaatsvinden weer te geven. Hoewel deze low-tech manier in de praktijk vaak prima werkt, is deze niet draagbaar en wordt deze vaak alleen gebruikt in het huishouden van de gebruiker of op de (werk)plekken gedurende de dag."
+
+#: ../../intro/introduction.rst:13 27c6ec23ce6a4078a6339d0f6a38a640
+msgid "The pictostick offers a method to present a scrollable sequence of pictos for the user in a portable way, either as a small device that can be carried around or a watch-like option with a wrist band. The pictostick can be referred to by the user as to the daily activities and even to check off the ones that have already been completed."
+msgstr "De pictostick biedt een methode om een scrollbare reeks picto's voor de gebruiker op een draagbare manier te presenteren, hetzij als een klein apparaat dat kan worden meegenomen, hetzij als een horloge-achtige optie met een polsband. De pictostick kan door de gebruiker worden geraadpleegd voor de dagelijkse activiteiten en zelfs om de reeds voltooide activiteiten af te vinken."
+
+#: ../../intro/introduction.rst:17 7aed49f40eca48288cf3f72818f445b9
+msgid "Key features"
+msgstr "Belangrijkste kenmerken"
+
+#: ../../intro/introduction.rst:19 8d7c0fa55f8349d4b50ba492cdb398ea
+msgid "**Portable & Wearable**: Small enough to be carried or worn on a wristband."
+msgstr "**Draagbaar & Wearable**: Klein genoeg om te worden meegenomen of aan een polsband te worden gedragen."
+
+#: ../../intro/introduction.rst:20 8af222b88d454dd38ed035810dcb75e3
+msgid "**Weekly Schedule**: Displays a unique sequence of activities for each day of the week."
+msgstr "**Wekelijks Schema**: Toont een unieke reeks activiteiten voor elke dag van de week."
+
+#: ../../intro/introduction.rst:21 436ffa5072cb42899461f94fe06183b6
+msgid "**Interactive Checklist**: Users can mark activities as \"done\", providing a sense of accomplishment."
+msgstr "**Interactieve Checklist**: Gebruikers kunnen activiteiten als \"klaar\" markeren, wat een gevoel van voldoening geeft."
+
+#: ../../intro/introduction.rst:22 152db6def5184d2484bcfbd7b1a34c5b
+msgid "**Easy Web Configuration**: Caretakers can easily update the weekly schedule via a simple web interface on a phone or computer."
+msgstr "**Eenvoudige Webconfiguratie**: Zorgverleners kunnen het wekelijkse schema eenvoudig bijwerken via een simpele webinterface op een telefoon of computer."
+
+#: ../../intro/introduction.rst:23 fb2482317ff54f0783b59f0255f9adf3
+msgid "**Customizable Themes**: Supports different color themes to suit user preferences."
+msgstr "**Aanpasbare Thema's**: Ondersteunt verschillende kleurenthema's om aan de voorkeuren van de gebruiker te voldoen."
+
+#: ../../intro/introduction.rst:24 3dd427ffa5ee49ab828d89ff3cd8321e
+msgid "**Power Efficient**: Disables WiFi and sleeps automatically to maximize battery life."
+msgstr "**Energiezuinig**: Schakelt WiFi uit en gaat automatisch in de slaapstand om de levensduur van de batterij te maximaliseren."
+
+#: ../../intro/introduction.rst:25 ae5f72acf11c4c339a5045af5717b929
+msgid "**Open Source**: The software is fully open source, allowing for community contributions and customization."
+msgstr "**Open Source**: De software is volledig open source, wat bijdragen en aanpassingen door de gemeenschap mogelijk maakt."
+
+#: ../../intro/introduction.rst:32 ccb5470f952c4c2bb28b393a834d3df2
+msgid "Requirements"
+msgstr "Vereisten"
+
+#: ../../intro/introduction.rst:35 d11d1b682d074a7fa2a4d6f30492a68f
+msgid "Hardware"
+msgstr "Hardware"
+
+#: ../../intro/introduction.rst:36 230444a8d8e543d189a6e8f11e2d1e52
+msgid "M5 StickC Plus2, a low-cost, small form factor ESP32 Mini IoT Development Kit. It has a 1.14-inch TFT screen with a resolution of 135x240 pixels and a battery capacity of 200mAh. (https://shop.m5stack.com/products/m5stickc-plus2-esp32-mini-iot-development-kit)"
+msgstr "M5 StickC Plus2, een goedkope, kleine ESP32 Mini IoT Development Kit. Het heeft een 1,14-inch TFT-scherm met een resolutie van 135x240 pixels en een batterijcapaciteit van 200mAh. (https://shop.m5stack.com/products/m5stickc-plus2-esp32-mini-iot-development-kit)"
+
+#: ../../intro/introduction.rst:39 e768341cf69642749963bed8c2a7244b
+msgid "M5-Watch wristband for M5 StickC Plus2 (optional)"
+msgstr "M5-Watch polsband voor M5 StickC Plus2 (optioneel)"
+
+#: ../../intro/introduction.rst:45 1d65ce9bca054656a3a9a8fc1c60ea80
+msgid "Software"
+msgstr "Software"
+
+#: ../../intro/introduction.rst:46 6ade81cba5244400ad9b65b1398dd543
+msgid "The code for the pictostick is Free/Open Source software made available under the Creative Commons Zero v1.0 Universal License at https://github.com/jsoeterbroek/pictostick Github repository."
+msgstr "De code voor de pictostick is Vrije/Open Source software die beschikbaar wordt gesteld onder de Creative Commons Zero v1.0 Universal-licentie op de https://github.com/jsoeterbroek/pictostick Github-repository."
+
+#: ../../intro/introduction.rst:50 2dd9514c099f47d2badfe4613c5ff488
+msgid "License"
+msgstr "Licentie"
+
+#: ../../intro/introduction.rst:52 9a7f3accee9641bcb047bc34ae7e07be
+msgid "The Pictostick project is licensed under the 'Creative Commons Zero v1.0 Universal' license. The picto icons used are Google Fonts Material Design icons, made available under the Apache License Version 2.0 license."
+msgstr "Het Pictostick-project is gelicentieerd onder de 'Creative Commons Zero v1.0 Universal'-licentie. De gebruikte picto-iconen zijn Google Fonts Material Design-iconen, beschikbaar gesteld onder de Apache License Version 2.0-licentie."
+
+#: ../../users/howto_use.rst:5 029d04bb6ef84af59345f0772207d2ca
+msgid "How to use the PictoStick"
+msgstr "Hoe de PictoStick te gebruiken"
+
+#: ../../users/howto_use.rst:8 d98438adb09a49bda5392d6443402150
+msgid "**Intended Audience** This document is intended for PictoStick everyday users. It also holds relevant information for Caretakers, Health Professionals and Parents of users."
+msgstr "**Doelgroep** Dit document is bedoeld voor dagelijkse gebruikers van de PictoStick. Het bevat ook relevante informatie voor zorgverleners, gezondheidsprofessionals en ouders van gebruikers."
+
+#: ../../users/howto_use.rst:15 b0ef443bfa734ba48213c426c672e45a
+msgid "This document will show you how to use your PictoStick. The device is pre-configured to show you your activities for the entire week in the correct order. Every activity is displayed on the screen with a picture (a \"picto\") and a short description."
+msgstr "Dit document laat u zien hoe u uw PictoStick moet gebruiken. Het apparaat is vooraf geconfigureerd om u uw activiteiten voor de hele week in de juiste volgorde te tonen. Elke activiteit wordt op het scherm weergegeven met een afbeelding (een \"picto\") en een korte beschrijving."
+
+#: ../../users/howto_use.rst:21 10f1b4740aad4c158e45522f1607b310
+msgid "The Buttons"
+msgstr "De Knoppen"
+
+#: ../../users/howto_use.rst:22 af6b374bf6e84abb9b22032a1eaaf11f
+msgid "The PictoStick has three buttons that you can use, as shown in the image below:"
+msgstr "De PictoStick heeft drie knoppen die u kunt gebruiken, zoals weergegeven in de onderstaande afbeelding:"
+
+#: ../../users/howto_use.rst:24 baa824dda57b465a84c0ff89f036f144
+msgid "Diagram of the PictoStick buttons"
+msgstr "Diagram van de PictoStick-knoppen"
+
+#: ../../users/howto_use.rst:28 6d46307471a4429697a21540250fa64d
+msgid "**Button A (Side Button)**: Use this to scroll **up** through your activities. This is also the main power button."
+msgstr "**Knop A (Zijknop)**: Gebruik deze om **omhoog** door uw activiteiten te scrollen. Dit is ook de hoofd-aan/uit-knop."
+
+#: ../../users/howto_use.rst:29 24daa4c580134506a48438b2710becad
+msgid "**Button B (Side Button)**: Use this to scroll **down** through your activities."
+msgstr "**Knop B (Zijknop)**: Gebruik deze om **omlaag** door uw activiteiten te scrollen."
+
+#: ../../users/howto_use.rst:30 d9417c7a5adf46f2a82baa3c0d8ebb89
+msgid "**Button C (Large M5 Button)**: Press this to mark an activity as **done**."
+msgstr "**Knop C (Grote M5-knop)**: Druk hierop om een activiteit als **klaar** te markeren."
+
+#: ../../users/howto_use.rst:33 0e4806bd98fc4a14ab4a4a29f919396d
+msgid "Waking Up the Device"
+msgstr "Het Apparaat Activeren"
+
+#: ../../users/howto_use.rst:34 c55c85031b8345ffa33d2b08267a0c69
+msgid "To save battery, the screen will automatically turn off after a few seconds. This is sleep mode."
+msgstr "Om de batterij te sparen, wordt het scherm na enkele seconden automatisch uitgeschakeld. Dit is de slaapstand."
+
+#: ../../users/howto_use.rst:36 6f661b09a9734bc190b38859f66d4b27
+msgid "**To wake the device up**: Briefly press **Button A**. The screen will light up, showing your current activity."
+msgstr "**Om het apparaat te activeren**: Druk kort op **Knop A**. Het scherm licht op en toont uw huidige activiteit."
+
+#: ../../users/howto_use.rst:39 587aff00cc1a41509bbcec07433cff63
+msgid "The Main Screen"
+msgstr "Het Hoofdscherm"
+
+#: ../../users/howto_use.rst:40 a8433bc700674fdf8468a1ee740000c9
+msgid "The screen shows you everything you need to know for your day."
+msgstr "Het scherm toont u alles wat u moet weten voor uw dag."
+
+#: ../../users/howto_use.rst:42 422c705dbf7e437ab71c762d5a91d3d1
+msgid "The main screen of the PictoStick"
+msgstr "Het hoofdscherm van de PictoStick"
+
+#: ../../users/howto_use.rst:46 db065a518fc3489bae05e53466ae065c
+msgid "**Your Name**: At the very top, you will see your name."
+msgstr "**Uw Naam**: Helemaal bovenaan ziet u uw naam."
+
+#: ../../users/howto_use.rst:47 274ac5eb9f584db09082d49bb5ed8843
+msgid "**Day and Time**: Below your name, the current day of the week and the time are displayed."
+msgstr "**Dag en Tijd**: Onder uw naam worden de huidige dag van de week en de tijd weergegeven."
+
+#: ../../users/howto_use.rst:48 ed17706aee3041199cccbdd46bbe6472
+msgid "**Activity**: The main part of the screen shows your current activity, with a large picto on the left and a description on the right."
+msgstr "**Activiteit**: Het hoofdgedeelte van het scherm toont uw huidige activiteit, met een grote picto links en een beschrijving rechts."
+
+#: ../../users/howto_use.rst:49 cc78c6e7be274f0fb319296efc28c122
+msgid "**Progress Dots**: The row of circles at the bottom shows your progress for the day. Each circle is one activity. *   An **orange** circle means the activity is not yet completed. *   A **green** circle means the activity has been marked as done."
+msgstr "**Voortgangsbolletjes**: De rij met cirkels onderaan toont uw voortgang voor de dag. Elke cirkel is één activiteit. *   Een **oranje** cirkel betekent dat de activiteit nog niet is voltooid. *   Een **groene** cirkel betekent dat de activiteit als voltooid is gemarkeerd."
+
+#: ../../users/howto_use.rst:52 94f5763999984b18863067601051516a
+msgid "**Battery Level**: The small battery icon in the top-right corner shows how much power is left."
+msgstr "**Batterijniveau**: Het kleine batterijpictogram in de rechterbovenhoek toont hoeveel stroom er nog over is."
+
+#: ../../users/howto_use.rst:55 391be526be9140c4afc82bdbf6827cbe
+msgid "Navigating Your Day"
+msgstr "Navigeren door uw Dag"
+
+#: ../../users/howto_use.rst:56 7b7b76c17908414792914588b41f2ab5
+msgid "You can look at all of your activities for the current day."
+msgstr "U kunt al uw activiteiten voor de huidige dag bekijken."
+
+#: ../../users/howto_use.rst:58 c12f9c796f764305b714c84b91801253
+msgid "Press **Button B** to see the **next** activity."
+msgstr "Druk op **Knop B** om de **volgende** activiteit te zien."
+
+#: ../../users/howto_use.rst:59 f844c9f37e1f4bc2971d6a9ee88c8629
+msgid "Press **Button A** to go back to the **previous** activity."
+msgstr "Druk op **Knop A** om terug te gaan naar de **vorige** activiteit."
+
+#: ../../users/howto_use.rst:61 365c995508734218b4976c7a397cf337
+msgid "The device automatically shows the correct list of activities for the current day of the week (Monday, Tuesday, etc.)."
+msgstr "Het apparaat toont automatisch de juiste lijst met activiteiten voor de huidige dag van de week (maandag, dinsdag, etc.)."
+
+#: ../../users/howto_use.rst:64 4b7c7183891e4d59b2456f665e6d20b7
+msgid "Marking an Activity as Done"
+msgstr "Een Activiteit als Klaar Markeren"
+
+#: ../../users/howto_use.rst:65 428ce1c02aae498cb9d3c2daa8dd3019
+msgid "When you finish an activity, you can mark it as complete."
+msgstr "Wanneer u een activiteit voltooit, kunt u deze als voltooid markeren."
+
+#: ../../users/howto_use.rst:67 bcf24e0003bc4b7b999be0bff41a075a
+msgid "Navigate to the activity you have finished."
+msgstr "Navigeer naar de activiteit die u hebt voltooid."
+
+#: ../../users/howto_use.rst:68 9fc146e5b6d4483391d3678349dc3e81
+msgid "Briefly press the large **M5 Button (Button C)**."
+msgstr "Druk kort op de grote **M5-knop (Knop C)**."
+
+#: ../../users/howto_use.rst:69 3b439b9f14ee4e4c9b3aab4fdcd4bc17
+msgid "The progress dot for that activity at the bottom of the screen will turn from **orange** to **green**."
+msgstr "Het voortgangsbolletje voor die activiteit onderaan het scherm verandert van **oranje** in **groen**."
+
+#: ../../users/howto_use.rst:71 7b3cc993470d4c1088b7f0826ec41314
+msgid "If you make a mistake, you can press Button C again to change the dot back to orange."
+msgstr "Als u een fout maakt, kunt u nogmaals op Knop C drukken om het bolletje weer oranje te maken."
+
+#: ../../users/howto_use.rst:74 a64106c861f94656afcaf90bf30bf429
+msgid "Powering Off Completely"
+msgstr "Volledig Uitschakelen"
+
+#: ../../users/howto_use.rst:75 1e0ef5e529af4762aeaa67b2f61cc865
+msgid "You do not normally need to turn the PictoStick off completely. Sleep mode is usually best for saving power. However, if you need to turn it off entirely:"
+msgstr "Normaal gesproken hoeft u de PictoStick niet volledig uit te schakelen. De slaapstand is meestal het beste om stroom te besparen. Als u het echter volledig moet uitschakelen:"
+
+#: ../../users/howto_use.rst:77 948705462c9741b09aca4234317d66e1
+msgid "**To Power Off**: Press and hold **Button A** for about 6 seconds. The screen will go blank."
+msgstr "**Uitschakelen**: Houd **Knop A** ongeveer 6 seconden ingedrukt. Het scherm wordt zwart."
+
+#: ../../users/howto_use.rst:78 ad37d69d70d54a28ab25715882927580
+msgid "**To Power On**: Press and hold **Button A** again for 6 seconds."
+msgstr "**Inschakelen**: Houd **Knop A** nogmaals 6 seconden ingedrukt."
+
+#: ../../users/howto_use.rst:81 04c6e79d086149ad93147318e6d30d4d
+msgid "When the device is off completely, it cannot show your activities. It's best to let it go to sleep on its own and wake it by pressing Button A when you need it."
+msgstr "Wanneer het apparaat volledig is uitgeschakeld, kan het uw activiteiten niet weergeven. Het is het beste om het vanzelf in de slaapstand te laten gaan en het te activeren door op Knop A te drukken wanneer u het nodig hebt."
