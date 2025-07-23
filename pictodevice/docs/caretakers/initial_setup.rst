@@ -22,7 +22,7 @@ Step-by-Step Guide
        :alt: PictoStick in WiFi configuration mode
 
 2.  **Connect to the "pictodevice" Network.**
-    On a smartphone, tablet, or computer, open your WiFi settings and look for a new network named **pictodevice**. Connect to it.
+    On a smartphone, tablet, or computer, open your WiFi settings and look for a new network named **PictoStick**. Connect to it.
 
 3.  **Open the Configuration Portal.**
     Once connected, a captive portal page should open automatically in your web browser. If it doesn't, open a browser and navigate to ``http://192.168.4.1``.
