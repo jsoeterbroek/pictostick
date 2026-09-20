@@ -31,6 +31,22 @@
 - [ ] Create `include/config.h` - Configuration constants
 - [ ] Create `include/settings.h` - Settings definition
 - [ ] Create unit tests in `test/unit/test_*.cpp`
+  - BLOCKED by issue #54: `test/unit/*.cpp` is never collected by `pio test`
+    (default test dir is `test/`), and the root runner registers 0 tests.
+
+---
+
+## Blockers / Findings
+
+- Issue #54: Unit test suite cannot run - no test files collected, 0 tests executed (OPEN)
+- Issue #24: Describes code that does not exist in this repo. It references
+  `getActivityFromDoc`, `initDeviceMode3`, `parseActivities`, `MAX_ACTIVITY_INDEX` and
+  `ACTIVITY_NEW`. `parseActivities`, `MAX_ACTIVITY_INDEX` and `ACTIVITY_NEW` appear nowhere
+  in the repository; `getActivityFromDoc` / `initDeviceMode3` / `validateDayIndex` /
+  `initDefaultActivity` / `validateTime` were declared in `include/uisetup.h` with no
+  implementation and no callers (now removed). The `.github/` changelog and Pull-Request
+  templates claim these were implemented, but no implementation exists in `src/`. Needs a
+  rewrite against the real code path (`uimain.cpp` -> `fs_helpers.cpp`), or closing.
 
 ---
 
@@ -60,3 +76,6 @@
 - Issue #40: CLOSED - Activity bounds checking implemented
 - Firmware upload pending: Device needs to be connected
 - Next step: Hardware testing when device available
+- Issue #54: test suite broken - `pio test` collects 0 test files (see Blockers above)
+- Device: /dev/ttyACM0 (1a86:55d4 CH9102) is present, but esptool gets
+  `[Errno 71] Protocol error` on upload - board does not answer the handshake.

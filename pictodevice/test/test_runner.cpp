@@ -19,10 +19,7 @@ void setup() {
   Serial.println("  PictoStick Unit Test Runner v1.0");
   Serial.println("========================================");
   Serial.println();
-  
-  // Initialize hardware
-  pinMode(LED_BUILTIN, OUTPUT);
-  
+
   // Run all registered tests
   aunit::TestRunner::run();
 }
