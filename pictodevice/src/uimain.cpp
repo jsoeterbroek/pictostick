@@ -245,10 +245,16 @@ void drawMain() {
   sprite.unloadFont();
   StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t *)sprite.getPointer());
 
+  // Static variables to track long press state
+  static unsigned long btnA_press_start_time = 0;
+  static bool btnA_long_press_triggered = false;
+  static unsigned long btnB_press_start_time = 0;
+  static bool btnB_long_press_triggered = false;
+
   // button action
   if (devicemode == 4) {
 
-    // decrement activity index
+    // === PWR Button (Backwards) ===
     if (StickCP2.BtnPWR.wasPressed()) {
       sleepTime = get_pspref_timeout();
       ps_current_activity_index = get_pspref_current_activity_index();
@@ -261,47 +267,81 @@ void drawMain() {
       }
     }
 
-    // got to device config mode
-    if (StickCP2.BtnB.pressedFor(5000)) {
-      if (get_pspref_buzzer()) {
-        StickCP2.Speaker.tone(4000, 20);
-        delay(1000);
+    // === BtnB (Forwards / Config) ===
+    if (StickCP2.BtnB.isPressed()) {
+      // Button is currently held
+      if (btnB_press_start_time == 0) {
+        btnB_press_start_time = millis();  // Record press start
       }
-      draw_device_mode_config = true;
+      
+      // Check if held for 5 seconds
+      if (!btnB_long_press_triggered && (millis() - btnB_press_start_time >= 5000)) {
+        if (get_pspref_buzzer()) {
+          StickCP2.Speaker.tone(4000, 20);
+          delay(1000);
+        }
+        draw_device_mode_config = true;
+        btnB_long_press_triggered = true;
+      }
+    } else {
+      // Button was released
+      unsigned long press_duration = millis() - btnB_press_start_time;
+      
+      // If released before 5 seconds and not already triggered, it's a short press
+      if (!btnB_long_press_triggered && press_duration < 5000 && press_duration > 100) {
+        // Short press - increment activity index
+        sleepTime = get_pspref_timeout();
+        ps_current_activity_index = get_pspref_current_activity_index();
+        if (ps_current_activity_index < config_activities_size - 1) {
+          set_pspref_current_activity_index(ps_current_activity_index + 1);
+        } else {
+          if (get_pspref_buzzer()) {
+            StickCP2.Speaker.tone(6000, 100);
+          }
+        }
+      }
+      
+      // Reset state
+      btnB_press_start_time = 0;
+      btnB_long_press_triggered = false;
     }
 
-    // increment activity index
-    if (StickCP2.BtnB.wasPressed()) {
-      sleepTime = get_pspref_timeout();
-      ps_current_activity_index = get_pspref_current_activity_index();
-      if (ps_current_activity_index < config_activities_size - 1) {
-        set_pspref_current_activity_index(ps_current_activity_index + 1);
-      } else {
+    // === BtnA (Reset All / Toggle) ===
+    if (StickCP2.BtnA.isPressed()) {
+      // Button is currently held
+      if (btnA_press_start_time == 0) {
+        btnA_press_start_time = millis();  // Record press start
+      }
+      
+      // Check if held for 5 seconds
+      if (!btnA_long_press_triggered && (millis() - btnA_press_start_time >= 5000)) {
+        set_pspref_all_activity_undone();
+        if (get_pspref_buzzer()) {
+          StickCP2.Speaker.tone(6000, 100);
+        }
+        btnA_long_press_triggered = true;
+      }
+    } else {
+      // Button was released
+      unsigned long press_duration = millis() - btnA_press_start_time;
+      
+      // If released before 5 seconds and not already triggered, it's a short press
+      if (!btnA_long_press_triggered && press_duration < 5000 && press_duration > 100) {
+        // Short press - toggle current activity
+        sleepTime = get_pspref_timeout();
+        if (get_pspref_activity_done(currentDay, ps_current_activity_index)) {
+          set_pspref_activity_done(currentDay, ps_current_activity_index, false);
+        } else {
+          set_pspref_activity_done(currentDay, ps_current_activity_index, true);
+        }
         if (get_pspref_buzzer()) {
           StickCP2.Speaker.tone(6000, 100);
         }
       }
-    }
-
-    // mark all activities undone
-    if (StickCP2.BtnA.pressedFor(5000)) {
-      set_pspref_all_activity_undone();
-      if (get_pspref_buzzer()) {
-        StickCP2.Speaker.tone(6000, 100);
-      }
-    }
-
-    // toggle mark activity done/undone
-    if (StickCP2.BtnA.wasPressed()) {
-      sleepTime = get_pspref_timeout();
-      if (get_pspref_activity_done(currentDay, ps_current_activity_index)) {
-        set_pspref_activity_done(currentDay, ps_current_activity_index, false);
-      } else {
-        set_pspref_activity_done(currentDay, ps_current_activity_index, true);
-      }
-      if (get_pspref_buzzer()) {
-        StickCP2.Speaker.tone(6000, 100);
-      }
+      
+      // Reset state
+      btnA_press_start_time = 0;
+      btnA_long_press_triggered = false;
     }
   }
 }
