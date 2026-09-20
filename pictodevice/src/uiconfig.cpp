@@ -9,7 +9,6 @@
 
 // Forward declarations from main.cpp
 extern TFT_eSprite sprite;
-extern TFT_eSPI tft;
 extern uint8_t desired_devicemode;
 extern int devicemode;
 extern bool draw_device_mode_config;
@@ -17,7 +16,7 @@ extern bool draw_device_mode_config;
 void drawDeviceModeConfig(uint8_t _desired_devicemode) {
   sprite.createSprite(MY_WIDTH, MY_HEIGHT);
   sprite.fillSprite(currentTheme.bgColor);
-  sprite.setTextSize(2);
+  sprite.loadFont(NotoSansBold15);
   sprite.setTextColor(currentTheme.textColor, currentTheme.bgColor);
   sprite.drawString(TXT_DM_SELECT, 2, 4);
   devicemode = get_devicemode();
@@ -69,6 +68,7 @@ void drawDeviceModeConfig(uint8_t _desired_devicemode) {
   sprite.setTextColor(_color1, _color2);
   sprite.drawString(TXT_DM_NORMAL_MODE, 4, 116);
 
+  sprite.unloadFont();
   StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t *)sprite.getPointer());
 
   // button action

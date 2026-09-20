@@ -12,7 +12,6 @@
 
 // Forward declarations from main.cpp
 extern TFT_eSprite sprite;
-extern TFT_eSPI tft;
 extern WiFiManager wm;
 extern AppStatus app_status;
 extern struct tm timeinfo;
@@ -140,12 +139,17 @@ void drawDeviceMode3() {
   sprite.setTextDatum(4);
 
   // setup
+  sprite.loadFont(smallFont);
   sprite.setTextColor(currentTheme.warnNok, currentTheme.bgColor);
   sprite.drawString(TXT_DM3_SETUP, 180, 14);
+  sprite.unloadFont();
 
   // element 1  -- hours
+  sprite.loadFont(smallFont);
   sprite.setTextColor(currentTheme.textColor, currentTheme.bgColor);
   sprite.drawString(TXT_DM3_HOUR, 28, 14);
+  sprite.unloadFont();
+  sprite.loadFont(secFont);
   if (cursor == 1) {
     sprite.fillRect(10, 26, 36, 40, currentTheme.textColor);
     sprite.setTextColor(currentTheme.warnNok, currentTheme.textColor);
@@ -154,10 +158,14 @@ void drawDeviceMode3() {
     sprite.setTextColor(currentTheme.textColor, currentTheme.fgColor);
   }
   sprite.drawString(hourbuffer, 27, 48);
+  sprite.unloadFont();
 
   // element 2  -- minutes
+  sprite.loadFont(smallFont);
   sprite.setTextColor(currentTheme.textColor, currentTheme.bgColor);
   sprite.drawString(TXT_DM3_MIN, 68, 14);
+  sprite.unloadFont();
+  sprite.loadFont(secFont);
   if (cursor == 2) {
     sprite.fillRect(51, 26, 36, 40, currentTheme.textColor);
     sprite.setTextColor(currentTheme.warnNok, currentTheme.textColor);
@@ -166,10 +174,14 @@ void drawDeviceMode3() {
     sprite.setTextColor(currentTheme.textColor, currentTheme.fgColor);
   }
   sprite.drawString(minutebuffer, 68, 48);
+  sprite.unloadFont();
 
   // element 3  -- seconds
+  sprite.loadFont(smallFont);
   sprite.setTextColor(currentTheme.textColor, currentTheme.bgColor);
   sprite.drawString(TXT_DM3_SEC, 108, 14);
+  sprite.unloadFont();
+  sprite.loadFont(secFont);
   if (cursor == 3) {
     sprite.fillRect(92, 26, 36, 40, currentTheme.textColor);
     sprite.setTextColor(currentTheme.warnNok, currentTheme.textColor);
@@ -178,6 +190,7 @@ void drawDeviceMode3() {
     sprite.setTextColor(currentTheme.textColor, currentTheme.fgColor);
   }
   sprite.drawString(secondbuffer, 108, 48);
+  sprite.unloadFont();
 
   // element 4 -- brightness
   if (cursor == 4) {
@@ -188,8 +201,10 @@ void drawDeviceMode3() {
     sprite.setTextColor(currentTheme.textColor, currentTheme.fgColor);
   }
   sprite.setTextDatum(0);
+  sprite.loadFont(smallFont);
   sprite.drawString(TXT_DM3_BRIGHTNESS, 15, 78);
   sprite.drawNumber(get_pspref_brightness(), 100, 78);
+  sprite.unloadFont();
 
   // element 5 -- timeout
   if (cursor == 5) {
@@ -200,8 +215,10 @@ void drawDeviceMode3() {
     sprite.setTextColor(currentTheme.textColor, currentTheme.fgColor);
   }
   sprite.setTextDatum(0);
+  sprite.loadFont(smallFont);
   sprite.drawString(TXT_DM3_TIMEOUT, 140, 44);
   sprite.drawNumber(get_pspref_timeout(), 204, 44);
+  sprite.unloadFont();
 
   // element 6 -- buzzer on/off
   if (cursor == 6) {
@@ -211,6 +228,7 @@ void drawDeviceMode3() {
     sprite.fillRect(136, 70, 96, 30, currentTheme.fgColor);
     sprite.setTextColor(currentTheme.textColor, currentTheme.fgColor);
   }
+  sprite.loadFont(smallFont);
   sprite.drawString(TXT_DM3_BUZZER, 140, 78);
 
   if (get_pspref_buzzer()) {
@@ -227,9 +245,11 @@ void drawDeviceMode3() {
     sprite.fillRect(10, 104, 220, 30, currentTheme.fgColor);
     sprite.setTextColor(currentTheme.textColor, currentTheme.fgColor);
   }
+  sprite.loadFont(smallFont);
   sprite.drawString("THEME", 15, 112);
   sprite.drawString(get_pspref_color_theme_by_name(), 146, 112);
 
+  sprite.unloadFont();
   StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t *)sprite.getPointer());
 
   // button action
