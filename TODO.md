@@ -39,14 +39,17 @@
 ## Blockers / Findings
 
 - Issue #54: Unit test suite cannot run - no test files collected, 0 tests executed (OPEN)
+- Issue #55: Changelog and PR templates claim fixes that do not exist in the codebase (OPEN)
+  - Root cause of the phantom code in #22-#25: `PICTODEVICE-CHANGELOG.md` records
+    "Closes #22/#23/#24/#25" while all four issues are still open, and the PR template
+    reports a suite of PASSED tests for functions that exist nowhere in `src/`.
 - Issue #24: Describes code that does not exist in this repo. It references
   `getActivityFromDoc`, `initDeviceMode3`, `parseActivities`, `MAX_ACTIVITY_INDEX` and
   `ACTIVITY_NEW`. `parseActivities`, `MAX_ACTIVITY_INDEX` and `ACTIVITY_NEW` appear nowhere
   in the repository; `getActivityFromDoc` / `initDeviceMode3` / `validateDayIndex` /
   `initDefaultActivity` / `validateTime` were declared in `include/uisetup.h` with no
-  implementation and no callers (now removed). The `.github/` changelog and Pull-Request
-  templates claim these were implemented, but no implementation exists in `src/`. Needs a
-  rewrite against the real code path (`uimain.cpp` -> `fs_helpers.cpp`), or closing.
+  implementation and no callers (now removed). Needs a rewrite against the real code path
+  (`uimain.cpp` -> `fs_helpers.cpp`), or closing.
 
 ---
 
