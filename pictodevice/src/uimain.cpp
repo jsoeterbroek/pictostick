@@ -11,6 +11,7 @@
 
 // Forward declarations from main.cpp
 extern TFT_eSprite sprite;
+extern TFT_eSPI tft;
 extern JsonDocument cdoc;
 extern int16_t xpos;
 extern int16_t ypos;
@@ -59,10 +60,8 @@ void drawMain() {
   if (cdoc.isNull() || !cdoc.containsKey("activities")) {
     Serial.println("ERROR: Config data not loaded or missing 'activities' key");
     // Draw error message instead of crashing
-    sprite.loadFont(NotoSansBold15);
     sprite.setTextColor(TFT_RED, currentTheme.bgColor);
     sprite.drawString("Config Error", 10, 50);
-    sprite.unloadFont();
     StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t *)sprite.getPointer());
     return;  // Exit early to prevent crash
   }
@@ -102,7 +101,6 @@ void drawMain() {
     set_pspref_current_activity_index(0);
   }
 
-  sprite.unloadFont();
   sprite.setTextColor(TFT_WHITE, currentTheme.rightRectBgColor1);
 
   sprite.fillSmoothRoundRect(10, 10, picto_box_width, picto_box_height, 5, currentTheme.fgColor, currentTheme.bgColor);
@@ -242,7 +240,6 @@ void drawMain() {
     }
   }
 
-  sprite.unloadFont();
   StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t *)sprite.getPointer());
 
   // Static variables to track long press state

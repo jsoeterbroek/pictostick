@@ -11,6 +11,7 @@
 File pngfile;
 
 extern TFT_eSprite sprite;
+extern TFT_eSPI tft;
 extern int16_t xpos;
 extern int16_t ypos;
 extern String lang;
@@ -52,7 +53,6 @@ int32_t pngSeek(PNGFILE *page, int32_t position) {
 void drawSplash() {
   sprite.createSprite(MY_WIDTH, MY_HEIGHT);
   sprite.fillSprite(TFT_WHITE);
-  sprite.loadFont(NotoSansBold15);
   sprite.setTextColor(TFT_DARKGRAY, TFT_WHITE);
   String software = " PictoStick ";
   software += String("v") + pd_version_major() + "." + pd_version_minor() + " PROTOTYPE";
@@ -61,12 +61,9 @@ void drawSplash() {
   String code = " github.com/jsoeterbroek/pictostick";
 
   sprite.drawString(software, 4, 24);
-  sprite.unloadFont();
-  sprite.loadFont(smallFont);
   sprite.drawString(maker, 4, 52);
   sprite.drawString(maker_email, 4, 72);
   sprite.drawString(code, 4, 92);
-  sprite.unloadFont();
   StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t *)sprite.getPointer());
   delay(10000);
 }
@@ -113,22 +110,18 @@ void drawBatt() {
   }
 
   sprite.setCursor(160, 3);
-  sprite.loadFont(NotoSansBold15);
   sprite.printf("%d%%", batteryPercent);
   sprite.drawRect(200, 3, 28, 14, RGB565_GRAY_STONE);
   sprite.fillRect(229, 7, 3, 6, RGB565_GRAY_STONE);
   for (int i = 0; i < volE; i++) {
     sprite.fillRect(222 - (i * 5), 5, 3, 10, RGB565_GRAY_STONE);
   }
-  sprite.unloadFont();
 }
 
 void drawUserName() {
-  sprite.loadFont(NotoSansBold15);
   sprite.fillRect(116, 20, 120, 20, currentTheme.rightRectBgColor1);
   sprite.setTextColor(currentTheme.rightRectTextColor1, currentTheme.rightRectBgColor1);
   sprite.drawString(config_name, 118, 24);
-  sprite.unloadFont();
 }
 
 void drawTime() {
@@ -147,16 +140,13 @@ void drawTime() {
   }
   snprintf(timebuffer, sizeof(timebuffer), "%02d:%02d", dt.time.hours, dt.time.minutes);
 
-  sprite.loadFont(NotoSansBold15);
   sprite.fillRect(116, 40, 120, 20, currentTheme.rightRectBgColor2);
   sprite.setTextColor(currentTheme.rightRectTextColor2, currentTheme.rightRectBgColor2);
   sprite.drawString(daybuffer, 118, 44);
   sprite.drawString(timebuffer, 196, 44);
-  sprite.unloadFont();
 }
 
 void drawName(String _strname, int _marked_done) {
-  sprite.loadFont(NotoSansBold15);
   if (_marked_done == 1) {
     sprite.fillRect(116, 70, 120, 40, currentTheme.colorDone);
     sprite.setTextColor(currentTheme.rightRectTextColor1, currentTheme.colorDone);
@@ -165,12 +155,9 @@ void drawName(String _strname, int _marked_done) {
     sprite.setTextColor(currentTheme.rightRectTextColor1, currentTheme.colorTodo);
   }
   sprite.drawString(_strname, 118, 84);
-  sprite.unloadFont();
 }
 
 void drawMarkedDone() {
-  sprite.loadFont(NotoSansBold15);
   sprite.setTextColor(TFT_BLACK, currentTheme.rightRectBgColor1);
   sprite.drawString("X", 20, 100);
-  sprite.unloadFont();
 }
