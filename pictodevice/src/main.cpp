@@ -34,6 +34,7 @@ using namespace fs;
 #include "status.h"
 #include "system.h"
 #include "fs_helpers.h"
+#include "Application.h"
 
 // Global variable definitions
 AppStatus app_status;
@@ -109,60 +110,77 @@ String processor(const String &var) {
   return foo;
 }
 
+// Global application instance
+static Application* app = nullptr;
+
 void setup() {
   init_device();
-  init_preferences();
+  
+  // Initialize application manager
+  app = new Application();
+  app->init();
+  app->setup();
+  
+  // Legacy initialization for backward compatibility
   init_filesystem();
-  initTime(get_pspref_timezone()); // Initialize time from NTP
-  init_devicemode();
+  initTime(get_pspref_timezone());
 }
 
 void loop() {
   StickCP2.update();
-  if (slp) {
-    StickCP2.Display.setBrightness(get_pspref_brightness());
-    slp = false;
-    sleepTime = 25;
-  }
-  if (draw_device_mode_config) {
-    drawDeviceModeConfig(desired_devicemode);
-  } else if (draw_device_mode_1) {
-    drawDeviceMode1();
-  } else if (draw_device_mode_2) {
-    drawDeviceMode2();
-  } else if (draw_device_mode_3) {
-    drawDeviceMode3();
+  
+  // Use Application class for main loop logic
+  if (app != nullptr && app->isInitialized()) {
+    app->loop();
   } else {
-    drawMain();
-    delay(100);
-    // Update timeinfo from NTP periodically
-    static unsigned long lastTimeUpdate = 0;
-    if (millis() - lastTimeUpdate > 60000) { // Update every 60 seconds
-      getLocalTime(&timeinfo);
-      lastTimeUpdate = millis();
+    // Fallback to legacy loop if app not initialized
+    // This maintains backward compatibility during transition
+    
+    if (slp) {
+      StickCP2.Display.setBrightness(get_pspref_brightness());
+      slp = false;
+      sleepTime = 25;
     }
-    auto dt = StickCP2.Rtc.getDateTime();
-    if (dt.time.seconds < 10) {
-      s = "0" + String(dt.time.seconds);
+    if (draw_device_mode_config) {
+      drawDeviceModeConfig(desired_devicemode);
+    } else if (draw_device_mode_1) {
+      drawDeviceMode1();
+    } else if (draw_device_mode_2) {
+      drawDeviceMode2();
+    } else if (draw_device_mode_3) {
+      drawDeviceMode3();
     } else {
-      s = String(dt.time.seconds);
-    }
-    if (dt.time.minutes < 10) {
-      m = "0" + String(dt.time.minutes);
-    } else {
-      m = String(dt.time.minutes);
-    }
-    ts = dt.time.seconds;
-    if (tts != ts) {
-      sleepTime--;
-      tts = ts;
-    }
+      drawMain();
+      delay(100);
+      // Update timeinfo from NTP periodically
+      static unsigned long lastTimeUpdate = 0;
+      if (millis() - lastTimeUpdate > 60000) {
+        getLocalTime(&timeinfo);
+        lastTimeUpdate = millis();
+      }
+      auto dt = StickCP2.Rtc.getDateTime();
+      if (dt.time.seconds < 10) {
+        s = "0" + String(dt.time.seconds);
+      } else {
+        s = String(dt.time.seconds);
+      }
+      if (dt.time.minutes < 10) {
+        m = "0" + String(dt.time.minutes);
+      } else {
+        m = String(dt.time.minutes);
+      }
+      ts = dt.time.seconds;
+      if (tts != ts) {
+        sleepTime--;
+        tts = ts;
+      }
 
-    if (sleepTime == 0) {
-      slp = true;
-      StickCP2.Display.setBrightness(0);
-      delay(20);
-      StickCP2.Power.lightSleep();
+      if (sleepTime == 0) {
+        slp = true;
+        StickCP2.Display.setBrightness(0);
+        delay(20);
+        StickCP2.Power.lightSleep();
+      }
     }
   }
 }
