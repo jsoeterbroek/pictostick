@@ -3,8 +3,15 @@
 #include <themes.h>
 
 #define PD_VERSION_MAJOR 1
-#define PD_VERSION_MINOR 5
+#define PD_VERSION_MINOR 6
 #define PD_VERSION_PATCH 1
+
+// Version bump: v1.6 - Multiple critical bug fixes
+// - Fixed day index out of bounds (#22)
+// - Fixed missing activity file (#23)
+// - Fixed invalid activity count (#24)
+// - Fixed time validation (#25)
+// - And other high priority fixes
 
 static inline int pd_version_major(void) {
   return PD_VERSION_MAJOR;

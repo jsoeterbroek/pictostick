@@ -1,0 +1,69 @@
+name: PictoDevice Safety Issue
+description: Report a potential safety/crash issue in PictoDevice firmware
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## PictoDevice Safety Issue Report
+
+        Please report any safety issues that could cause crashes or instability in PictoDevice firmware.
+  - type: input
+    id: issue-severity
+    attributes:
+      label: Severity
+      description: How critical is this issue?
+      options:
+        - 🐛 HIGH - Causes crashes or instability
+        - 🟡 MEDIUM - Can cause problems but not critical
+        - 🟢 LOW - Minor issue
+  - type: input
+    id: issue-location
+    attributes:
+      label: Location
+      description: Which file and function contains the issue?
+      placeholder: e.g., uisetup.cpp - initDeviceMode3()
+  - type: input
+    id: issue-description
+    attributes:
+      label: Issue Description
+      description: What's the problem?
+      placeholder: Describe the issue
+  - type: textarea
+    id: issue-reproduce-steps
+    attributes:
+      label: Steps to Reproduce
+      description: How can we reproduce this issue?
+      placeholder: |
+        1. Step 1
+        2. Step 2
+        3. Expected behavior
+        4. Actual behavior
+  - type: textarea
+    id: issue-expected-fix
+    attributes:
+      label: Expected Fix
+      description: What do you expect to see?
+      placeholder: |
+        - Fix X
+        - Fix Y
+        - Verify Z
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any other relevant information?
+      placeholder: |
+        - Device model:
+        - Firmware version:
+        - Steps already taken:
+        - Additional notes:
+  - type: checkboxes
+    id: issue-confirm
+    attributes:
+      label: Confirmation
+      description: By submitting this issue, you confirm that:
+      options:
+        - label: I have checked existing issues to ensure this hasn't been reported
+        - label: I have read the PictoDevice documentation
+        - label: I have reviewed the code (if applicable)
+        - label: I understand this is for bug reporting, not feature requests
