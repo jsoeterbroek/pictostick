@@ -45,6 +45,7 @@ void drawMain() {
   StickCP2.Display.setBrightness(get_pspref_brightness());
   sprite.createSprite(MY_WIDTH, MY_HEIGHT);
   sprite.fillSprite(currentTheme.bgColor);
+  sprite.setTextSize(2);
 
   String currentDay = getCurrentDayName();
 

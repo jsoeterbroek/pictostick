@@ -53,6 +53,7 @@ int32_t pngSeek(PNGFILE *page, int32_t position) {
 void drawSplash() {
   sprite.createSprite(MY_WIDTH, MY_HEIGHT);
   sprite.fillSprite(TFT_WHITE);
+  sprite.setTextSize(2);
   sprite.setTextColor(TFT_DARKGRAY, TFT_WHITE);
   String software = " PictoStick ";
   software += String("v") + pd_version_major() + "." + pd_version_minor() + " PROTOTYPE";
@@ -103,6 +104,7 @@ void drawBatt() {
   volE = map(vol, 3000, 4180, 0, 5);
 
   sprite.fillRect(116, 0, 120, 20, currentTheme.rightRectBgColor2);
+  sprite.setTextSize(2);
   if (charging_status == 1) {
     sprite.setTextColor(RGB565_GREEN_DARKSEA, currentTheme.rightRectBgColor2);
   } else {
@@ -120,6 +122,7 @@ void drawBatt() {
 
 void drawUserName() {
   sprite.fillRect(116, 20, 120, 20, currentTheme.rightRectBgColor1);
+  sprite.setTextSize(2);
   sprite.setTextColor(currentTheme.rightRectTextColor1, currentTheme.rightRectBgColor1);
   sprite.drawString(config_name, 118, 24);
 }
@@ -141,6 +144,7 @@ void drawTime() {
   snprintf(timebuffer, sizeof(timebuffer), "%02d:%02d", dt.time.hours, dt.time.minutes);
 
   sprite.fillRect(116, 40, 120, 20, currentTheme.rightRectBgColor2);
+  sprite.setTextSize(2);
   sprite.setTextColor(currentTheme.rightRectTextColor2, currentTheme.rightRectBgColor2);
   sprite.drawString(daybuffer, 118, 44);
   sprite.drawString(timebuffer, 196, 44);

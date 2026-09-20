@@ -17,6 +17,7 @@ extern bool draw_device_mode_config;
 void drawDeviceModeConfig(uint8_t _desired_devicemode) {
   sprite.createSprite(MY_WIDTH, MY_HEIGHT);
   sprite.fillSprite(currentTheme.bgColor);
+  sprite.setTextSize(2);
   sprite.setTextColor(currentTheme.textColor, currentTheme.bgColor);
   sprite.drawString(TXT_DM_SELECT, 2, 4);
   devicemode = get_devicemode();
