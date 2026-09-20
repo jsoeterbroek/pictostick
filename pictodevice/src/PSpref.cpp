@@ -12,6 +12,52 @@ bool pspref_activity_done = false;
 
 const char *PSNS = "PSPrefs";
 
+// Ordered stepped value levels. The stored preference holds one of these values
+// and the incr/decr helpers step through them.
+static const int BRIGHTNESS_LEVELS[] = {16, 32, 48, 64, 96, 132, 164, 180};
+static const int TIMEOUT_LEVELS[] = {10, 15, 25, 30, 45, 60, 90, 120};
+
+static const int BRIGHTNESS_LEVELS_COUNT = sizeof(BRIGHTNESS_LEVELS) / sizeof(BRIGHTNESS_LEVELS[0]);
+static const int TIMEOUT_LEVELS_COUNT = sizeof(TIMEOUT_LEVELS) / sizeof(TIMEOUT_LEVELS[0]);
+
+// Fallback used when the stored preference is not one of the known levels.
+// These mirror the values the original per-value switch statements returned
+// from their default branches.
+static const int BRIGHTNESS_INCR_FALLBACK = 32;
+static const int BRIGHTNESS_DECR_FALLBACK = 61;
+static const int TIMEOUT_FALLBACK = 25;
+
+// Return the index of _value in the level table, or -1 when it is not a level.
+static int levelIndex(const int *levels, int count, int _value) {
+  for (int i = 0; i < count; i++) {
+    if (levels[i] == _value) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+// Step to the next level, wrapping from the highest back to the lowest.
+static int nextLevel(const int *levels, int count, int fallback, int _value) {
+  int i = levelIndex(levels, count, _value);
+  if (i < 0) {
+    return fallback;
+  }
+  return levels[(i + 1) % count];
+}
+
+// Step to the previous level, stopping at the lowest level.
+static int previousLevel(const int *levels, int count, int fallback, int _value) {
+  int i = levelIndex(levels, count, _value);
+  if (i < 0) {
+    return fallback;
+  }
+  if (i == 0) {
+    return levels[0];
+  }
+  return levels[i - 1];
+}
+
 void set_pspref_buzzer(bool _pspref_buzzer) {
   psPrefs.end();
   psPrefs.begin(PSNS, PS_RW_MODE);
@@ -45,33 +91,13 @@ int get_pspref_brightness(void) {
 }
 
 void incr_pspref_brightness(void) {
-  int _b = get_pspref_brightness();
-  switch (_b) {
-    case 16:  set_pspref_brightness(32); break;
-    case 32:  set_pspref_brightness(48); break;
-    case 48:  set_pspref_brightness(64); break;
-    case 64:  set_pspref_brightness(96); break;
-    case 96:  set_pspref_brightness(132); break;
-    case 132: set_pspref_brightness(164); break;
-    case 164: set_pspref_brightness(180); break;
-    case 180: set_pspref_brightness(16); break;
-    default:  set_pspref_brightness(32); break;
-  }
+  set_pspref_brightness(nextLevel(BRIGHTNESS_LEVELS, BRIGHTNESS_LEVELS_COUNT, BRIGHTNESS_INCR_FALLBACK,
+                                  get_pspref_brightness()));
 }
 
 void decr_pspref_brightness(void) {
-  int _b = get_pspref_brightness();
-  switch (_b) {
-    case 16:  set_pspref_brightness(16); break;
-    case 32:  set_pspref_brightness(16); break;
-    case 48:  set_pspref_brightness(32); break;
-    case 64:  set_pspref_brightness(48); break;
-    case 96:  set_pspref_brightness(64); break;
-    case 132: set_pspref_brightness(96); break;
-    case 164: set_pspref_brightness(132); break;
-    case 180: set_pspref_brightness(164); break;
-    default:  set_pspref_brightness(61); break;
-  }
+  set_pspref_brightness(previousLevel(BRIGHTNESS_LEVELS, BRIGHTNESS_LEVELS_COUNT, BRIGHTNESS_DECR_FALLBACK,
+                                      get_pspref_brightness()));
 }
 
 void set_pspref_current_activity_index(int _pspref_current_activity_index) {
@@ -107,33 +133,13 @@ int get_pspref_timeout(void) {
 }
 
 void incr_pspref_timeout(void) {
-  int _t = get_pspref_timeout();
-  switch (_t) {
-    case 10:  set_pspref_timeout(15); break;
-    case 15:  set_pspref_timeout(25); break;
-    case 25:  set_pspref_timeout(30); break;
-    case 30:  set_pspref_timeout(45); break;
-    case 45:  set_pspref_timeout(60); break;
-    case 60:  set_pspref_timeout(90); break;
-    case 90:  set_pspref_timeout(120); break;
-    case 120: set_pspref_timeout(10); break;
-    default:  set_pspref_timeout(25); break;
-  }
+  set_pspref_timeout(nextLevel(TIMEOUT_LEVELS, TIMEOUT_LEVELS_COUNT, TIMEOUT_FALLBACK,
+                               get_pspref_timeout()));
 }
 
 void decr_pspref_timeout(void) {
-  int _t = get_pspref_timeout();
-  switch (_t) {
-    case 10:  set_pspref_timeout(120); break;
-    case 15:  set_pspref_timeout(10); break;
-    case 25:  set_pspref_timeout(15); break;
-    case 30:  set_pspref_timeout(25); break;
-    case 45:  set_pspref_timeout(30); break;
-    case 60:  set_pspref_timeout(45); break;
-    case 90:  set_pspref_timeout(60); break;
-    case 120: set_pspref_timeout(90); break;
-    default:  set_pspref_timeout(25); break;
-  }
+  set_pspref_timeout(previousLevel(TIMEOUT_LEVELS, TIMEOUT_LEVELS_COUNT, TIMEOUT_FALLBACK,
+                                   get_pspref_timeout()));
 }
 
 void set_pspref_activity_done(String dayName, int _pspref_current_activity_index, bool is_done) {
