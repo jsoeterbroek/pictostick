@@ -91,10 +91,11 @@ JsonDocument cdoc;
 struct tm timeinfo;
 
 // Callback function to draw pixels to the display
-void pngDraw(PNGDRAW *pDraw) {
+int pngDraw(PNGDRAW *pDraw) {
   uint16_t lineBuffer[MAX_IMAGE_WIDTH];
   png.getLineAsRGB565(pDraw, lineBuffer, PNG_RGB565_BIG_ENDIAN, 0xffffffff);
   sprite.pushImage(xpos, ypos + pDraw->y, pDraw->iWidth, 1, lineBuffer);
+  return 1;
 }
 
 void beepOrNot() {

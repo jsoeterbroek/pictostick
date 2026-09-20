@@ -9,4 +9,4 @@ void drawTime();
 void drawUserName();
 void drawBatt();
 void drawMarkedDone();
-void pngDraw(PNGDRAW *pDraw);
+int pngDraw(PNGDRAW *pDraw);

@@ -55,10 +55,29 @@ void drawMain() {
     configLoadedForCurrentDay = true;
   }
 
+  // Validate that config was loaded successfully before accessing
+  if (cdoc.isNull() || !cdoc.containsKey("activities")) {
+    Serial.println("ERROR: Config data not loaded or missing 'activities' key");
+    // Draw error message instead of crashing
+    sprite.loadFont(NotoSansBold15);
+    sprite.setTextColor(TFT_RED, currentTheme.bgColor);
+    sprite.drawString("Config Error", 10, 50);
+    sprite.unloadFont();
+    StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t *)sprite.getPointer());
+    return;  // Exit early to prevent crash
+  }
+
   JsonArray activities = cdoc["activities"];
 
   // extract values from config JSON object
   config_activities_size = activities.size();
+  
+  // Validate activities size to prevent out-of-bounds access
+  if (config_activities_size <= 0 || config_activities_size > config_activities_size_max) {
+    Serial.printf("ERROR: Invalid activities size: %d (max: %d)\n", config_activities_size, config_activities_size_max);
+    config_activities_size = 0;  // Prevent any array access
+  }
+  
   config_name = cdoc["name"].as<String>();
 
   int _i = 0;
@@ -67,6 +86,7 @@ void drawMain() {
   String _array_desc[config_activities_size];
   int _array_activity_marked_done[config_activities_size];
   for (JsonObject activity : activities) {
+    if (_i >= config_activities_size) break;  // Safety check
     _array_order[_i] = String(activity["order"].as<int>());
     _array_picto[_i] = String(activity["picto"].as<String>());
     _array_desc[_i] = String(activity["description"].as<String>());
@@ -74,6 +94,13 @@ void drawMain() {
   }
 
   ps_current_activity_index = get_pspref_current_activity_index();
+  
+  // Validate activity index bounds
+  if (ps_current_activity_index < 0 || ps_current_activity_index >= config_activities_size) {
+    Serial.printf("WARNING: Activity index %d out of bounds, resetting to 0\n", ps_current_activity_index);
+    ps_current_activity_index = 0;
+    set_pspref_current_activity_index(0);
+  }
 
   sprite.unloadFont();
   sprite.setTextColor(TFT_WHITE, currentTheme.rightRectBgColor1);
@@ -219,7 +246,7 @@ void drawMain() {
   StickCP2.Display.pushImage(0, 0, MY_WIDTH, MY_HEIGHT, (uint16_t *)sprite.getPointer());
 
   // button action
-  if (devicemode = 4) {
+  if (devicemode == 4) {
 
     // decrement activity index
     if (StickCP2.BtnPWR.wasPressed()) {

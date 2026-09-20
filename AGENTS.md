@@ -10,6 +10,7 @@ Pictostick: esp32 small device for displaying daily activities with picto’s, s
 - Every effort should be made to conserve battery life on the watch, since there is limited 
   battery power available. Make the screen go to dark/sleep after number of seconds (default: 10),
   disable WiFi when not needed.
+- Use Github (https://github.com/jsoeterbroek/pictostick) as code repository and for issues (bugs, todo's etc.)
 
 ### Project Specific Technologies and Tools
 - We use PlatformIO als major code development environment, I will mostly use the IDE, you will mostly
@@ -59,9 +60,5 @@ Pictostick: esp32 small device for displaying daily activities with picto’s, s
 - All code files should start with a brief 2 line comment explaining what the file does. Each line of the comment should start with the string "ABOUTME: " to make it easy to grep for.
 - When writing comments, avoid referring to temporal context about refactors or recent changes. Comments should be evergreen and describe the code as it is, not how it evolved or was recently changed.
 - NEVER implement a mock mode for testing or for any purpose. We always use real data and real APIs, never mock implementations.
-- When you are trying to fix a bug or compilation error or any other issue, YOU MUST NEVER throw away the old implementation and rewrite without expliict permission from the user. If you are going to do this, YOU MUST STOP and get explicit permission from the user.
+- When you are trying to fix a bug or compilation error or any other issue, YOU MUST NEVER throw away the old implementation and rewrite without explicit permission from the user. If you are going to do this, YOU MUST STOP and get explicit permission from the user.
 - NEVER name things as 'improved' or 'new' or 'enhanced', etc. Code naming should be evergreen. What is new today will be "old" someday.
-
-# Getting help
-- ALWAYS ask for clarification rather than making assumptions.
-- If you're having trouble with something, it's ok to stop and ask for help. Especially if it's something your human might be better at.
