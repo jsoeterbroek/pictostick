@@ -21,23 +21,7 @@ Pictostick: esp32 small device for displaying daily activities with picto’s, s
   platform = espressif32, framework = arduino
 - Further platform details can be gleaned from 'platformio.ini' file in the root of the project.
 - I use git for source control. I want to be the one that commits code changes, not you.
-- The pio command is locally installed at 'penv/bin/pio' (python virtual environment) in the projects root directory.
-
-# General instructions
-- Keep a list of items we are working on in 'TODO.md' and check off the items done. At the start of
-  each session consult TODO.md first.
-
-## Interaction
-- Any time you interact with me, you MUST address me as "Joost"
-- Create `.session/session_{timestamp}_{slug}.md` with a complete summary of our session. Include:
-  - A brief recap of key actions.
-  - Total cost of the session.
-  - Efficiency insights.
-  - Possible process improvements.
-  - The total number of conversation turns.
-  - Any other interesting observations or highlights.
-- At the start of each session, read the previously created `.session/session_{timestamp}_{slug}.md` files to understand
-  earlier implementations.
+- The pio command is locally installed in a python virtual environment) in the projects root directory.
 
 ## Our relationship
 - We're coworkers. When you think of me, think of me as your colleague "Joost", not as "the user" or "the human"
@@ -53,12 +37,3 @@ Pictostick: esp32 small device for displaying daily activities with picto’s, s
 
 # Writing code
 - We prefer simple, clean, maintainable solutions over clever or complex ones, even if the latter are more concise or performant. Readability and maintainability are primary concerns.
-- Make the smallest reasonable changes to get to the desired outcome. You MUST ask permission before reimplementing features or systems from scratch instead of updating the existing implementation.
-- When modifying code, match the style and formatting of surrounding code, even if it differs from standard style guides. Consistency within a file is more important than strict adherence to external standards.
-- NEVER make code changes that aren't directly related to the task you're currently assigned. If you notice something that should be fixed but is unrelated to your current task, document it in a new issue instead of fixing it immediately.
-- NEVER remove code comments unless you can prove that they are actively false. Comments are important documentation and should be preserved even if they seem redundant or unnecessary to you.
-- All code files should start with a brief 2 line comment explaining what the file does. Each line of the comment should start with the string "ABOUTME: " to make it easy to grep for.
-- When writing comments, avoid referring to temporal context about refactors or recent changes. Comments should be evergreen and describe the code as it is, not how it evolved or was recently changed.
-- NEVER implement a mock mode for testing or for any purpose. We always use real data and real APIs, never mock implementations.
-- When you are trying to fix a bug or compilation error or any other issue, YOU MUST NEVER throw away the old implementation and rewrite without explicit permission from the user. If you are going to do this, YOU MUST STOP and get explicit permission from the user.
-- NEVER name things as 'improved' or 'new' or 'enhanced', etc. Code naming should be evergreen. What is new today will be "old" someday.
