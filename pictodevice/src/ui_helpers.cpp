@@ -84,7 +84,6 @@ void drawPicto(String _strname) {
 
 void drawBatt() {
   int batteryPercent;
-  auto charging_status = M5.Power.isCharging();
   unsigned long currentMillis = millis();
 
   if (currentMillis - last_batt_update > 60000 || last_batt_percent == -1) {
@@ -106,11 +105,7 @@ void drawBatt() {
   volE = map(vol, 3000, 4180, 0, 5);
 
   sprite.fillRect(116, 0, 120, 20, currentTheme.rightRectBgColor2);
-  if (charging_status == 1) {
-    sprite.setTextColor(RGB565_GREEN_DARKSEA, currentTheme.rightRectBgColor2);
-  } else {
-    sprite.setTextColor(currentTheme.rightRectTextColor2, currentTheme.rightRectBgColor2);
-  }
+  sprite.setTextColor(currentTheme.rightRectTextColor2, currentTheme.rightRectBgColor2);
 
   sprite.setCursor(160, 3);
   sprite.loadFont(NotoSansBold15);
