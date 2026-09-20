@@ -1,18 +1,17 @@
+// ABOUTME: Common runtime state variables for PictoStick
+// ABOUTME: Only runtime state - configuration constants moved to config.h
+
+#ifndef COMMON_H_
+#define COMMON_H_
+
 #include <ArduinoJson.h>
 #include <colors.h>
 #include <themes.h>
+#include "config.h"
 
-#define PD_VERSION_MAJOR 1
-#define PD_VERSION_MINOR 6
-#define PD_VERSION_PATCH 1
-
-// Version bump: v1.6 - Multiple critical bug fixes
-// - Fixed day index out of bounds (#22)
-// - Fixed missing activity file (#23)
-// - Fixed invalid activity count (#24)
-// - Fixed time validation (#25)
-// - And other high priority fixes
-
+// =====================================================
+// Version Information (runtime access)
+// =====================================================
 static inline int pd_version_major(void) {
   return PD_VERSION_MAJOR;
 }
@@ -23,72 +22,81 @@ static inline int pd_version_patch(void) {
   return PD_VERSION_PATCH;
 }
 
+// =====================================================
+// Configuration Data (loaded from config file)
+// =====================================================
 extern boolean GET_CONFIG_DATA_HTTP;
 extern boolean GET_CONFIG_DATA_SPIFF;
 
 extern const char *ntpServer;
-#define NTP_TIMEZONE "UTC+1"
 extern String timezone;
 
-// WiFi
+// WiFi credentials
 extern const char *wifi_mngr_networkname;
 extern const char *wifi_mngr_password;
 
-// FIXME: servername for HTTP server needs to change
+// Server configuration
 extern String serverName;
 
-#define FORMAT_SPIFFS_IF_FAILED true
-
-// configuration file in json format stored in SPIFFS fs
+// Configuration file path
 extern const char *cfilename;
 
-// store values from JSON config file
-extern String config_comment;       // nullptr
-extern String config_version;       // "1.0.1"
-extern String config_name;          // "Peter"
-extern String config_device_ip;     // "128.8.2.123"
-extern String config_date_created;  // "24-03-2025"
-extern String config_date_valid;    // "23-03-2025"
+// Configuration values (loaded from JSON)
+extern String config_comment;
+extern String config_version;
+extern String config_name;
+extern String config_device_ip;
+extern String config_date_created;
+extern String config_date_valid;
 extern int8_t config_activities_size;
-extern int config_activities_size_max;  // hardcoded maximum of activities still able to show mini menu
+extern int config_activities_size_max;
 
-// box for picto 100 x 100 pixels
+// =====================================================
+// Display Configuration
+// =====================================================
+// Picto display box dimensions
 extern int16_t picto_box_width;
 extern int16_t picto_box_height;
 
-// 135 x 240 pixels wordt aangestuurd door de ST7789V2.
-// NOTE: LCD_HEIGHT and LCD_WIDTH are switched around
-// in this case m5stcik: LCD_HEIGHT=240 and LCD_WIDTH=135
-// because the screen is rotated!
-#define MY_WIDTH  TFT_HEIGHT
-#define MY_HEIGHT TFT_WIDTH
-
-//time variables
+// =====================================================
+// Time Variables (runtime)
+// =====================================================
 extern String h, m, s;
 extern int day, month;
 extern int8_t hour;
 extern int8_t minute;
 extern int8_t second;
 
-//battery
+// =====================================================
+// Battery Variables (runtime)
+// =====================================================
 extern int vol;
 extern int volE;
 
-//sleep variables
+// =====================================================
+// Sleep Variables (runtime)
+// =====================================================
 extern int sleepTime;
 extern int ts, tts;
 extern bool slp;
 
-#define BUTTON_PRESSED  LOW
-#define BUTTON_RELEASED HIGH
-
-#define MAX_IMAGE_WIDTH 100  // Adjust for your images
+// =====================================================
+// UI Position Variables (runtime)
+// =====================================================
 extern int16_t xpos;
 extern int16_t ypos;
+
+// =====================================================
+// Activity State (runtime)
+// =====================================================
 extern int current_activity_index;
 extern int ps_current_activity_index;
 
-extern String lang;  // "en" for english, "nl" for dutch
+// =====================================================
+// Language and UI State (runtime)
+// =====================================================
+extern String lang;
 extern bool marked_done;
-
 extern int cursor;
+
+#endif // COMMON_H_

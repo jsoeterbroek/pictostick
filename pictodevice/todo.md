@@ -4,6 +4,8 @@ Based on GitHub issues from https://github.com/jsoeterbroek/pictostick/issues
 
 ## Open Issues
 
+- Issue #41: Global state issues - Create structured app_status.h and config.h ✅ COMPLETED
+- Issue #42: Reduce global variables - Use structured state ✅ COMPLETED
 
 ## Completed Issues
 
